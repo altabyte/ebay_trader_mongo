@@ -1,0 +1,5 @@
+# A list of the main commands used to build this project.
+
+rails new ebay_trading_ark -O -T
+
+./bin/bundle install --path=vendor/bundle

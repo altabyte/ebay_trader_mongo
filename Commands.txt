@@ -3,3 +3,6 @@
 rails new ebay_trading_ark -O -T
 
 ./bin/bundle install --path=vendor/bundle
+
+./bin/rails g rspec:install
+./bin/bundle binstubs rspec-core

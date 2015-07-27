@@ -43,6 +43,7 @@ group :development, :test do
   gem 'spring'
 
   gem 'rspec-rails'
+  gem 'mongoid-rspec', '~> 2.1.0'
 end
 
 group :test do

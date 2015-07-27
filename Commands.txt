@@ -8,3 +8,4 @@ rails new ebay_trading_ark -O -T
 ./bin/bundle binstubs rspec-core
 
 rails g mongoid:config
+rails g model Listing

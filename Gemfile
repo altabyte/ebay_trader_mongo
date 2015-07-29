@@ -4,7 +4,7 @@ gem 'ebay-trading', git: 'git://github.com/altabyte/ebay_trading.git'
 
 gem 'rails', '4.2.3'
 gem 'mongoid', '~> 4.0.0'
-gem 'money', '~> 6.5'
+gem 'money', '~> 6.6'
 gem 'sass-rails', '~> 5.0'
 
 # Use Uglifier as compressor for JavaScript assets

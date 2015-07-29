@@ -5,7 +5,7 @@ RSpec.describe Listing, type: :model do
   let(:ebay_item_id)  { 123456789 }
 
   after do
-    cleanup = Listing.where(:ebay_item_id => ebay_item_id)
+    cleanup = Listing.where(item_id: 123456789)
     cleanup.destroy unless cleanup.nil?
   end
 
@@ -15,9 +15,10 @@ RSpec.describe Listing, type: :model do
     let(:hash) {
       {
           sku: sku,
-          ebay_item_id: ebay_item_id,
+          item_id: ebay_item_id,
           title: title,
           currency: 'GBP',
+          start_price: Money.new(12_99),
 
           listing_detail: {
               start_time: Time.now - 10.days,
@@ -34,7 +35,6 @@ RSpec.describe Listing, type: :model do
     it { listing.save; expect(Listing.count).to eq(1) }
     it 'should have the values defined in the constructor hash' do
       expect(listing.sku).to eq(sku)
-      expect(listing.ebay_item_id).to eq(ebay_item_id)
       expect(listing.item_id).to eq(ebay_item_id)
       expect(listing.title).to eq(title)
     end
@@ -60,17 +60,32 @@ RSpec.describe Listing, type: :model do
 
   context 'FactoryGirl listing' do
     let(:sku) { 'ABC123' }
-    subject (:listing) { FactoryGirl.create(:listing, ebay_item_id: ebay_item_id, sku: sku) }
+    subject (:listing) { FactoryGirl.create(:listing, item_id: ebay_item_id, sku: sku) }
 
     it { is_expected.not_to be_nil }
     it { listing; expect(Listing.count).to eq(1) }
 
     it { expect(listing.sku).to eq(sku) }
-    it { is_expected.to validate_uniqueness_of(:ebay_item_id) }
-    it { is_expected.to validate_presence_of(:ebay_item_id) }
     it { is_expected.to have_index_for(item_id: 1).with_options(unique: true) }
     it { is_expected.to validate_presence_of(:sku) }
     it { is_expected.to validate_presence_of(:title) }
+
+    it 'should have a Money start price' do
+      listing.reload
+      expect(listing.start_price).not_to be_nil
+      expect(listing.start_price).to be_a(Money)
+      expect(listing.start_price.currency).to eq('GBP')
+      puts "Start Price: #{listing.start_price.symbol}#{listing.start_price}"
+      usd = listing.start_price.exchange_to('USD')
+      puts "             #{usd.symbol}#{usd}"
+      eur = listing.start_price.exchange_to('EUR')
+      puts "             #{eur.symbol}#{eur}"
+
+      expect(listing[:start_price]).to be_a(Hash)
+      expect(listing[:start_price]).to have_key('cents')
+      expect(listing[:start_price]).to have_key('currency')
+    end
+
 
     describe 'ListingDetails' do
       it { expect(listing).to embed_one :listing_detail }

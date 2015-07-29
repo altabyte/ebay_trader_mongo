@@ -7,5 +7,7 @@ rails new ebay_trading_ark -O -T
 ./bin/rails g rspec:install
 ./bin/bundle binstubs rspec-core
 
-rails g mongoid:config
-rails g model Listing
+./bin/rails g mongoid:config
+./bin/rails g model Listing
+
+./bin/rails g controller home index

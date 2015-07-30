@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/altabyte/ebay_trading.git
-  revision: 2e19ca8de9aba10b553fe5fe8c4158a7ab48fed0
+  revision: e877b2d0943b45ef0f59199167916d4a48de2bbb
   specs:
-    ebay-trading (0.8.4)
+    ebay-trading (0.8.5)
       activesupport (~> 4.0)
       ox (~> 2.2)
 

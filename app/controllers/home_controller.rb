@@ -7,5 +7,7 @@ class HomeController < ApplicationController
     auth_token = EbayTrading.configuration.auth_token_for(@ebay_username)
     request = EbayTrading::Request.new('GeteBayOfficialTime', auth_token)
     @ebay_time = request.timestamp
+
+    GetItemWorker.perform_async(auth_token, 371193545144)
   end
 end

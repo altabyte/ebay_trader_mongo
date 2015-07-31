@@ -11,3 +11,5 @@ rails new ebay_trading_ark -O -T
 ./bin/rails g model Listing
 
 ./bin/rails g controller home index
+
+./bin/rails g task get_item

@@ -1,14 +1,18 @@
 class Listing
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
+  include Mongoid::Timestamps # Define created_at and updated_at fields
+
+  store_in collection: 'ebay_listings'
 
   embeds_one :listing_detail, class_name: 'Listing::ListingDetail'
   validates :listing_detail, presence: true
 
   # @return [Fixnum] the eBay item ID.
   field :item_id, type: Fixnum
-  index({ item_id: 1 }, { unique: true, name: 'item_id_index' })
+  attr_readonly :item_id
   validates :item_id, presence: true, uniqueness: true
+  index({ item_id: 1 }, { unique: true, name: 'item_id_index' })
 
   # @return [String] the SKU, also known as the custom label in the UK.
   field :sku, type: String

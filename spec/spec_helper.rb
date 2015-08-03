@@ -98,3 +98,12 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
 end
+
+
+# Add 'include FileToString' to spec files requiring this functionality.
+module FileToString
+  def file_to_string(file_path)
+    string = File.open(file_path, 'r') { |f| f.read }
+    return string
+  end
+end

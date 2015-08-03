@@ -1,0 +1,313 @@
+<GetItemResponse xmlns="urn:ebay:apis:eBLBaseComponents">
+  <Timestamp>2015-08-02T15:07:36.833Z</Timestamp>
+  <Ack>Success</Ack>
+  <Version>923</Version>
+  <Build>E923_INTL_API_17544597_R1</Build>
+  <Item>
+    <ApplicationData>WIO-128437426</ApplicationData>
+    <AutoPay>false</AutoPay>
+    <BuyerProtection>ItemEligible</BuyerProtection>
+    <BuyItNowPrice currencyID="GBP">0.0</BuyItNowPrice>
+    <Country>GB</Country>
+    <Currency>GBP</Currency>
+    <GiftIcon>0</GiftIcon>
+    <HitCounter>HiddenStyle</HitCounter>
+    <ItemID>123456789</ItemID>
+    <ListingDetails>
+      <Adult>false</Adult>
+      <BindingAuction>false</BindingAuction>
+      <CheckoutEnabled>true</CheckoutEnabled>
+      <ConvertedBuyItNowPrice currencyID="GBP">0.0</ConvertedBuyItNowPrice>
+      <ConvertedStartPrice currencyID="GBP">17.49</ConvertedStartPrice>
+      <ConvertedReservePrice currencyID="GBP">0.0</ConvertedReservePrice>
+      <HasReservePrice>false</HasReservePrice>
+      <StartTime>2014-11-14T19:05:16.000Z</StartTime>
+      <EndTime>2015-08-11T19:05:16.000Z</EndTime>
+      <ViewItemURL>http://www.ebay.co.uk/itm/My-Awesome-Item/123456789</ViewItemURL>
+      <HasUnansweredQuestions>true</HasUnansweredQuestions>
+      <HasPublicMessages>false</HasPublicMessages>
+      <MinimumBestOfferPrice currencyID="GBP">14.0</MinimumBestOfferPrice>
+      <ViewItemURLForNaturalSearch>http://www.ebay.co.uk/itm/My-Awesome-Item/123456789</ViewItemURLForNaturalSearch>
+      <BestOfferAutoAcceptPrice currencyID="GBP">14.0</BestOfferAutoAcceptPrice>
+    </ListingDetails>
+    <ListingDuration>GTC</ListingDuration>
+    <ListingType>FixedPriceItem</ListingType>
+    <Location>Belfast</Location>
+    <PaymentMethods>PayPal</PaymentMethods>
+    <PayPalEmailAddress>paypal@seller.com</PayPalEmailAddress>
+    <PrimaryCategory>
+      <CategoryID>164332</CategoryID>
+      <CategoryName>Jewellery &amp; Watches:Fine Jewellery:Fine Necklaces &amp; Pendants:Gemstone</CategoryName>
+    </PrimaryCategory>
+    <PrivateListing>false</PrivateListing>
+    <Quantity>11</Quantity>
+    <ReservePrice currencyID="GBP">0.0</ReservePrice>
+    <ReviseStatus>
+      <ItemRevised>true</ItemRevised>
+    </ReviseStatus>
+    <Seller>
+      <AboutMePage>true</AboutMePage>
+      <Email>ebay@seller.com</Email>
+      <FeedbackScore>136046</FeedbackScore>
+      <PositiveFeedbackPercent>99.9</PositiveFeedbackPercent>
+      <FeedbackPrivate>false</FeedbackPrivate>
+      <FeedbackRatingStar>TurquoiseShooting</FeedbackRatingStar>
+      <IDVerified>false</IDVerified>
+      <eBayGoodStanding>true</eBayGoodStanding>
+      <NewUser>false</NewUser>
+      <RegistrationDate>2005-03-24T11:59:47.000Z</RegistrationDate>
+      <Site>UK</Site>
+      <Status>Confirmed</Status>
+      <UserID>seller</UserID>
+      <UserIDChanged>false</UserIDChanged>
+      <UserIDLastChanged>2006-07-06T21:36:47.000Z</UserIDLastChanged>
+      <VATStatus>VATExempt</VATStatus>
+      <SellerInfo>
+        <AllowPaymentEdit>true</AllowPaymentEdit>
+        <CheckoutEnabled>true</CheckoutEnabled>
+        <CIPBankAccountStored>false</CIPBankAccountStored>
+        <GoodStanding>true</GoodStanding>
+        <LiveAuctionAuthorized>false</LiveAuctionAuthorized>
+        <MerchandizingPref>OptIn</MerchandizingPref>
+        <QualifiesForB2BVAT>false</QualifiesForB2BVAT>
+        <StoreOwner>true</StoreOwner>
+        <StoreURL>http://www.stores.ebay.co.uk/id=123456</StoreURL>
+        <SellerBusinessType>Commercial</SellerBusinessType>
+        <SafePaymentExempt>true</SafePaymentExempt>
+        <TopRatedSeller>true</TopRatedSeller>
+      </SellerInfo>
+      <MotorsDealer>false</MotorsDealer>
+    </Seller>
+    <SellingStatus>
+      <BidCount>0</BidCount>
+      <BidIncrement currencyID="GBP">0.0</BidIncrement>
+      <ConvertedCurrentPrice currencyID="GBP">17.49</ConvertedCurrentPrice>
+      <CurrentPrice currencyID="GBP">17.49</CurrentPrice>
+      <LeadCount>0</LeadCount>
+      <MinimumToBid currencyID="GBP">17.49</MinimumToBid>
+      <QuantitySold>2</QuantitySold>
+      <ReserveMet>true</ReserveMet>
+      <SecondChanceEligible>false</SecondChanceEligible>
+      <ListingStatus>Active</ListingStatus>
+      <PromotionalSaleDetails>
+        <OriginalPrice currencyID="GBP">24.99</OriginalPrice>
+        <StartTime>2015-07-31T10:07:04.000Z</StartTime>
+        <EndTime>2015-08-03T01:00:50.000Z</EndTime>
+      </PromotionalSaleDetails>
+      <QuantitySoldByPickupInStore>0</QuantitySoldByPickupInStore>
+    </SellingStatus>
+    <ShippingDetails>
+      <ApplyShippingDiscount>true</ApplyShippingDiscount>
+      <CalculatedShippingRate>
+        <WeightMajor measurementSystem="Metric" unit="kg">0</WeightMajor>
+        <WeightMinor measurementSystem="Metric" unit="gm">0</WeightMinor>
+      </CalculatedShippingRate>
+      <SalesTax>
+        <SalesTaxPercent>0.0</SalesTaxPercent>
+        <ShippingIncludedInTax>false</ShippingIncludedInTax>
+      </SalesTax>
+      <ShippingServiceOptions>
+        <ShippingService>UK_RoyalMailFirstClassStandard</ShippingService>
+        <ShippingServiceCost currencyID="GBP">0.0</ShippingServiceCost>
+        <ShippingServiceAdditionalCost currencyID="GBP">0.0</ShippingServiceAdditionalCost>
+        <ShippingServicePriority>1</ShippingServicePriority>
+        <ExpeditedService>true</ExpeditedService>
+        <ShippingTimeMin>1</ShippingTimeMin>
+        <ShippingTimeMax>1</ShippingTimeMax>
+        <FreeShipping>true</FreeShipping>
+      </ShippingServiceOptions>
+      <ShippingServiceOptions>
+        <ShippingService>UK_RoyalMailSpecialDeliveryNextDay</ShippingService>
+        <ShippingServiceCost currencyID="GBP">6.95</ShippingServiceCost>
+        <ShippingServiceAdditionalCost currencyID="GBP">6.95</ShippingServiceAdditionalCost>
+        <ShippingServicePriority>2</ShippingServicePriority>
+        <ExpeditedService>true</ExpeditedService>
+        <ShippingTimeMin>1</ShippingTimeMin>
+        <ShippingTimeMax>1</ShippingTimeMax>
+      </ShippingServiceOptions>
+      <InternationalShippingServiceOption>
+        <ShippingService>UK_RoyalMailAirmailInternational</ShippingService>
+        <ShippingServiceCost currencyID="GBP">3.5</ShippingServiceCost>
+        <ShippingServiceAdditionalCost currencyID="GBP">1.75</ShippingServiceAdditionalCost>
+        <ShippingServicePriority>1</ShippingServicePriority>
+        <ShipToLocation>Worldwide</ShipToLocation>
+      </InternationalShippingServiceOption>
+      <InternationalShippingServiceOption>
+        <ShippingService>UK_RoyalMailInternationalSignedFor</ShippingService>
+        <ShippingServiceCost currencyID="GBP">7.5</ShippingServiceCost>
+        <ShippingServiceAdditionalCost currencyID="GBP">1.75</ShippingServiceAdditionalCost>
+        <ShippingServicePriority>2</ShippingServicePriority>
+        <ShipToLocation>Worldwide</ShipToLocation>
+      </InternationalShippingServiceOption>
+      <ShippingType>Flat</ShippingType>
+      <ThirdPartyCheckout>false</ThirdPartyCheckout>
+      <ShippingDiscountProfileID>3496023</ShippingDiscountProfileID>
+      <FlatShippingDiscount>
+        <DiscountName>EachAdditionalAmount</DiscountName>
+        <DiscountProfile>
+          <DiscountProfileID>3496023</DiscountProfileID>
+          <DiscountProfileName>Domestic-1</DiscountProfileName>
+          <EachAdditionalAmount currencyID="GBP">0.0</EachAdditionalAmount>
+        </DiscountProfile>
+      </FlatShippingDiscount>
+      <InternationalShippingDiscountProfileID>212562023</InternationalShippingDiscountProfileID>
+      <InternationalFlatShippingDiscount>
+        <DiscountName>EachAdditionalAmount</DiscountName>
+        <DiscountProfile>
+          <DiscountProfileID>212562023</DiscountProfileID>
+          <DiscountProfileName>International 2012</DiscountProfileName>
+          <EachAdditionalAmount currencyID="GBP">1.75</EachAdditionalAmount>
+        </DiscountProfile>
+      </InternationalFlatShippingDiscount>
+      <ExcludeShipToLocation>Africa</ExcludeShipToLocation>
+      <ExcludeShipToLocation>Middle East</ExcludeShipToLocation>
+      <ExcludeShipToLocation>South America</ExcludeShipToLocation>
+      <ExcludeShipToLocation>KH</ExcludeShipToLocation>
+      <ExcludeShipToLocation>HK</ExcludeShipToLocation>
+      <ExcludeShipToLocation>MY</ExcludeShipToLocation>
+      <ExcludeShipToLocation>BD</ExcludeShipToLocation>
+      <ExcludeShipToLocation>CN</ExcludeShipToLocation>
+      <ExcludeShipToLocation>IN</ExcludeShipToLocation>
+      <ExcludeShipToLocation>PK</ExcludeShipToLocation>
+      <ExcludeShipToLocation>PG</ExcludeShipToLocation>
+      <SellerExcludeShipToLocationsPreference>false</SellerExcludeShipToLocationsPreference>
+    </ShippingDetails>
+    <ShipToLocations>Worldwide</ShipToLocations>
+    <Site>UK</Site>
+    <StartPrice currencyID="GBP">17.49</StartPrice>
+    <Storefront>
+      <StoreCategoryID>251457019</StoreCategoryID>
+      <StoreCategory2ID>12147862</StoreCategory2ID>
+      <StoreURL>http://www.stores.ebay.co.uk/id=123456</StoreURL>
+    </Storefront>
+    <TimeLeft>P14DT3H57M40S</TimeLeft>
+    <Title>My Awesome Item</Title>
+    <WatchCount>8</WatchCount>
+    <HitCount>398</HitCount>
+    <BestOfferDetails>
+      <BestOfferCount>6</BestOfferCount>
+      <BestOfferEnabled>true</BestOfferEnabled>
+      <NewBestOffer>false</NewBestOffer>
+    </BestOfferDetails>
+    <GetItFast>false</GetItFast>
+    <SKU>sku1</SKU>
+    <PostalCode>BT99 9ZZ</PostalCode>
+    <PictureDetails>
+      <GalleryType>Gallery</GalleryType>
+      <GalleryURL>http://i.ebayimg.com/00/s/MTI4MFgxMjgw/z/f28AAOSwQJhUbKCb/$_1.JPG?set_id=8800005007</GalleryURL>
+      <PhotoDisplay>PicturePack</PhotoDisplay>
+      <PictureURL>http://i.ebayimg.com/00/s/MTI4MFgxMjgw/z/f28AAOSwQJhUbKCb/$_1.JPG?set_id=8800005007</PictureURL>
+      <PictureURL>http://i.ebayimg.com/00/s/MTI4MFgxMjgw/z/fEAAAOSwnDxUbKCf/$_1.JPG?set_id=8800005007</PictureURL>
+      <PictureURL>http://i.ebayimg.com/00/s/MTI4MFgxMjgw/z/l~sAAOSw2XFUbKCh/$_1.JPG?set_id=8800005007</PictureURL>
+    </PictureDetails>
+    <DispatchTimeMax>0</DispatchTimeMax>
+    <ProxyItem>false</ProxyItem>
+    <ItemSpecifics>
+      <NameValueList>
+        <Name>Main Stone</Name>
+        <Value>Lapis</Value>
+        <Source>ItemSpecific</Source>
+      </NameValueList>
+      <NameValueList>
+        <Name>Total Carat Weight (TCW)</Name>
+        <Value>580</Value>
+        <Source>ItemSpecific</Source>
+      </NameValueList>
+      <NameValueList>
+        <Name>Style</Name>
+        <Value>Strand/String</Value>
+        <Source>ItemSpecific</Source>
+      </NameValueList>
+      <NameValueList>
+        <Name>Brand</Name>
+        <Value>Awesome Me</Value>
+        <Source>ItemSpecific</Source>
+      </NameValueList>
+      <NameValueList>
+        <Name>Length (inches)</Name>
+        <Value>20</Value>
+        <Source>ItemSpecific</Source>
+      </NameValueList>
+      <NameValueList>
+        <Name>Main Stone Colour</Name>
+        <Value>Blue</Value>
+        <Source>ItemSpecific</Source>
+      </NameValueList>
+      <NameValueList>
+        <Name>Type</Name>
+        <Value>Necklace</Value>
+        <Source>ItemSpecific</Source>
+      </NameValueList>
+      <NameValueList>
+        <Name>Main Stone Shape</Name>
+        <Value>Cushion</Value>
+        <Source>ItemSpecific</Source>
+      </NameValueList>
+    </ItemSpecifics>
+    <BusinessSellerDetails>
+      <Address>
+        <Street1>Street 1</Street1>
+        <CityName>My Town</CityName>
+        <StateOrProvince>My County</StateOrProvince>
+        <CountryName>United Kingdom</CountryName>
+        <PostalCode>BT99 9ZZ</PostalCode>
+        <CompanyName>My Company</CompanyName>
+        <FirstName>Mr</FirstName>
+        <LastName>Smith</LastName>
+      </Address>
+      <Email>ebay@seller.com</Email>
+      <LegalInvoice>false</LegalInvoice>
+      <VATDetails>
+        <VATSite>GB</VATSite>
+        <VATID>998877665</VATID>
+      </VATDetails>
+    </BusinessSellerDetails>
+    <BuyerGuaranteePrice currencyID="GBP">20000.0</BuyerGuaranteePrice>
+    <BuyerRequirementDetails>
+      <ShipToRegistrationCountry>true</ShipToRegistrationCountry>
+      <MinimumFeedbackScore>-1</MinimumFeedbackScore>
+      <MaximumUnpaidItemStrikesInfo>
+        <Count>2</Count>
+        <Period>Days_30</Period>
+      </MaximumUnpaidItemStrikesInfo>
+    </BuyerRequirementDetails>
+    <ReturnPolicy>
+      <ReturnsWithinOption>Days_30</ReturnsWithinOption>
+      <ReturnsWithin>30 days</ReturnsWithin>
+      <ReturnsAcceptedOption>ReturnsAccepted</ReturnsAcceptedOption>
+      <ReturnsAccepted>Returns Accepted</ReturnsAccepted>
+      <Description>If for an reason you are unhappy you can of course return your item for a full refund. To do so please locate the item in your eBay purchase history and click on the return item option at the right-hand-side. Then simply follow the instructions provided by eBay. Don&apos;t forget to include a note with your eBay username so that we can quickly process your refund.</Description>
+      <ShippingCostPaidByOption>Buyer</ShippingCostPaidByOption>
+      <ShippingCostPaidBy>Buyer</ShippingCostPaidBy>
+      <ExtendedHolidayReturns>true</ExtendedHolidayReturns>
+    </ReturnPolicy>
+    <ConditionID>1000</ConditionID>
+    <ConditionDisplayName>New with tags</ConditionDisplayName>
+    <PostCheckoutExperienceEnabled>false</PostCheckoutExperienceEnabled>
+    <SellerProfiles>
+      <SellerShippingProfile>
+        <ShippingProfileID>47209688023</ShippingProfileID>
+        <ShippingProfileName>Postage Policy</ShippingProfileName>
+      </SellerShippingProfile>
+      <SellerReturnProfile>
+        <ReturnProfileID>14062580023</ReturnProfileID>
+        <ReturnProfileName>Returns Policy</ReturnProfileName>
+      </SellerReturnProfile>
+      <SellerPaymentProfile>
+        <PaymentProfileID>41189374023</PaymentProfileID>
+        <PaymentProfileName>Payment policy</PaymentProfileName>
+      </SellerPaymentProfile>
+    </SellerProfiles>
+    <ShippingPackageDetails>
+      <ShippingIrregular>false</ShippingIrregular>
+      <ShippingPackage>PackageThickEnvelope</ShippingPackage>
+      <WeightMajor measurementSystem="Metric" unit="kg">0</WeightMajor>
+      <WeightMinor measurementSystem="Metric" unit="gm">0</WeightMinor>
+    </ShippingPackageDetails>
+    <TopRatedListing>true</TopRatedListing>
+    <HideFromSearch>false</HideFromSearch>
+    <PickupInStoreDetails>
+      <EligibleForPickupDropOff>true</EligibleForPickupDropOff>
+    </PickupInStoreDetails>
+  </Item>
+</GetItemResponse>

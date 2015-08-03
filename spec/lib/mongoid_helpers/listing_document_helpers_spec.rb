@@ -14,7 +14,7 @@ RSpec.describe ListingDocumentHelper do
   let(:auth_token) { ENV['EBAY_API_AUTH_TOKEN_TEST_USER_1'] }
   let(:ebay_item_id) { 123456789 }
   let(:response_xml) do
-    self.file_to_string("#{__dir__}/xml_responses/get_item/#{ebay_item_id}.xml")
+    self.file_to_string("#{__dir__}/../../xml_responses/get_item/#{ebay_item_id}.xml")
   end
   let(:get_item_request) do
     EbayTradingPack::GetItem.new(auth_token, ebay_item_id, xml_response: response_xml)

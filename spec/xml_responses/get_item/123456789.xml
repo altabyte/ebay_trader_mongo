@@ -1,3 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  TT listing.
+  No variations.
+  Currently on sale with 30% discount.
+-->
 <GetItemResponse xmlns="urn:ebay:apis:eBLBaseComponents">
   <Timestamp>2015-08-02T15:07:36.833Z</Timestamp>
   <Ack>Success</Ack>

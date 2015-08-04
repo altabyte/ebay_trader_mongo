@@ -46,13 +46,6 @@ RSpec.describe Listing, type: :model do
       expect(listing.title).to eq(title)
     end
 
-
-    context 'Listing Details' do
-      it { expect(listing).to embed_one :listing_detail }
-      it { expect(listing.listing_detail).not_to be_nil }
-      it { expect(listing.listing_detail.end_time).to be > Time.now }
-    end
-
     # Test Mongoid::Attributes::Dynamic
     context 'When initial hash has fields not defined in the model' do
       let(:undefined_field_value) { 'my unknown field data' }
@@ -66,12 +59,22 @@ RSpec.describe Listing, type: :model do
     context 'When no best offer added' do
       it { expect(listing.best_offer_detail).to be_nil }
       it { expect(listing).not_to have_best_offer }
+
+      it { expect(listing.listing_detail.best_offer_auto_accept_price).to be_nil }
+      it { expect(listing.listing_detail.minimum_best_offer_price).to be_nil }
     end
 
     context 'When best offer enabled' do
       let(:best_offer_detail) { { best_offer_enabled: true } }
-      subject(:listing) { Listing.create(hash.merge(best_offer_detail: best_offer_detail)) }
+      subject(:listing) {
+        best_offer_hash = hash.merge(best_offer_detail: best_offer_detail)
+        list_detail = hash[:listing_detail]
+        list_detail[:best_offer_auto_accept_price] = Money.new(9_99)
+        list_detail[:minimum_best_offer_price]     = Money.new(7_99)
+        Listing.create(best_offer_hash).reload
+      }
 
+      it { expect(listing).to embed_one :best_offer_detail }
       it { expect(listing.best_offer_detail).not_to be_nil }
 
       it 'responds to field name aliases with ? appended' do
@@ -85,6 +88,24 @@ RSpec.describe Listing, type: :model do
       it { expect(listing.best_offer_detail.best_offer_count).to eq(0) }
 
       it { expect(listing).to have_best_offer }
+
+      it { expect(listing.listing_detail.best_offer_auto_accept_price).to be_a Money }
+      it { expect(listing.listing_detail.minimum_best_offer_price).to be_a Money }
+    end
+
+
+    describe 'ListingDetail' do
+      subject(:detail) { listing.listing_detail }
+
+      it { expect(listing).to embed_one :listing_detail }
+      it { expect(detail).not_to be_nil }
+      it { expect(detail.start_time).to be < Time.now }
+      it { expect(detail.end_time).to be > Time.now }
+      it { expect(detail.days_active).to eq(11) }
+      it { expect(detail.relisted_item_id).to be_nil }
+      it { expect(detail).not_to have_reserve_price }
+      it { expect(detail).not_to have_unanswered_questions }
+      it { expect(detail).not_to have_public_messages }
     end
   end
 

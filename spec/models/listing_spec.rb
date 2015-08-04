@@ -10,20 +10,26 @@ RSpec.describe Listing, type: :model do
   end
 
   context 'When creating a new listing from a Raw Hash' do
-    let(:sku)           { 'SKU1' }
-    let(:title)         { 'eBay item title' }
+    let(:sku)   { 'SKU1' }
+    let(:title) { 'eBay item title' }
     let(:hash) {
       {
-          sku: sku,
-          item_id: ebay_item_id,
-          title: title,
-          currency: 'GBP',
-          start_price: Money.new(12_99),
+          seller_username:        'seller_1',
+          site:                   'UK',
+          listing_type:           'FixedPriceItem',
+          sku:                    sku,
+          quantity_listed:        10,
+          item_id:                ebay_item_id,
+          title:                  title,
+          currency:               'GBP',
+          start_price:            Money.new(12_99),
+          listing_duration:       Listing::GTC,
+          primary_category_id:    164332,
 
           listing_detail: {
-              start_time: Time.now - 10.days,
-              end_time: Time.now + 10.days,
-              view_item_url: "http://www.ebay.co.uk/itm/#{title.downcase.gsub(/\s+/, '-')}/#{sku}"
+              start_time:         Time.now - 10.days,
+              end_time:           Time.now + 10.days,
+              view_item_url:      "http://www.ebay.co.uk/itm/#{title.downcase.gsub(/\s+/, '-')}/#{sku}"
           }
       }
     }
@@ -31,6 +37,7 @@ RSpec.describe Listing, type: :model do
     subject(:listing) { Listing.new(hash) }
 
     it { is_expected.not_to be_nil }
+    it { is_expected.to be_valid }
     it { expect(listing.save).to be true }
     it { listing.save; expect(Listing.count).to eq(1) }
     it 'should have the values defined in the constructor hash' do

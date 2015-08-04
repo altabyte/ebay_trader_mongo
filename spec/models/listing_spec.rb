@@ -62,6 +62,30 @@ RSpec.describe Listing, type: :model do
       it { is_expected.to respond_to :undefined_field }
       it { expect(listing.undefined_field).to eq(undefined_field_value) }
     end
+
+    context 'When no best offer added' do
+      it { expect(listing.best_offer_detail).to be_nil }
+      it { expect(listing).not_to have_best_offer }
+    end
+
+    context 'When best offer enabled' do
+      let(:best_offer_detail) { { best_offer_enabled: true } }
+      subject(:listing) { Listing.create(hash.merge(best_offer_detail: best_offer_detail)) }
+
+      it { expect(listing.best_offer_detail).not_to be_nil }
+
+      it 'responds to field name aliases with ? appended' do
+        expect(listing.best_offer_detail).to respond_to :best_offer_enabled
+        expect(listing.best_offer_detail).to respond_to :best_offer_enabled?
+        expect(listing.best_offer_detail).to respond_to :new_best_offer
+        expect(listing.best_offer_detail).to respond_to :new_best_offer?
+      end
+      it { expect(listing.best_offer_detail).to be_best_offer_enabled }
+      it { expect(listing.best_offer_detail).not_to be_new_best_offer }
+      it { expect(listing.best_offer_detail.best_offer_count).to eq(0) }
+
+      it { expect(listing).to have_best_offer }
+    end
   end
 
 

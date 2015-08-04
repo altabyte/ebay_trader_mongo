@@ -12,6 +12,9 @@ class Listing
   accepts_nested_attributes_for :listing_detail
   validates :listing_detail, presence: true
 
+  embeds_one :best_offer_detail, class_name: 'Listing::BestOfferDetail'
+  accepts_nested_attributes_for :best_offer_detail
+
   # @return [String] the eBay username of the seller.
   field :seller_username, type: String
   attr_readonly :seller_username
@@ -115,5 +118,10 @@ class Listing
   #
   def gtc?
     listing_duration >= GTC
+  end
+
+  def has_best_offer?
+    return false if best_offer_detail.nil?
+    best_offer_detail.best_offer_enabled?
   end
 end

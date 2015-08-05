@@ -15,14 +15,20 @@ class Listing
   accepts_nested_attributes_for :listing_detail
   validates :listing_detail, presence: true
 
-  embeds_one :revise_state, class_name: 'Listing::ReviseState', validate: true
+  embeds_one :item_specific,
+             store_as: :item_specific,
+             as: :name_value_list_containable,
+             class_name: 'Listing::NameValueListContainer'
+  accepts_nested_attributes_for :item_specific
+
+  embeds_one :revise_state, class_name: 'Listing::ReviseState'
   accepts_nested_attributes_for :revise_state
 
-  embeds_one :selling_state, class_name: 'Listing::SellingState', validate: true
+  embeds_one :selling_state, class_name: 'Listing::SellingState' #, store_as: :selling_status
   accepts_nested_attributes_for :selling_state
   validates :selling_state, presence: true
 
-  embeds_one :store_front, class_name: 'Listing::Storefront', validate: true
+  embeds_one :store_front, class_name: 'Listing::Storefront'
   accepts_nested_attributes_for :store_front
 
   # @return [String] the eBay username of the seller.

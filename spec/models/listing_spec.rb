@@ -61,43 +61,6 @@ RSpec.describe Listing, type: :model do
       it { expect(listing.undefined_field).to eq(undefined_field_value) }
     end
 
-    context 'When no best offer added' do
-      it { expect(listing.best_offer_detail).to be_nil }
-      it { expect(listing).not_to have_best_offer }
-
-      it { expect(listing.listing_detail.best_offer_auto_accept_price).to be_nil }
-      it { expect(listing.listing_detail.minimum_best_offer_price).to be_nil }
-    end
-
-    context 'When best offer enabled' do
-      let(:best_offer_detail) { { best_offer_enabled: true } }
-      subject(:listing) {
-        best_offer_hash = hash.merge(best_offer_detail: best_offer_detail)
-        list_detail = hash[:listing_detail]
-        list_detail[:best_offer_auto_accept_price] = Money.new(9_99)
-        list_detail[:minimum_best_offer_price]     = Money.new(7_99)
-        Listing.create(best_offer_hash).reload
-      }
-
-      it { expect(listing).to embed_one :best_offer_detail }
-      it { expect(listing.best_offer_detail).not_to be_nil }
-
-      it 'responds to field name aliases with ? appended' do
-        expect(listing.best_offer_detail).to respond_to :best_offer_enabled
-        expect(listing.best_offer_detail).to respond_to :best_offer_enabled?
-        expect(listing.best_offer_detail).to respond_to :new_best_offer
-        expect(listing.best_offer_detail).to respond_to :new_best_offer?
-      end
-      it { expect(listing.best_offer_detail).to be_best_offer_enabled }
-      it { expect(listing.best_offer_detail).not_to be_new_best_offer }
-      it { expect(listing.best_offer_detail.best_offer_count).to eq(0) }
-
-      it { expect(listing).to have_best_offer }
-
-      it { expect(listing.listing_detail.best_offer_auto_accept_price).to be_a Money }
-      it { expect(listing.listing_detail.minimum_best_offer_price).to be_a Money }
-    end
-
 
     describe 'ListingDetail' do
       subject(:detail) { listing.listing_detail }
@@ -165,6 +128,96 @@ RSpec.describe Listing, type: :model do
             expect(listing.save).to be true
             expect(state).not_to have_promotion
           end
+        end
+      end
+    end
+
+
+    describe 'Best Offers' do
+
+      context 'When no best offer added' do
+        it { expect(listing.best_offer_detail).to be_nil }
+        it { expect(listing).not_to have_best_offer }
+
+        it { expect(listing.listing_detail.best_offer_auto_accept_price).to be_nil }
+        it { expect(listing.listing_detail.minimum_best_offer_price).to be_nil }
+      end
+
+      context 'When best offer enabled' do
+        let(:best_offer_detail) { { best_offer_enabled: true } }
+        subject(:listing) {
+          best_offer_hash = hash.merge(best_offer_detail: best_offer_detail)
+          list_detail = hash[:listing_detail]
+          list_detail[:best_offer_auto_accept_price] = Money.new(9_99)
+          list_detail[:minimum_best_offer_price]     = Money.new(7_99)
+          Listing.create(best_offer_hash).reload
+        }
+
+        it { expect(listing).to embed_one :best_offer_detail }
+        it { expect(listing.best_offer_detail).not_to be_nil }
+
+        it 'responds to field name aliases with ? appended' do
+          expect(listing.best_offer_detail).to respond_to :best_offer_enabled
+          expect(listing.best_offer_detail).to respond_to :best_offer_enabled?
+          expect(listing.best_offer_detail).to respond_to :new_best_offer
+          expect(listing.best_offer_detail).to respond_to :new_best_offer?
+        end
+        it { expect(listing.best_offer_detail).to be_best_offer_enabled }
+        it { expect(listing.best_offer_detail).not_to be_new_best_offer }
+        it { expect(listing.best_offer_detail.best_offer_count).to eq(0) }
+
+        it { expect(listing).to have_best_offer }
+
+        it { expect(listing.listing_detail.best_offer_auto_accept_price).to be_a Money }
+        it { expect(listing.listing_detail.minimum_best_offer_price).to be_a Money }
+      end
+    end
+
+
+    describe 'ItemSpecifics' do
+
+      it { expect(listing).to embed_one :item_specific }
+
+      context 'Before any item specifics are added' do
+        it { expect(listing.item_specific).to be_nil }
+      end
+
+      context 'Adding item specifics' do
+        let(:item_specifics_hash) do
+          {
+              name_value_lists: [
+                  { name: 'Main Stone', value: ['Lapis'] },
+                  { name: 'Color',      value: 'Blue' },
+                  { name: 'Length',     value: 19 },
+                  { name: 'Theme',      value: ['Fashion Tips', 'Beauty']}
+              ]
+          }
+        end
+        let(:hash_with_item_specifics) { hash_with_item_specifics = hash.merge(item_specific: item_specifics_hash) }
+        subject(:listing) { Listing.create(hash_with_item_specifics).reload }
+
+        it { puts hash_with_item_specifics.to_yaml }
+        it { expect(listing.item_specific.count).to eq(4) }
+
+        it 'should return the value corresponding to name' do
+          expect(listing.item_specific.value_for('Main Stone')).to eq('Lapis')
+          expect(listing.item_specific.value_for('main stone')).to eq('Lapis')
+          expect(listing.item_specific.value_for(:main_stone)).to eq('Lapis')
+          expect(listing.item_specific.value_for('Color')).to eq('Blue')
+          expect(listing.item_specific.value_for('Length')).to eq('19') # String not Fixnum!
+          expect(listing.item_specific.value_for('Theme')).to be_a(Array)
+          expect(listing.item_specific.value_for('Theme').count).to eq(2)
+          expect(listing.item_specific.value_for('UNDEFINED')).to be_nil
+          expect(listing.item_specific.value_for(nil)).to be_nil
+          expect(listing.item_specific.value_for(123)).to be_nil
+        end
+
+        it 'collects a list of all key names' do
+          names = listing.item_specific.names
+          expect(names).not_to be_nil
+          expect(names).to be_a Array
+          expect(names.count).to eq(4)
+          puts names.join(', ')
         end
       end
     end

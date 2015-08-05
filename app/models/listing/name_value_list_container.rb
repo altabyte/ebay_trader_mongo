@@ -9,13 +9,19 @@ class Listing::NameValueListContainer
               as: :name_value_listable,
               class_name: 'Listing::NameValueList'
 
+  def each
+    name_value_lists.each do |name_value_list|
+      yield(name_value_list.name, name_value_list.value)
+    end
+  end
+
   def count
     name_value_lists.count
   end
 
   def names
     array = []
-    name_value_lists.each { |name_value_list| array << name_value_list.name unless array.include?(name_value_list.name) }
+    self.each { |name, _| array << name unless array.include?(name) }
     array.sort
   end
 

@@ -26,8 +26,6 @@ module ListingDocumentHelper
 
     puts "Call name:  #{call_name}"
     puts "Timestamp:  #{timestamp}"
-    puts "Title:      #{item_details.title}"
-    puts "Item:       #{item_id} => #{item_details.sku}"
 
     begin
       listing = Listing.find_by(item_id: item_id)
@@ -36,10 +34,6 @@ module ListingDocumentHelper
     rescue Mongoid::Errors::DocumentNotFound
       listing = Listing.create!(item_hash)
     end
-
-    listing.reload
-    puts listing.title
-
   end
 
   # Restructure the +item_hash+ so that it is compatible with MongoDB
@@ -55,6 +49,8 @@ module ListingDocumentHelper
       key = key.to_s
       key = key.gsub('_status', '_state') if key.match /_status$/i    # 'status' is considered plural by Active Support.
       key = key.gsub('_details', '_detail') if key.match /_details$/i
+      key = key.gsub('_specifics', '_specific') if key.match /_specifics$/i
+      key = key.gsub('name_value_list', 'name_value_lists') if key.match /^name_value_list$/i
       key = 'quantity_listed' if key == 'quantity'
       key = 'ship_to_locations' if key == 'ship_to_location'
       key = 'international_shipping_service_options' if key == 'international_shipping_service_option'

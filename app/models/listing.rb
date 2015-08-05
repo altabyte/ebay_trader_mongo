@@ -100,8 +100,14 @@ class Listing
   # @return [Fixnum] secondary category ID or nil.
   field :secondary_category_id, type: Fixnum
 
+  # The number of page views.
+  field :hit_count, type: Fixnum, default: 0
+
+  # The number of people watching this listing.
+  field :watch_count, type: Fixnum, default: 0
+
   # @return [Boolean] +true+ if this listing is hidden from search.
-  field :hide_from_search, type: Boolean, default: false
+  field :hide_from_search, as: :hide_from_search?, type: Boolean, default: false
 
   # The reason {#hide_from_search} may be +true+. Can be one of:
   # * DuplicateListing
@@ -153,6 +159,43 @@ class Listing
   end
 
   def on_sale_now?
-    selling_state.has_promotion? && promotional_sale_detail.on_sale_now?
+    selling_state.has_promotion? && selling_state.promotional_sale_detail.on_sale_now?
+  end
+
+  def summary
+    s = ''
+    s << "!! Hidden from search !! - #{reason_hide_from_search}\n" if hide_from_search?
+    s << "#{title.ljust(82)}[#{selling_state.listing_state}]\n"
+
+    s << "  #{selling_state.current_price.symbol}#{selling_state.current_price}"
+    if has_best_offer?
+      s << " but will accept #{listing_detail.best_offer_auto_accept_price.symbol}#{listing_detail.best_offer_auto_accept_price}" if listing_detail.best_offer_auto_accept_price
+      s << " [min #{listing_detail.minimum_best_offer_price.symbol}#{listing_detail.minimum_best_offer_price}]" if listing_detail.minimum_best_offer_price && listing_detail.minimum_best_offer_price != listing_detail.best_offer_auto_accept_price
+      s << " - #{best_offer_detail.best_offer_count} offers"
+    end
+    s << "\n"
+
+    if on_sale_now?
+      sale = selling_state.promotional_sale_detail
+      s << "  ON SALE NOW! #{sale.percentage_discount}% OFF"
+      s << " [was #{sale.original_price.symbol}#{sale.original_price}]"
+      s << " from #{sale.start_time.strftime('%H:%M%P on %A')}"
+      s << " until #{sale.end_time.strftime('%H:%M%P on %A')}\n"
+    end
+
+    s << "  #{selling_state.quantity_sold} sold, #{watch_count} watchers, #{hit_count} page views\n"
+    s << "    SKU: #{sku},    eBay ID: #{item_id},    Photos: \n" #{picture_details[:picture_url].count}\n"
+    s << "    #{gtc? ? 'GTC' : "#{listing_duration} day"} [#{listing_detail.days_active} days active]"
+    s << "    Category: #{primary_category_id}\n"
+    s << "  #{listing_detail.start_time.strftime('%l:%H%P %A %-d %b').strip} until #{listing_detail.end_time.strftime('%l:%H%P %A %-d %b %Y').strip}\n"
+
+   # Print item specifics
+    name_length_max = 0
+    item_specific.names.each { |name| name_length_max = [name_length_max, name.length].max }
+    item_specific.each do |name, value|
+      s << "#{name.rjust(name_length_max + 10)}  ->  #{value}\n"
+    end
+
+    s
   end
 end

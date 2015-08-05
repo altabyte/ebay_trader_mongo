@@ -15,6 +15,9 @@ class Listing
   accepts_nested_attributes_for :listing_detail
   validates :listing_detail, presence: true
 
+  embeds_one :revise_state, class_name: 'Listing::ReviseState', validate: true
+  accepts_nested_attributes_for :revise_state
+
   embeds_one :selling_state, class_name: 'Listing::SellingState', validate: true
   accepts_nested_attributes_for :selling_state
   validates :selling_state, presence: true

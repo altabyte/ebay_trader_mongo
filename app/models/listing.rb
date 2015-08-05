@@ -21,6 +21,9 @@ class Listing
              class_name: 'Listing::NameValueListContainer'
   accepts_nested_attributes_for :item_specific
 
+  embeds_one :picture_detail, class_name: 'Listing::PictureDetail'
+  accepts_nested_attributes_for :picture_detail
+
   embeds_one :revise_state, class_name: 'Listing::ReviseState'
   accepts_nested_attributes_for :revise_state
 
@@ -126,6 +129,14 @@ class Listing
   # @return [Fixnum] The maximum number of business days the seller commits to for preparing an item to be shipped after receiving a cleared payment.
   field :dispatch_time_max, type: Fixnum, default: 3
 
+  # Use UUID to ensure that you only list a particular item once.
+  # If you add an item and do not get a response, resend the request
+  # with the same UUID. If the item was successfully listed the first time,
+  # you will receive an error message for trying to use a UUID that you
+  # have already used.
+  # @return [String] the UUID value set when listing/revising the item.
+  field :uuid, type: String
+
   # Set the listing duration as a number of days.
   # This can be an integer number of days, or a string such as
   # 'Days_30' or 'GTC'.
@@ -163,6 +174,7 @@ class Listing
   end
 
   def summary
+    show_photo_urls = true
     s = ''
     s << "!! Hidden from search !! - #{reason_hide_from_search}\n" if hide_from_search?
     s << "#{title.ljust(82)}[#{selling_state.listing_state}]\n"
@@ -184,7 +196,14 @@ class Listing
     end
 
     s << "  #{selling_state.quantity_sold} sold, #{watch_count} watchers, #{hit_count} page views\n"
-    s << "    SKU: #{sku},    eBay ID: #{item_id},    Photos: \n" #{picture_details[:picture_url].count}\n"
+    s << "    SKU: #{sku},    eBay ID: #{item_id},    Photos: #{picture_detail.count}\n" #{picture_details[:picture_url].count}\n"
+    if show_photo_urls
+      picture_detail.picture_url.each do |url|
+        s << "      [#{url}]\n"
+      end
+
+    end
+
     s << "    #{gtc? ? 'GTC' : "#{listing_duration} day"} [#{listing_detail.days_active} days active]"
     s << "    Category: #{primary_category_id}\n"
     s << "  #{listing_detail.start_time.strftime('%l:%H%P %A %-d %b').strip} until #{listing_detail.end_time.strftime('%l:%H%P %A %-d %b %Y').strip}\n"

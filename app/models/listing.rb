@@ -8,12 +8,16 @@ class Listing
 
   store_in collection: 'ebay_listings'
 
+  embeds_one :best_offer_detail, class_name: 'Listing::BestOfferDetail'
+  accepts_nested_attributes_for :best_offer_detail
+
   embeds_one :listing_detail, class_name: 'Listing::ListingDetail'
   accepts_nested_attributes_for :listing_detail
   validates :listing_detail, presence: true
 
-  embeds_one :best_offer_detail, class_name: 'Listing::BestOfferDetail'
-  accepts_nested_attributes_for :best_offer_detail
+  embeds_one :selling_state, class_name: 'Listing::SellingState', validate: true
+  accepts_nested_attributes_for :selling_state
+  validates :selling_state, presence: true
 
   # @return [String] the eBay username of the seller.
   field :seller_username, type: String
@@ -22,6 +26,10 @@ class Listing
 
   field :listing_type, type: String
   validates :listing_type, presence: true
+
+  # The eBay ID of the item from which this was re-listed.
+  # @return [Fixnum] the parent listing eBay ID, or +nil+ if this is a fresh listing.
+  field :relist_parent_id, type: Fixnum
 
   # @return [Fixnum] the eBay item ID.
   field :item_id, type: Fixnum
@@ -80,8 +88,14 @@ class Listing
   # @return [Fixnum] secondary category ID or nil.
   field :secondary_category_id, type: Fixnum
 
-  # @return [Boolean] if this listing is hidden from search.
+  # @return [Boolean] +true+ if this listing is hidden from search.
   field :hide_from_search, type: Boolean, default: false
+
+  # The reason {#hide_from_search} may be +true+. Can be one of:
+  # * DuplicateListing
+  # * OutOfStock
+  # @return [String] message describing why listing is hidden from search results.
+  field :reason_hide_from_search, type: String
 
   # Determine if GetItFast shipping rules apply to this listing.
   # @return [Boolean] +true+ if GetItFast is supported
@@ -120,8 +134,13 @@ class Listing
     listing_duration >= GTC
   end
 
+  # @return [Boolean] +true+ if best offer is enabled.
   def has_best_offer?
     return false if best_offer_detail.nil?
     best_offer_detail.best_offer_enabled?
+  end
+
+  def on_sale_now?
+    selling_state.has_promotion? && promotional_sale_detail.on_sale_now?
   end
 end

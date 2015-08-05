@@ -12,12 +12,18 @@ FactoryGirl.define do
     primary_category_id   164332
 
 
-    listing_detail  { FactoryGirl.build(:listing_detail) }
+    listing_detail        { FactoryGirl.build(:listing_detail) }
+    selling_state         { FactoryGirl.build(:selling_state) }
   end
 
-  factory :listing_detail, :class => Listing::ListingDetail do
-    start_time    Time.now - 10.days
-    end_time      Time.now + 10.days
-    view_item_url 'http://www.ebay.co.uk/itm/Item-Title/123456789'
+  factory :listing_detail, class: Listing::ListingDetail do
+    start_time            Time.now - 10.days
+    end_time              Time.now + 10.days
+    view_item_url         'http://www.ebay.co.uk/itm/Item-Title/123456789'
+  end
+
+  factory :selling_state, class: Listing::SellingState do
+    current_price         Money.new(10_00)
+    listing_state         'Active'
   end
 end

@@ -30,11 +30,16 @@ RSpec.describe Listing, type: :model do
               start_time:         Time.now - 10.days,
               end_time:           Time.now + 10.days,
               view_item_url:      "http://www.ebay.co.uk/itm/#{title.downcase.gsub(/\s+/, '-')}/#{sku}"
+          },
+
+          selling_state: {
+            current_price:        Money.new(12_99),
+            listing_state:        'Active'
           }
       }
     }
 
-    subject(:listing) { Listing.new(hash) }
+    subject(:listing) { Listing.create(hash) }
 
     it { is_expected.not_to be_nil }
     it { is_expected.to be_valid }
@@ -106,6 +111,62 @@ RSpec.describe Listing, type: :model do
       it { expect(detail).not_to have_reserve_price }
       it { expect(detail).not_to have_unanswered_questions }
       it { expect(detail).not_to have_public_messages }
+    end
+
+
+    describe 'SellingState' do
+      subject(:state) { listing.selling_state }
+
+      it { expect(listing).to embed_one :selling_state }
+      it { expect(state).not_to be_nil }
+      it { expect(state).to be_valid }
+      it { expect(state.current_price).to be_a Money }
+      it { expect(state.listing_state).not_to be_nil }
+      it { expect(state).not_to have_promotion }
+      it { expect(state).not_to be_on_sale_now }
+      it { expect(listing).not_to be_on_sale_now }
+
+      context 'When on promotional sale' do
+        let(:sale_percentage) { 30 }
+        let(:original_price) { listing.start_price }
+        let(:sale_price) { original_price - (original_price / 100 * sale_percentage) }
+        let(:promotional_sale_detail) do
+          {
+              start_time:     Time.now - 1.day,
+              end_time:       Time.now + 1.day,
+              original_price: original_price
+          }
+        end
+        let(:promotion) { listing.selling_state.promotional_sale_detail }
+
+        before do
+          listing.start_price = sale_price
+          listing.selling_state.current_price = sale_price
+          listing.selling_state.promotional_sale_detail = promotional_sale_detail
+        end
+
+        it { expect(state.promotional_sale_detail).to be_valid }
+        it { expect(listing.start_price).to eq(sale_price) }
+        it 'Has 30% off now' do
+          expect(state).to have_promotion
+          expect(state).to be_on_sale_now
+          expect(promotion).to be_on_sale_now
+          expect(promotion.percentage_discount).to eq(30)
+          puts "Promotion start time:   #{promotion.start_time}"
+          puts "Promotion end time:     #{promotion.end_time}"
+          puts "Original Price:         #{promotion.original_price.symbol}#{promotion.original_price}"
+          puts "Sale Price:             #{promotion.sale_price.symbol}#{promotion.sale_price}"
+          puts "Percentage discount:    #{promotion.percentage_discount}%"
+        end
+
+        context 'After a promotion has finished' do
+          it 'Removes the PromotionalSaleDetail' do
+            state.promotional_sale_detail = nil
+            expect(listing.save).to be true
+            expect(state).not_to have_promotion
+          end
+        end
+      end
     end
   end
 

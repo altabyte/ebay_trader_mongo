@@ -19,6 +19,9 @@ class Listing
   accepts_nested_attributes_for :selling_state
   validates :selling_state, presence: true
 
+  embeds_one :store_front, class_name: 'Listing::Storefront', validate: true
+  accepts_nested_attributes_for :store_front
+
   # @return [String] the eBay username of the seller.
   field :seller_username, type: String
   attr_readonly :seller_username

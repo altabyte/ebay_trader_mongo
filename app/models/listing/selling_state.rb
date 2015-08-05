@@ -7,6 +7,7 @@ class Listing::SellingState
 
   # @return [Listing::PromotionalSaleDetail] an optional PromotionalSaleDetail.
   embeds_one :promotional_sale_detail, class_name: 'Listing::PromotionalSaleDetail'
+  accepts_nested_attributes_for :promotional_sale_detail
 
   field :admin_ended, type: Boolean, default: false
   field :bid_count, type: Fixnum, default: 0

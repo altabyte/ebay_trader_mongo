@@ -1,12 +1,12 @@
-class Listing::SellingState
+class EbayListing::SellingState
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
 
-  # @return [Listing] the listing to which these details belong.
-  embedded_in :listing
+  # @return [EbayListing] the ebay_listing to which these details belong.
+  embedded_in :ebay_listing
 
   # @return [Listing::PromotionalSaleDetail] an optional PromotionalSaleDetail.
-  embeds_one :promotional_sale_detail, class_name: 'Listing::PromotionalSaleDetail'
+  embeds_one :promotional_sale_detail, class_name: 'EbayListing::PromotionalSaleDetail'
   accepts_nested_attributes_for :promotional_sale_detail
 
   field :admin_ended, type: Boolean, default: false

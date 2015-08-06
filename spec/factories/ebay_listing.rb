@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :listing do
+  factory :ebay_listing do
     seller_username       'seller_1'
     site                  'UK'
     listing_type          'FixedPriceItem'
@@ -8,7 +8,7 @@ FactoryGirl.define do
     quantity_listed       10
     item_id               123456789
     start_price           Money.new(10_00)
-    listing_duration      Listing::GTC
+    listing_duration      EbayListing::GTC
     primary_category_id   164332
 
 
@@ -16,13 +16,13 @@ FactoryGirl.define do
     selling_state         { FactoryGirl.build(:selling_state) }
   end
 
-  factory :listing_detail, class: Listing::ListingDetail do
+  factory :listing_detail, class: EbayListing::ListingDetail do
     start_time            Time.now - 10.days
     end_time              Time.now + 10.days
     view_item_url         'http://www.ebay.co.uk/itm/Item-Title/123456789'
   end
 
-  factory :selling_state, class: Listing::SellingState do
+  factory :selling_state, class: EbayListing::SellingState do
     current_price         Money.new(10_00)
     listing_state         'Active'
   end

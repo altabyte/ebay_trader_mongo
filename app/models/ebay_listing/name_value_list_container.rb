@@ -1,13 +1,12 @@
-class Listing::NameValueListContainer
+class EbayListing::NameValueListContainer
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
 
-  # @return [Listing] the listing to which these details belong.
   embedded_in :name_value_list_containable, polymorphic: true
 
   embeds_many :name_value_lists,
               as: :name_value_listable,
-              class_name: 'Listing::NameValueList'
+              class_name: 'EbayListing::NameValueList'
 
   def each
     name_value_lists.each do |name_value_list|

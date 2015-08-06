@@ -2,7 +2,7 @@ module EbayListingItem
   extend ActiveSupport::Concern
 
   included do
-    embeds_one :selling_state, class_name: 'Listing::SellingState' #, store_as: :selling_status
+    embeds_one :selling_state, class_name: 'EbayListing::SellingState' #, store_as: :selling_status
     accepts_nested_attributes_for :selling_state
     validates :selling_state, presence: true
 
@@ -19,7 +19,7 @@ module EbayListingItem
     index({ sku: 1 }, { name: 'sku_index' })
     validates :sku, presence: true
 
-    # The start price of this listing, which is actually its current price.
+    # The start price of this ebay_listing, which is actually its current price.
     # If the item is currently on sale then +sale_price+ will show the discounted price.
     # @return [Money] the start price.
     field :start_price, type: Money

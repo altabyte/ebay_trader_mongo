@@ -28,11 +28,11 @@ module ListingDocumentHelper
     puts "Timestamp:  #{timestamp}"
 
     begin
-      listing = Listing.find_by(item_id: item_id)
+      listing = EbayListing.find_by(item_id: item_id)
       item_hash[:title] = 'Upgraded Awesome Item'
       listing.update_attributes(item_hash)
     rescue Mongoid::Errors::DocumentNotFound
-      listing = Listing.create!(item_hash)
+      listing = EbayListing.create!(item_hash)
     end
   end
 
@@ -69,7 +69,7 @@ module ListingDocumentHelper
       item_hash[:secondary_category_id] = category_id
     end
 
-    # Remove data that is generally the same in every listing.
+    # Remove data that is generally the same in every ebay_listing.
     if my_seller_account_username? seller_username
       item_hash.delete(:business_seller_detail)
       item_hash.delete(:buyer_guarantee_price)      # For the Australia site only

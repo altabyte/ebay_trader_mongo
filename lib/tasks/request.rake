@@ -6,7 +6,7 @@ require "#{Rails.root}/app/workers/get_item_worker"
 
 namespace :request do
 
-  desc 'Request the details for a single eBay item listing'
+  desc 'Request the details for a single eBay item ebay_listing'
   task :get_item, [:ebay_username, :item_id] do |t, args|
     begin
       username = args[:ebay_username]

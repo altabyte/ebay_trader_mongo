@@ -28,15 +28,15 @@ RSpec.describe ListingDocumentHelper do
     context 'When creating a new Listing' do
 
       after do
-        cleanup = Listing.where(item_id: ebay_item_id)
+        cleanup = EbayListing.where(item_id: ebay_item_id)
         cleanup.destroy unless cleanup.nil?
       end
 
-      it 'Creates a new listing' do
-        expect{ Listing.find_by(item_id: ebay_item_id) }.to raise_error Mongoid::Errors::DocumentNotFound
+      it 'Creates a new ebay_listing' do
+        expect{ EbayListing.find_by(item_id: ebay_item_id) }.to raise_error Mongoid::Errors::DocumentNotFound
         klass.save(get_item_request, EbayTradingPack::GetItem::CALL_NAME, get_item_request.timestamp)
-        expect{ Listing.find_by(item_id: ebay_item_id) }.not_to raise_error
-        puts "\n\n#{Listing.find_by(item_id: ebay_item_id).summary}\n\n"
+        expect{ EbayListing.find_by(item_id: ebay_item_id) }.not_to raise_error
+        puts "\n\n#{EbayListing.find_by(item_id: ebay_item_id).summary}\n\n"
       end
 
     end

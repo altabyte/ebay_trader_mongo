@@ -1,11 +1,11 @@
-class Listing::PictureDetail
+class EbayListing::PictureDetail
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
 
-  # @return [Listing] the listing to which these details belong.
-  embedded_in :listing
+  # @return [EbayListing] the ebay_listing to which these details belong.
+  embedded_in :ebay_listing
 
-  # Number of days that the Featured Gallery type applies to a listing.
+  # Number of days that the Featured Gallery type applies to a ebay_listing.
   # Applicable values include:
   # * 'Days_7'
   # * 'LifeTime'

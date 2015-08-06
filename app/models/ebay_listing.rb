@@ -1,4 +1,4 @@
-class Listing
+class EbayListing
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
   include Mongoid::Timestamps # Define created_at and updated_at fields
@@ -10,26 +10,26 @@ class Listing
   # The value assigned to {#listing_duration} for GTC listings.
   GTC ||= 365
 
-  embeds_one :best_offer_detail, class_name: 'Listing::BestOfferDetail'
+  embeds_one :best_offer_detail, class_name: 'EbayListing::BestOfferDetail'
   accepts_nested_attributes_for :best_offer_detail
 
-  embeds_one :listing_detail, class_name: 'Listing::ListingDetail'
+  embeds_one :listing_detail, class_name: 'EbayListing::ListingDetail'
   accepts_nested_attributes_for :listing_detail
   validates :listing_detail, presence: true
 
   embeds_one :item_specific,
              store_as: :item_specific,
              as: :name_value_list_containable,
-             class_name: 'Listing::NameValueListContainer'
+             class_name: 'EbayListing::NameValueListContainer'
   accepts_nested_attributes_for :item_specific
 
-  embeds_one :picture_detail, class_name: 'Listing::PictureDetail'
+  embeds_one :picture_detail, class_name: 'EbayListing::PictureDetail'
   accepts_nested_attributes_for :picture_detail
 
-  embeds_one :revise_state, class_name: 'Listing::ReviseState'
+  embeds_one :revise_state, class_name: 'EbayListing::ReviseState'
   accepts_nested_attributes_for :revise_state
 
-  embeds_one :store_front, class_name: 'Listing::Storefront'
+  embeds_one :store_front, class_name: 'EbayListing::Storefront'
   accepts_nested_attributes_for :store_front
 
   # @return [String] 3 character currency ISO code.
@@ -38,12 +38,12 @@ class Listing
   # @return [Fixnum] The maximum number of business days the seller commits to for preparing an item to be shipped after receiving a cleared payment.
   field :dispatch_time_max, type: Fixnum, default: 3
 
-  # Determine if GetItFast shipping rules apply to this listing.
+  # Determine if GetItFast shipping rules apply to this ebay_listing.
   # @return [Boolean] +true+ if GetItFast is supported
   # @note Not supported for UK Store Inventory format items.
   field :get_it_fast, type: Boolean, default: false
 
-  # @return [Boolean] +true+ if this listing is hidden from search.
+  # @return [Boolean] +true+ if this ebay_listing is hidden from search.
   field :hide_from_search, as: :hide_from_search?, type: Boolean, default: false
 
   # The number of page views.
@@ -55,7 +55,7 @@ class Listing
   validates :item_id, presence: true, uniqueness: true
   index({ item_id: 1 }, { unique: true, name: 'item_id_index' })
 
-  # @return [Fixnum] the listing duration in days where a value greater than 30 represents GTC.
+  # @return [Fixnum] the ebay_listing duration in days where a value greater than 30 represents GTC.
   field :listing_duration, type: Fixnum
   validates :listing_duration, numericality: { only_integer: true, greater_than: 0 }
 
@@ -69,11 +69,11 @@ class Listing
   # The reason {#hide_from_search} may be +true+. Can be one of:
   # * DuplicateListing
   # * OutOfStock
-  # @return [String] message describing why listing is hidden from search results.
+  # @return [String] message describing why ebay_listing is hidden from search results.
   field :reason_hide_from_search, type: String
 
   # The eBay ID of the item from which this was re-listed.
-  # @return [Fixnum] the parent listing eBay ID, or +nil+ if this is a fresh listing.
+  # @return [Fixnum] the parent ebay_listing eBay ID, or +nil+ if this is a fresh ebay_listing.
   field :relist_parent_id, type: Fixnum
 
   # @return [Money] the reserve price of +nil+ if none set.
@@ -89,18 +89,18 @@ class Listing
 
   # @return [String] The name of the site on which the item is listed.
   # @see http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/GetItem.html#Response.Item.Site
-  # @note The listing site affects the business logic and validation rules that are applied to the request.
+  # @note The ebay_listing site affects the business logic and validation rules that are applied to the request.
   field :site, type: String
   validates :site, presence: true
 
   # @return [String] an optional sub-title.
   field :sub_title, type: String
 
-  # @return [String] the listing title.
+  # @return [String] the ebay_listing title.
   field :title, type: String
   validates :title, presence: true
 
-  # @return [Boolean] +true+ if this is a top-rated listing.
+  # @return [Boolean] +true+ if this is a top-rated ebay_listing.
   field :top_rated_listing, type: Boolean, default: false
 
   # Use UUID to ensure that you only list a particular item once.
@@ -108,14 +108,14 @@ class Listing
   # with the same UUID. If the item was successfully listed the first time,
   # you will receive an error message for trying to use a UUID that you
   # have already used.
-  # @return [String] the UUID value set when listing/revising the item.
+  # @return [String] the UUID value set when ebay_listing/revising the item.
   field :uuid, type: String
 
-  # The number of people watching this listing.
+  # The number of people watching this ebay_listing.
   field :watch_count, type: Fixnum, default: 0
 
 
-  # Set the listing duration as a number of days.
+  # Set the ebay_listing duration as a number of days.
   # This can be an integer number of days, or a string such as
   # 'Days_30' or 'GTC'.
   # @param [String|Fixnum] duration
@@ -134,7 +134,7 @@ class Listing
     self[:listing_duration] = duration.to_i
   end
 
-  # Determine if this is a GTC listing.
+  # Determine if this is a GTC ebay_listing.
   # @return +true+ if {#listing_duration} has a value greater than 30 days.
   #
   def gtc?

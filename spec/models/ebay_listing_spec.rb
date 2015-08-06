@@ -1,15 +1,15 @@
 require 'rails_helper'
 
-RSpec.describe Listing, type: :model do
+RSpec.describe EbayListing, type: :model do
 
   let(:ebay_item_id)  { 123456789 }
 
   after do
-    cleanup = Listing.where(item_id: 123456789)
+    cleanup = EbayListing.where(item_id: 123456789)
     cleanup.destroy unless cleanup.nil?
   end
 
-  context 'When creating a new listing from a Raw Hash' do
+  context 'When creating a new ebay_listing from a Raw Hash' do
     let(:sku)   { 'SKU1' }
     let(:title) { 'eBay item title' }
     let(:hash) {
@@ -23,7 +23,7 @@ RSpec.describe Listing, type: :model do
           title:                  title,
           currency:               'GBP',
           start_price:            Money.new(12_99),
-          listing_duration:       Listing::GTC,
+          listing_duration:       EbayListing::GTC,
           primary_category_id:    164332,
 
           listing_detail: {
@@ -39,12 +39,12 @@ RSpec.describe Listing, type: :model do
       }
     }
 
-    subject(:listing) { Listing.create(hash) }
+    subject(:listing) { EbayListing.create(hash) }
 
     it { is_expected.not_to be_nil }
     it { is_expected.to be_valid }
     it { expect(listing.save).to be true }
-    it { listing.save; expect(Listing.count).to eq(1) }
+    it { listing.save; expect(EbayListing.count).to eq(1) }
     it 'should have the values defined in the constructor hash' do
       expect(listing.sku).to eq(sku)
       expect(listing.item_id).to eq(ebay_item_id)
@@ -55,7 +55,7 @@ RSpec.describe Listing, type: :model do
     context 'When initial hash has fields not defined in the model' do
       let(:undefined_field_value) { 'my unknown field data' }
       let(:hash_2) { hash.merge(undefined_field: undefined_field_value) }
-      subject(:listing) { Listing.create(hash_2) }
+      subject(:listing) { EbayListing.create(hash_2) }
       it { is_expected.not_to be_nil }
       it { is_expected.to respond_to :undefined_field }
       it { expect(listing.undefined_field).to eq(undefined_field_value) }
@@ -150,7 +150,7 @@ RSpec.describe Listing, type: :model do
           list_detail = hash[:listing_detail]
           list_detail[:best_offer_auto_accept_price] = Money.new(9_99)
           list_detail[:minimum_best_offer_price]     = Money.new(7_99)
-          Listing.create(best_offer_hash).reload
+          EbayListing.create(best_offer_hash).reload
         }
 
         it { expect(listing).to embed_one :best_offer_detail }
@@ -194,7 +194,7 @@ RSpec.describe Listing, type: :model do
           }
         end
         let(:hash_with_item_specifics) { hash_with_item_specifics = hash.merge(item_specific: item_specifics_hash) }
-        subject(:listing) { Listing.create(hash_with_item_specifics).reload }
+        subject(:listing) { EbayListing.create(hash_with_item_specifics).reload }
 
         it { puts hash_with_item_specifics.to_yaml }
         it { expect(listing.item_specific.count).to eq(4) }
@@ -223,39 +223,38 @@ RSpec.describe Listing, type: :model do
     end
   end
 
-
-  context 'FactoryGirl listing' do
+  context 'FactoryGirl ebay_listing' do
     let(:sku) { 'ABC123' }
-    subject (:listing) { FactoryGirl.create(:listing, item_id: ebay_item_id, sku: sku) }
+    subject (:ebay_listing) { FactoryGirl.create(:ebay_listing, item_id: ebay_item_id, sku: sku) }
 
     it { is_expected.not_to be_nil }
-    it { listing; expect(Listing.count).to eq(1) }
+    it { ebay_listing; expect(EbayListing.count).to eq(1) }
 
-    it { expect(listing.sku).to eq(sku) }
+    it { expect(ebay_listing.sku).to eq(sku) }
     it { is_expected.to have_index_for(item_id: 1).with_options(unique: true) }
     it { is_expected.to validate_presence_of(:sku) }
     it { is_expected.to validate_presence_of(:title) }
 
     it 'should have a Money start price' do
-      listing.reload
-      expect(listing.start_price).not_to be_nil
-      expect(listing.start_price).to be_a(Money)
-      expect(listing.start_price.currency).to eq('GBP')
-      puts "Start Price: #{listing.start_price.symbol}#{listing.start_price}"
-      usd = listing.start_price.exchange_to('USD')
+      ebay_listing.reload
+      expect(ebay_listing.start_price).not_to be_nil
+      expect(ebay_listing.start_price).to be_a(Money)
+      expect(ebay_listing.start_price.currency).to eq('GBP')
+      puts "Start Price: #{ebay_listing.start_price.symbol}#{ebay_listing.start_price}"
+      usd = ebay_listing.start_price.exchange_to('USD')
       puts "             #{usd.symbol}#{usd}"
-      eur = listing.start_price.exchange_to('EUR')
+      eur = ebay_listing.start_price.exchange_to('EUR')
       puts "             #{eur.symbol}#{eur}"
 
-      expect(listing[:start_price]).to be_a(Hash)
-      expect(listing[:start_price]).to have_key('cents')
-      expect(listing[:start_price]).to have_key('currency')
+      expect(ebay_listing[:start_price]).to be_a(Hash)
+      expect(ebay_listing[:start_price]).to have_key('cents')
+      expect(ebay_listing[:start_price]).to have_key('currency')
     end
 
 
     describe 'ListingDetails' do
-      it { expect(listing).to embed_one :listing_detail }
-      subject(:details) { listing.listing_detail }
+      it { expect(ebay_listing).to embed_one :listing_detail }
+      subject(:details) { ebay_listing.listing_detail }
 
       it { is_expected.not_to be_nil }
       it { expect(details.start_time).to be < Time.now }
@@ -269,5 +268,4 @@ RSpec.describe Listing, type: :model do
       it { expect(details.has_public_messages).to be false }
     end
   end
-
 end

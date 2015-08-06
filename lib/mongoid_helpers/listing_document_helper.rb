@@ -49,11 +49,13 @@ module ListingDocumentHelper
       key = key.to_s
       key = key.gsub('_status', '_state') if key.match /_status$/i    # 'status' is considered plural by Active Support.
       key = key.gsub('_details', '_detail') if key.match /_details$/i
-      key = key.gsub('_specifics', '_specific') if key.match /_specifics$/i
-      key = key.gsub('name_value_list', 'name_value_lists') if key.match /^name_value_list$/i
+      key = 'international_shipping_service_options' if key == 'international_shipping_service_option'
+      key = 'item_specific' if key == 'item_specifics'
+      key = 'name_value_list' if key == 'name_value_lists'
       key = 'quantity_listed' if key == 'quantity'
       key = 'ship_to_locations' if key == 'ship_to_location'
-      key = 'international_shipping_service_options' if key == 'international_shipping_service_option'
+      key = 'variation_detail' if key == 'variations'
+      key = 'variations' if key == 'variation'
       key
     end
 

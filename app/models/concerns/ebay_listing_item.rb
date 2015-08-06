@@ -2,7 +2,8 @@ module EbayListingItem
   extend ActiveSupport::Concern
 
   included do
-    embeds_one :selling_state, class_name: 'EbayListing::SellingState' #, store_as: :selling_status
+
+    embeds_one :selling_state, class_name: EbayListing::SellingState.name #, store_as: :selling_status
     accepts_nested_attributes_for :selling_state
     validates :selling_state, presence: true
 
@@ -12,7 +13,7 @@ module EbayListingItem
 
     # @return [Fixnum] the number of items originally listed.
     field :quantity_listed, type: Fixnum, default: 0
-    validates :quantity_listed, numericality: { only_integer: true, greater_than: 0 }
+    #validates :quantity_listed, numericality: { only_integer: true, greater_than: 0 }
 
     # @return [String] the SKU, also known as the custom label in the UK.
     field :sku, type: String
@@ -24,5 +25,6 @@ module EbayListingItem
     # @return [Money] the start price.
     field :start_price, type: Money
     validates :start_price, presence: true
+
   end
 end

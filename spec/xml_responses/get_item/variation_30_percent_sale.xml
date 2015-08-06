@@ -1,0 +1,522 @@
+<!--
+  TT ebay_listing.
+  Variation listing, 6 necklace + 4 bracelet.
+  30% Discount.
+-->
+<GetItemResponse xmlns="urn:ebay:apis:eBLBaseComponents">
+  <Timestamp>2015-08-06T12:34:19.189Z</Timestamp>
+  <Ack>Success</Ack>
+  <Version>923</Version>
+  <Build>E923_INTL_API_17544597_R1</Build>
+  <Item>
+    <ApplicationData>WIO-128437949</ApplicationData>
+    <AutoPay>false</AutoPay>
+    <BuyerProtection>ItemEligible</BuyerProtection>
+    <BuyItNowPrice currencyID="GBP">0.0</BuyItNowPrice>
+    <Country>GB</Country>
+    <Currency>GBP</Currency>
+    <GiftIcon>0</GiftIcon>
+    <HitCounter>HiddenStyle</HitCounter>
+    <ItemID>123456789</ItemID>
+    <ListingDetails>
+      <Adult>false</Adult>
+      <BindingAuction>false</BindingAuction>
+      <CheckoutEnabled>true</CheckoutEnabled>
+      <ConvertedBuyItNowPrice currencyID="GBP">0.0</ConvertedBuyItNowPrice>
+      <ConvertedStartPrice currencyID="GBP">6.99</ConvertedStartPrice>
+      <ConvertedReservePrice currencyID="GBP">0.0</ConvertedReservePrice>
+      <HasReservePrice>false</HasReservePrice>
+      <StartTime>2014-07-22T11:01:51.000Z</StartTime>
+      <EndTime>2015-08-16T11:01:51.000Z</EndTime>
+      <ViewItemURL>http://www.ebay.co.uk/itm/Statement-Necklace-Bracelet-Gemstone-Jewellery-/123456789</ViewItemURL>
+      <HasUnansweredQuestions>true</HasUnansweredQuestions>
+      <HasPublicMessages>false</HasPublicMessages>
+      <ViewItemURLForNaturalSearch>http://www.ebay.co.uk/itm/Statement-Necklace-Bracelet-Gemstone-Jewellery-/123456789</ViewItemURLForNaturalSearch>
+    </ListingDetails>
+    <ListingDuration>GTC</ListingDuration>
+    <ListingType>FixedPriceItem</ListingType>
+    <Location>Belfast</Location>
+    <PaymentMethods>PayPal</PaymentMethods>
+    <PayPalEmailAddress>paypal@seller.com</PayPalEmailAddress>
+    <PrimaryCategory>
+      <CategoryID>164332</CategoryID>
+      <CategoryName>Jewellery &amp; Watches:Fine Jewellery:Fine Necklaces &amp; Pendants:Gemstone</CategoryName>
+    </PrimaryCategory>
+    <PrivateListing>false</PrivateListing>
+    <Quantity>125</Quantity>
+    <ReservePrice currencyID="GBP">0.0</ReservePrice>
+    <ReviseStatus>
+      <ItemRevised>true</ItemRevised>
+    </ReviseStatus>
+    <Seller>
+      <AboutMePage>true</AboutMePage>
+      <Email>ebay@seller.com</Email>
+      <FeedbackScore>136046</FeedbackScore>
+      <PositiveFeedbackPercent>99.9</PositiveFeedbackPercent>
+      <FeedbackPrivate>false</FeedbackPrivate>
+      <FeedbackRatingStar>TurquoiseShooting</FeedbackRatingStar>
+      <IDVerified>false</IDVerified>
+      <eBayGoodStanding>true</eBayGoodStanding>
+      <NewUser>false</NewUser>
+      <RegistrationDate>2005-03-24T11:59:47.000Z</RegistrationDate>
+      <Site>UK</Site>
+      <Status>Confirmed</Status>
+      <UserID>seller_1</UserID>
+      <UserIDChanged>false</UserIDChanged>
+      <UserIDLastChanged>2006-07-06T21:36:47.000Z</UserIDLastChanged>
+      <VATStatus>VATExempt</VATStatus>
+      <SellerInfo>
+        <AllowPaymentEdit>true</AllowPaymentEdit>
+        <CheckoutEnabled>true</CheckoutEnabled>
+        <CIPBankAccountStored>false</CIPBankAccountStored>
+        <GoodStanding>true</GoodStanding>
+        <LiveAuctionAuthorized>false</LiveAuctionAuthorized>
+        <MerchandizingPref>OptIn</MerchandizingPref>
+        <QualifiesForB2BVAT>false</QualifiesForB2BVAT>
+        <StoreOwner>true</StoreOwner>
+        <StoreURL>http://www.stores.ebay.co.uk/id=123456</StoreURL>
+        <SellerBusinessType>Commercial</SellerBusinessType>
+        <SafePaymentExempt>true</SafePaymentExempt>
+        <TopRatedSeller>true</TopRatedSeller>
+      </SellerInfo>
+      <MotorsDealer>false</MotorsDealer>
+    </Seller>
+    <SellingStatus>
+      <BidCount>0</BidCount>
+      <BidIncrement currencyID="GBP">0.0</BidIncrement>
+      <ConvertedCurrentPrice currencyID="GBP">6.99</ConvertedCurrentPrice>
+      <CurrentPrice currencyID="GBP">6.99</CurrentPrice>
+      <LeadCount>0</LeadCount>
+      <MinimumToBid currencyID="GBP">6.99</MinimumToBid>
+      <QuantitySold>78</QuantitySold>
+      <ReserveMet>true</ReserveMet>
+      <SecondChanceEligible>false</SecondChanceEligible>
+      <ListingStatus>Active</ListingStatus>
+      <PromotionalSaleDetails>
+        <OriginalPrice currencyID="GBP">9.99</OriginalPrice>
+        <StartTime>2015-08-06T10:41:25.000Z</StartTime>
+        <EndTime>2015-08-09T01:00:10.000Z</EndTime>
+      </PromotionalSaleDetails>
+      <QuantitySoldByPickupInStore>0</QuantitySoldByPickupInStore>
+    </SellingStatus>
+    <ShippingDetails>
+      <ApplyShippingDiscount>true</ApplyShippingDiscount>
+      <CalculatedShippingRate>
+        <WeightMajor measurementSystem="Metric" unit="kg">0</WeightMajor>
+        <WeightMinor measurementSystem="Metric" unit="gm">0</WeightMinor>
+      </CalculatedShippingRate>
+      <SalesTax>
+        <SalesTaxPercent>0.0</SalesTaxPercent>
+        <ShippingIncludedInTax>false</ShippingIncludedInTax>
+      </SalesTax>
+      <ShippingServiceOptions>
+        <ShippingService>UK_RoyalMailFirstClassStandard</ShippingService>
+        <ShippingServiceCost currencyID="GBP">0.0</ShippingServiceCost>
+        <ShippingServiceAdditionalCost currencyID="GBP">0.0</ShippingServiceAdditionalCost>
+        <ShippingServicePriority>1</ShippingServicePriority>
+        <ExpeditedService>true</ExpeditedService>
+        <ShippingTimeMin>1</ShippingTimeMin>
+        <ShippingTimeMax>1</ShippingTimeMax>
+        <FreeShipping>true</FreeShipping>
+      </ShippingServiceOptions>
+      <ShippingServiceOptions>
+        <ShippingService>UK_RoyalMailSpecialDeliveryNextDay</ShippingService>
+        <ShippingServiceCost currencyID="GBP">6.95</ShippingServiceCost>
+        <ShippingServiceAdditionalCost currencyID="GBP">6.95</ShippingServiceAdditionalCost>
+        <ShippingServicePriority>2</ShippingServicePriority>
+        <ExpeditedService>true</ExpeditedService>
+        <ShippingTimeMin>1</ShippingTimeMin>
+        <ShippingTimeMax>1</ShippingTimeMax>
+      </ShippingServiceOptions>
+      <InternationalShippingServiceOption>
+        <ShippingService>UK_RoyalMailAirmailInternational</ShippingService>
+        <ShippingServiceCost currencyID="GBP">3.5</ShippingServiceCost>
+        <ShippingServiceAdditionalCost currencyID="GBP">1.75</ShippingServiceAdditionalCost>
+        <ShippingServicePriority>1</ShippingServicePriority>
+        <ShipToLocation>Worldwide</ShipToLocation>
+      </InternationalShippingServiceOption>
+      <InternationalShippingServiceOption>
+        <ShippingService>UK_RoyalMailInternationalSignedFor</ShippingService>
+        <ShippingServiceCost currencyID="GBP">7.5</ShippingServiceCost>
+        <ShippingServiceAdditionalCost currencyID="GBP">1.75</ShippingServiceAdditionalCost>
+        <ShippingServicePriority>2</ShippingServicePriority>
+        <ShipToLocation>Worldwide</ShipToLocation>
+      </InternationalShippingServiceOption>
+      <ShippingType>Flat</ShippingType>
+      <ThirdPartyCheckout>false</ThirdPartyCheckout>
+      <ShippingDiscountProfileID>3496023</ShippingDiscountProfileID>
+      <FlatShippingDiscount>
+        <DiscountName>EachAdditionalAmount</DiscountName>
+        <DiscountProfile>
+          <DiscountProfileID>3496023</DiscountProfileID>
+          <DiscountProfileName>Domestic-1</DiscountProfileName>
+          <EachAdditionalAmount currencyID="GBP">0.0</EachAdditionalAmount>
+        </DiscountProfile>
+      </FlatShippingDiscount>
+      <InternationalShippingDiscountProfileID>212562023</InternationalShippingDiscountProfileID>
+      <InternationalFlatShippingDiscount>
+        <DiscountName>EachAdditionalAmount</DiscountName>
+        <DiscountProfile>
+          <DiscountProfileID>212562023</DiscountProfileID>
+          <DiscountProfileName>International 2012</DiscountProfileName>
+          <EachAdditionalAmount currencyID="GBP">1.75</EachAdditionalAmount>
+        </DiscountProfile>
+      </InternationalFlatShippingDiscount>
+      <ExcludeShipToLocation>Africa</ExcludeShipToLocation>
+      <ExcludeShipToLocation>Middle East</ExcludeShipToLocation>
+      <ExcludeShipToLocation>South America</ExcludeShipToLocation>
+      <ExcludeShipToLocation>BD</ExcludeShipToLocation>
+      <ExcludeShipToLocation>CN</ExcludeShipToLocation>
+      <ExcludeShipToLocation>IN</ExcludeShipToLocation>
+      <ExcludeShipToLocation>PK</ExcludeShipToLocation>
+      <ExcludeShipToLocation>PG</ExcludeShipToLocation>
+      <ExcludeShipToLocation>KH</ExcludeShipToLocation>
+      <ExcludeShipToLocation>HK</ExcludeShipToLocation>
+      <ExcludeShipToLocation>MY</ExcludeShipToLocation>
+      <SellerExcludeShipToLocationsPreference>true</SellerExcludeShipToLocationsPreference>
+    </ShippingDetails>
+    <ShipToLocations>Worldwide</ShipToLocations>
+    <Site>UK</Site>
+    <StartPrice currencyID="GBP">6.99</StartPrice>
+    <Storefront>
+      <StoreCategoryID>251457019</StoreCategoryID>
+      <StoreCategory2ID>245743219</StoreCategory2ID>
+      <StoreURL>http://www.stores.ebay.co.uk/id=123456</StoreURL>
+    </Storefront>
+    <SubTitle>New colour choices just added!</SubTitle>
+    <TimeLeft>P9DT22H27M32S</TimeLeft>
+    <Title>Statement Necklace Bracelet Gemstone Jewellery</Title>
+    <WatchCount>31</WatchCount>
+    <HitCount>3932</HitCount>
+    <GetItFast>false</GetItFast>
+    <SKU>V66012-66022</SKU>
+    <PostalCode>BT99 9ZZ</PostalCode>
+    <PictureDetails>
+      <GalleryType>Gallery</GalleryType>
+      <GalleryURL>http://i.ebayimg.com/00/s/MTI4MFgxMjgw/z/FsYAAOSwZjJU~vRn/$_1.JPG?set_id=880000500F</GalleryURL>
+      <PhotoDisplay>PicturePack</PhotoDisplay>
+      <PictureURL>http://i.ebayimg.com/00/s/MTI4MFgxMjgw/z/FsYAAOSwZjJU~vRn/$_1.JPG?set_id=880000500F</PictureURL>
+    </PictureDetails>
+    <DispatchTimeMax>0</DispatchTimeMax>
+    <ProxyItem>false</ProxyItem>
+    <ItemSpecifics>
+      <NameValueList>
+        <Name>Main Stone</Name>
+        <Value>Turquoise</Value>
+        <Source>ItemSpecific</Source>
+      </NameValueList>
+      <NameValueList>
+        <Name>Total Carat Weight (TCW)</Name>
+        <Value>450</Value>
+        <Source>ItemSpecific</Source>
+      </NameValueList>
+      <NameValueList>
+        <Name>Style</Name>
+        <Value>Pendant</Value>
+        <Source>ItemSpecific</Source>
+      </NameValueList>
+      <NameValueList>
+        <Name>Brand</Name>
+        <Value>My Brand</Value>
+        <Source>ItemSpecific</Source>
+      </NameValueList>
+      <NameValueList>
+        <Name>Length (inches)</Name>
+        <Value>19</Value>
+        <Source>ItemSpecific</Source>
+      </NameValueList>
+      <NameValueList>
+        <Name>Main Stone Colour</Name>
+        <Value>Multi-Coloured</Value>
+        <Source>ItemSpecific</Source>
+      </NameValueList>
+    </ItemSpecifics>
+    <BusinessSellerDetails>
+      <Address>
+        <Street1>Street 1</Street1>
+        <CityName>My Town</CityName>
+        <StateOrProvince>My County</StateOrProvince>
+        <CountryName>United Kingdom</CountryName>
+        <PostalCode>BT99 9ZZ</PostalCode>
+        <CompanyName>My Company</CompanyName>
+        <FirstName>Mr</FirstName>
+        <LastName>Smith</LastName>
+      </Address>
+      <Email>ebay@seller.com</Email>
+      <LegalInvoice>false</LegalInvoice>
+      <VATDetails>
+        <VATSite>GB</VATSite>
+        <VATID>998877665</VATID>
+      </VATDetails>
+    </BusinessSellerDetails>
+    <BuyerGuaranteePrice currencyID="GBP">20000.0</BuyerGuaranteePrice>
+    <BuyerRequirementDetails>
+      <ShipToRegistrationCountry>true</ShipToRegistrationCountry>
+      <MinimumFeedbackScore>-1</MinimumFeedbackScore>
+      <MaximumUnpaidItemStrikesInfo>
+        <Count>2</Count>
+        <Period>Days_30</Period>
+      </MaximumUnpaidItemStrikesInfo>
+    </BuyerRequirementDetails>
+    <ReturnPolicy>
+      <ReturnsWithinOption>Days_30</ReturnsWithinOption>
+      <ReturnsWithin>30 days</ReturnsWithin>
+      <ReturnsAcceptedOption>ReturnsAccepted</ReturnsAcceptedOption>
+      <ReturnsAccepted>Returns Accepted</ReturnsAccepted>
+      <Description>If for an reason you are unhappy you can of course return your item for a full refund. To do so please locate the item in your eBay purchase history and click on the return item option at the right-hand-side. Then simply follow the instructions provided by eBay. Don&apos;t forget to include a note with your eBay username so that we can quickly process your refund.</Description>
+      <ShippingCostPaidByOption>Buyer</ShippingCostPaidByOption>
+      <ShippingCostPaidBy>Buyer</ShippingCostPaidBy>
+      <ExtendedHolidayReturns>true</ExtendedHolidayReturns>
+    </ReturnPolicy>
+    <Variations>
+      <Variation>
+        <SKU>66654</SKU>
+        <StartPrice currencyID="GBP">13.29</StartPrice>
+        <Quantity>55</Quantity>
+        <VariationSpecifics>
+          <NameValueList>
+            <Name>Type</Name>
+            <Value>Necklace</Value>
+          </NameValueList>
+        </VariationSpecifics>
+        <SellingStatus>
+          <QuantitySold>45</QuantitySold>
+          <QuantitySoldByPickupInStore>0</QuantitySoldByPickupInStore>
+        </SellingStatus>
+      </Variation>
+      <Variation>
+        <SKU>66022</SKU>
+        <StartPrice currencyID="GBP">6.99</StartPrice>
+        <Quantity>8</Quantity>
+        <VariationSpecifics>
+          <NameValueList>
+            <Name>Type</Name>
+            <Value>Bracelet</Value>
+          </NameValueList>
+        </VariationSpecifics>
+        <SellingStatus>
+          <QuantitySold>8</QuantitySold>
+          <QuantitySoldByPickupInStore>0</QuantitySoldByPickupInStore>
+        </SellingStatus>
+      </Variation>
+      <Variation>
+        <SKU>66014</SKU>
+        <StartPrice currencyID="GBP">13.29</StartPrice>
+        <Quantity>7</Quantity>
+        <VariationSpecifics>
+          <NameValueList>
+            <Name>Type</Name>
+            <Value>Necklace - Green</Value>
+          </NameValueList>
+        </VariationSpecifics>
+        <SellingStatus>
+          <QuantitySold>6</QuantitySold>
+          <QuantitySoldByPickupInStore>0</QuantitySoldByPickupInStore>
+        </SellingStatus>
+      </Variation>
+      <Variation>
+        <SKU>66017</SKU>
+        <StartPrice currencyID="GBP">6.99</StartPrice>
+        <Quantity>1</Quantity>
+        <VariationSpecifics>
+          <NameValueList>
+            <Name>Type</Name>
+            <Value>Bracelet - Green</Value>
+          </NameValueList>
+        </VariationSpecifics>
+        <SellingStatus>
+          <QuantitySold>1</QuantitySold>
+          <QuantitySoldByPickupInStore>0</QuantitySoldByPickupInStore>
+        </SellingStatus>
+      </Variation>
+      <Variation>
+        <SKU>66015</SKU>
+        <StartPrice currencyID="GBP">13.29</StartPrice>
+        <Quantity>5</Quantity>
+        <VariationSpecifics>
+          <NameValueList>
+            <Name>Type</Name>
+            <Value>Necklace - Blue</Value>
+          </NameValueList>
+        </VariationSpecifics>
+        <SellingStatus>
+          <QuantitySold>1</QuantitySold>
+          <QuantitySoldByPickupInStore>0</QuantitySoldByPickupInStore>
+        </SellingStatus>
+      </Variation>
+      <Variation>
+        <SKU>66011</SKU>
+        <StartPrice currencyID="GBP">13.29</StartPrice>
+        <Quantity>5</Quantity>
+        <VariationSpecifics>
+          <NameValueList>
+            <Name>Type</Name>
+            <Value>Necklace - Pink</Value>
+          </NameValueList>
+        </VariationSpecifics>
+        <SellingStatus>
+          <QuantitySold>0</QuantitySold>
+          <QuantitySoldByPickupInStore>0</QuantitySoldByPickupInStore>
+        </SellingStatus>
+      </Variation>
+      <Variation>
+        <SKU>66010</SKU>
+        <StartPrice currencyID="GBP">13.29</StartPrice>
+        <Quantity>18</Quantity>
+        <VariationSpecifics>
+          <NameValueList>
+            <Name>Type</Name>
+            <Value>Necklace - Tangerine</Value>
+          </NameValueList>
+        </VariationSpecifics>
+        <SellingStatus>
+          <QuantitySold>5</QuantitySold>
+          <QuantitySoldByPickupInStore>0</QuantitySoldByPickupInStore>
+        </SellingStatus>
+      </Variation>
+      <Variation>
+        <SKU>66018</SKU>
+        <StartPrice currencyID="GBP">6.99</StartPrice>
+        <Quantity>5</Quantity>
+        <VariationSpecifics>
+          <NameValueList>
+            <Name>Type</Name>
+            <Value>Bracelet - Tangerine</Value>
+          </NameValueList>
+        </VariationSpecifics>
+        <SellingStatus>
+          <QuantitySold>3</QuantitySold>
+          <QuantitySoldByPickupInStore>0</QuantitySoldByPickupInStore>
+        </SellingStatus>
+      </Variation>
+      <Variation>
+        <SKU>66009</SKU>
+        <StartPrice currencyID="GBP">13.29</StartPrice>
+        <Quantity>16</Quantity>
+        <VariationSpecifics>
+          <NameValueList>
+            <Name>Type</Name>
+            <Value>Necklace - Purple</Value>
+          </NameValueList>
+        </VariationSpecifics>
+        <SellingStatus>
+          <QuantitySold>5</QuantitySold>
+          <QuantitySoldByPickupInStore>0</QuantitySoldByPickupInStore>
+        </SellingStatus>
+      </Variation>
+      <Variation>
+        <SKU>66019</SKU>
+        <StartPrice currencyID="GBP">6.99</StartPrice>
+        <Quantity>5</Quantity>
+        <VariationSpecifics>
+          <NameValueList>
+            <Name>Type</Name>
+            <Value>Bracelet - Purple</Value>
+          </NameValueList>
+        </VariationSpecifics>
+        <SellingStatus>
+          <QuantitySold>4</QuantitySold>
+          <QuantitySoldByPickupInStore>0</QuantitySoldByPickupInStore>
+        </SellingStatus>
+      </Variation>
+      <Pictures>
+        <VariationSpecificName>Type</VariationSpecificName>
+        <VariationSpecificPictureSet>
+          <VariationSpecificValue>Necklace</VariationSpecificValue>
+          <PictureURL>http://i.ebayimg.com/00/s/MTI4MFgxMjgw/z/uSoAAOSwPYZU~vSr/$_1.JPG?set_id=880000500F</PictureURL>
+          <PictureURL>http://i.ebayimg.com/00/s/MTI4MFgxMjgw/z/zXAAAOSweW5U~vSv/$_1.JPG?set_id=880000500F</PictureURL>
+        </VariationSpecificPictureSet>
+        <VariationSpecificPictureSet>
+          <VariationSpecificValue>Bracelet</VariationSpecificValue>
+          <PictureURL>http://i.ebayimg.com/00/s/MTI4MFgxMjgw/z/S8sAAOSw8cNUPmUq/$_1.JPG?set_id=880000500F</PictureURL>
+        </VariationSpecificPictureSet>
+        <VariationSpecificPictureSet>
+          <VariationSpecificValue>Necklace - Green</VariationSpecificValue>
+          <PictureURL>http://i.ebayimg.com/00/s/MTI4MFgxMjgw/z/zhAAAOSwnDxUe6Bm/$_1.JPG?set_id=880000500F</PictureURL>
+        </VariationSpecificPictureSet>
+        <VariationSpecificPictureSet>
+          <VariationSpecificValue>Bracelet - Green</VariationSpecificValue>
+          <PictureURL>http://i.ebayimg.com/00/s/MTI4MFgxMjgw/z/MkYAAOSwAL9Ue6CJ/$_1.JPG?set_id=880000500F</PictureURL>
+        </VariationSpecificPictureSet>
+        <VariationSpecificPictureSet>
+          <VariationSpecificValue>Necklace - Blue</VariationSpecificValue>
+          <PictureURL>http://i.ebayimg.com/00/s/MTI4MFgxMjgw/z/6pAAAOSwkNZUe6DB/$_1.JPG?set_id=880000500F</PictureURL>
+        </VariationSpecificPictureSet>
+        <VariationSpecificPictureSet>
+          <VariationSpecificValue>Bracelet - Blue</VariationSpecificValue>
+          <PictureURL>http://i.ebayimg.com/00/s/MTI4MFgxMjgw/z/YywAAOSwaNBUe6EM/$_1.JPG?set_id=880000500F</PictureURL>
+        </VariationSpecificPictureSet>
+        <VariationSpecificPictureSet>
+          <VariationSpecificValue>Necklace - Pink</VariationSpecificValue>
+          <PictureURL>http://i.ebayimg.com/00/s/MTI4MFgxMjgw/z/YfAAAOSwQJhUe6Fg/$_1.JPG?set_id=880000500F</PictureURL>
+        </VariationSpecificPictureSet>
+        <VariationSpecificPictureSet>
+          <VariationSpecificValue>Bracelet - Pink</VariationSpecificValue>
+          <PictureURL>http://i.ebayimg.com/00/s/MTI4MFgxMjgw/z/bPMAAOSwofxUe6Gn/$_1.JPG?set_id=880000500F</PictureURL>
+        </VariationSpecificPictureSet>
+        <VariationSpecificPictureSet>
+          <VariationSpecificValue>Necklace - Tangerine</VariationSpecificValue>
+          <PictureURL>http://i.ebayimg.com/00/s/MTI4MFgxMjgw/z/~98AAOSwuMFUe6Hb/$_1.JPG?set_id=880000500F</PictureURL>
+        </VariationSpecificPictureSet>
+        <VariationSpecificPictureSet>
+          <VariationSpecificValue>Bracelet - Tangerine</VariationSpecificValue>
+          <PictureURL>http://i.ebayimg.com/00/s/MTI4MFgxMjgw/z/Ax4AAOSwuMFUe6IH/$_1.JPG?set_id=880000500F</PictureURL>
+        </VariationSpecificPictureSet>
+        <VariationSpecificPictureSet>
+          <VariationSpecificValue>Necklace - Purple</VariationSpecificValue>
+          <PictureURL>http://i.ebayimg.com/00/s/MTI4MFgxMjgw/z/aTIAAOSw2XFUe6JI/$_1.JPG?set_id=880000500F</PictureURL>
+        </VariationSpecificPictureSet>
+        <VariationSpecificPictureSet>
+          <VariationSpecificValue>Bracelet - Purple</VariationSpecificValue>
+          <PictureURL>http://i.ebayimg.com/00/s/MTI4MFgxMjgw/z/p~sAAOSwD0lUe6Jk/$_1.JPG?set_id=880000500F</PictureURL>
+        </VariationSpecificPictureSet>
+      </Pictures>
+      <VariationSpecificsSet>
+        <NameValueList>
+          <Name>Type</Name>
+          <Value>Necklace</Value>
+          <Value>Bracelet</Value>
+          <Value>Necklace - Green</Value>
+          <Value>Bracelet - Green</Value>
+          <Value>Necklace - Blue</Value>
+          <Value>Bracelet - Blue</Value>
+          <Value>Necklace - Pink</Value>
+          <Value>Bracelet - Pink</Value>
+          <Value>Necklace - Tangerine</Value>
+          <Value>Bracelet - Tangerine</Value>
+          <Value>Necklace - Purple</Value>
+          <Value>Bracelet - Purple</Value>
+        </NameValueList>
+      </VariationSpecificsSet>
+    </Variations>
+    <ConditionID>1000</ConditionID>
+    <ConditionDisplayName>New with tags</ConditionDisplayName>
+    <PostCheckoutExperienceEnabled>false</PostCheckoutExperienceEnabled>
+    <SellerProfiles>
+      <SellerShippingProfile>
+        <ShippingProfileID>47209688023</ShippingProfileID>
+        <ShippingProfileName>Postage Policy</ShippingProfileName>
+      </SellerShippingProfile>
+      <SellerReturnProfile>
+        <ReturnProfileID>14062580023</ReturnProfileID>
+        <ReturnProfileName>Returns Policy</ReturnProfileName>
+      </SellerReturnProfile>
+      <SellerPaymentProfile>
+        <PaymentProfileID>41189374023</PaymentProfileID>
+        <PaymentProfileName>Payment policy</PaymentProfileName>
+      </SellerPaymentProfile>
+    </SellerProfiles>
+    <ShippingPackageDetails>
+      <ShippingIrregular>false</ShippingIrregular>
+      <ShippingPackage>PackageThickEnvelope</ShippingPackage>
+      <WeightMajor measurementSystem="Metric" unit="kg">0</WeightMajor>
+      <WeightMinor measurementSystem="Metric" unit="gm">0</WeightMinor>
+    </ShippingPackageDetails>
+    <TopRatedListing>true</TopRatedListing>
+    <HideFromSearch>false</HideFromSearch>
+    <PickupInStoreDetails>
+      <AvailableForPickupInStore>true</AvailableForPickupInStore>
+      <EligibleForPickupDropOff>true</EligibleForPickupDropOff>
+    </PickupInStoreDetails>
+  </Item>
+</GetItemResponse>

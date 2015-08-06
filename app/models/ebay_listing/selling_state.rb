@@ -6,16 +6,14 @@ class EbayListing::SellingState
   embedded_in :ebay_listing
 
   # @return [Listing::PromotionalSaleDetail] an optional PromotionalSaleDetail.
-  embeds_one :promotional_sale_detail, class_name: 'EbayListing::PromotionalSaleDetail'
+  embeds_one :promotional_sale_detail, class_name: EbayListing::PromotionalSaleDetail.name
   accepts_nested_attributes_for :promotional_sale_detail
 
   field :admin_ended, type: Boolean, default: false
   field :bid_count, type: Fixnum, default: 0
   field :current_price, type: Money
-  validates :current_price, presence: true
   field :lead_count, type: Fixnum, default: 0
   field :listing_state, type: String
-  validates :listing_state, presence: true
   field :quantity_sold, type: Fixnum, default: 0
   field :quantity_sold_by_pickup_in_store, type: Fixnum, default: 0
 

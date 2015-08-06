@@ -10,27 +10,30 @@ class EbayListing
   # The value assigned to {#listing_duration} for GTC listings.
   GTC ||= 365
 
-  embeds_one :best_offer_detail, class_name: 'EbayListing::BestOfferDetail'
+  embeds_one :best_offer_detail, class_name: EbayListing::BestOfferDetail.name
   accepts_nested_attributes_for :best_offer_detail
 
-  embeds_one :listing_detail, class_name: 'EbayListing::ListingDetail'
+  embeds_one :listing_detail, class_name: EbayListing::ListingDetail.name
   accepts_nested_attributes_for :listing_detail
   validates :listing_detail, presence: true
 
   embeds_one :item_specific,
              store_as: :item_specific,
              as: :name_value_list_containable,
-             class_name: 'EbayListing::NameValueListContainer'
+             class_name: EbayListing::NameValueListContainer.name
   accepts_nested_attributes_for :item_specific
 
-  embeds_one :picture_detail, class_name: 'EbayListing::PictureDetail'
+  embeds_one :picture_detail, class_name: EbayListing::PictureDetail.name
   accepts_nested_attributes_for :picture_detail
 
-  embeds_one :revise_state, class_name: 'EbayListing::ReviseState'
+  embeds_one :revise_state, class_name: EbayListing::ReviseState.name
   accepts_nested_attributes_for :revise_state
 
-  embeds_one :store_front, class_name: 'EbayListing::Storefront'
+  embeds_one :store_front, class_name: EbayListing::Storefront.name
   accepts_nested_attributes_for :store_front
+
+  embeds_one :variation_detail, class_name: EbayListing::VariationDetail.name
+  accepts_nested_attributes_for :variation_detail
 
   # @return [String] 3 character currency ISO code.
   field :currency, type: String, default: 'GBP'

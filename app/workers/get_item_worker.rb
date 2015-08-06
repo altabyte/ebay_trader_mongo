@@ -15,5 +15,6 @@ class GetItemWorker
 
     get_item_request = EbayTradingPack::GetItem.new(auth_token, ebay_item_id)
     save(get_item_request, GetItem::CALL_NAME, get_item_request.timestamp)
+    puts get_item_request.to_s 2
   end
 end

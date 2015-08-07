@@ -6,9 +6,8 @@ class EbayListing::Variation
 
   embedded_in :variation_detail, class_name: EbayListing::VariationDetail.name
 
-  embeds_many :variation_specific,
-             store_as: :variation_specifics,
+  embeds_many :variation_specifics,
              as: :name_value_list_containable,
              class_name: EbayListing::NameValueListContainer.name
-  accepts_nested_attributes_for :variation_specific
+  accepts_nested_attributes_for :variation_specifics
 end

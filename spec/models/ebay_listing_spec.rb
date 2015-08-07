@@ -176,44 +176,49 @@ RSpec.describe EbayListing, type: :model do
 
     describe 'ItemSpecifics' do
 
-      it { expect(listing).to embed_one :item_specific }
+      it { expect(listing).to embed_many :item_specifics }
 
       context 'Before any item specifics are added' do
-        it { expect(listing.item_specific).to be_nil }
+        it { expect(listing.item_specifics).to be_a(Array) }
+        it { expect(listing.item_specifics).to be_empty }
       end
 
       context 'Adding item specifics' do
         let(:item_specifics_hash) do
-          {
-              name_value_lists: [
-                  { name: 'Main Stone', value: ['Lapis'] },
-                  { name: 'Color',      value: 'Blue' },
-                  { name: 'Length',     value: 19 },
-                  { name: 'Theme',      value: ['Fashion Tips', 'Beauty']}
-              ]
-          }
+          [
+            {
+                name_value_lists: [
+                    { name: 'Main Stone', value: ['Lapis'] },
+                    { name: 'Color',      value: 'Blue' },
+                    { name: 'Length',     value: 19 },
+                    { name: 'Theme',      value: ['Fashion Tips', 'Beauty']}
+                ]
+            }
+          ]
         end
-        let(:hash_with_item_specifics) { hash_with_item_specifics = hash.merge(item_specific: item_specifics_hash) }
+        let(:hash_with_item_specifics) { hash_with_item_specifics = hash.merge(item_specifics: item_specifics_hash) }
         subject(:listing) { EbayListing.create(hash_with_item_specifics).reload }
 
         it { puts hash_with_item_specifics.to_yaml }
-        it { expect(listing.item_specific.count).to eq(4) }
+        it { expect(listing.item_specifics.count).to eq(1) }
+        it { expect(listing.item_specifics.first).to be_a(EbayListing::NameValueListContainer) }
 
         it 'should return the value corresponding to name' do
-          expect(listing.item_specific.value_for('Main Stone')).to eq('Lapis')
-          expect(listing.item_specific.value_for('main stone')).to eq('Lapis')
-          expect(listing.item_specific.value_for(:main_stone)).to eq('Lapis')
-          expect(listing.item_specific.value_for('Color')).to eq('Blue')
-          expect(listing.item_specific.value_for('Length')).to eq('19') # String not Fixnum!
-          expect(listing.item_specific.value_for('Theme')).to be_a(Array)
-          expect(listing.item_specific.value_for('Theme').count).to eq(2)
-          expect(listing.item_specific.value_for('UNDEFINED')).to be_nil
-          expect(listing.item_specific.value_for(nil)).to be_nil
-          expect(listing.item_specific.value_for(123)).to be_nil
+          listing.reload
+          expect(listing.item_specifics[0].value_for('Main Stone')).to eq('Lapis')
+          expect(listing.item_specifics[0].value_for('main stone')).to eq('Lapis')
+          expect(listing.item_specifics[0].value_for(:main_stone)).to eq('Lapis')
+          expect(listing.item_specifics[0].value_for('Color')).to eq('Blue')
+          expect(listing.item_specifics[0].value_for('Length')).to eq('19') # String not Fixnum!
+          expect(listing.item_specifics[0].value_for('Theme')).to be_a(Array)
+          expect(listing.item_specifics[0].value_for('Theme').count).to eq(2)
+          expect(listing.item_specifics[0].value_for('UNDEFINED')).to be_nil
+          expect(listing.item_specifics[0].value_for(nil)).to be_nil
+          expect(listing.item_specifics[0].value_for(123)).to be_nil
         end
 
         it 'collects a list of all key names' do
-          names = listing.item_specific.names
+          names = listing.item_specifics.first.names
           expect(names).not_to be_nil
           expect(names).to be_a Array
           expect(names.count).to eq(4)

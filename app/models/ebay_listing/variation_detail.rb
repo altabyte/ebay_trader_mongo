@@ -6,10 +6,9 @@ class EbayListing::VariationDetail
 
   embeds_many :variations, class_name: EbayListing::Variation.name
 
-  embeds_one :variation_specifics_set,
-              store_as: :variation_specifics_set,
+  embeds_many :variation_specifics_sets,
               as: :name_value_list_containable,
               class_name: EbayListing::NameValueListContainer.name
-  accepts_nested_attributes_for :variation_specifics_set
+  accepts_nested_attributes_for :variation_specifics_sets
 
 end

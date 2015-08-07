@@ -8,9 +8,9 @@ GIT
 
 GIT
   remote: git://github.com/altabyte/ebay_trading_pack
-  revision: 3a97ea5526abdfc45d3acc3b8d4738db0ee18228
+  revision: 9d841d1e3aef74cda0c9d91f3e5dc1a51ffd475e
   specs:
-    ebay-trading-pack (0.1.5)
+    ebay-trading-pack (0.1.6)
       activesupport (~> 4.0)
       ebay-trading (~> 0.8)
       money (~> 6.6)
@@ -96,7 +96,7 @@ GEM
       mime-types (>= 1.16, < 3)
     mime-types (2.6.1)
     mini_portile (0.6.2)
-    minitest (5.7.0)
+    minitest (5.8.0)
     money (6.6.1)
       i18n (>= 0.6.4, <= 0.7.0)
     mongoid (4.0.2)

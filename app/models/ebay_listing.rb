@@ -17,11 +17,15 @@ class EbayListing
   accepts_nested_attributes_for :listing_detail
   validates :listing_detail, presence: true
 
-  embeds_one :item_specific,
-             store_as: :item_specific,
-             as: :name_value_list_containable,
-             class_name: EbayListing::NameValueListContainer.name
-  accepts_nested_attributes_for :item_specific
+  # An array of {EbayListing::NameValueListContainer}s describing the listing's
+  # items specifics.
+  # Generally all the item specifics will be in the *first* element of the array,
+  # however eBay's API specification allows for many name-value lists.
+  # @return [Array [EbayListing::NameValueListContainer]]
+  embeds_many :item_specifics,
+              as: :name_value_list_containable,
+              class_name: EbayListing::NameValueListContainer.name
+  accepts_nested_attributes_for :item_specifics
 
   embeds_one :picture_detail, class_name: EbayListing::PictureDetail.name
   accepts_nested_attributes_for :picture_detail
@@ -29,8 +33,8 @@ class EbayListing
   embeds_one :revise_state, class_name: EbayListing::ReviseState.name
   accepts_nested_attributes_for :revise_state
 
-  embeds_one :store_front, class_name: EbayListing::Storefront.name
-  accepts_nested_attributes_for :store_front
+  embeds_one :storefront, class_name: EbayListing::Storefront.name
+  accepts_nested_attributes_for :storefront
 
   embeds_one :variation_detail, class_name: EbayListing::VariationDetail.name
   accepts_nested_attributes_for :variation_detail
@@ -191,8 +195,8 @@ class EbayListing
 
    # Print item specifics
     name_length_max = 0
-    item_specific.names.each { |name| name_length_max = [name_length_max, name.length].max }
-    item_specific.each do |name, value|
+    item_specifics.first.names.each { |name| name_length_max = [name_length_max, name.length].max }
+    item_specifics.first.each do |name, value|
       s << "#{name.rjust(name_length_max + 10)}  ->  #{value}\n"
     end
 

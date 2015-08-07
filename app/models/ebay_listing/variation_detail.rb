@@ -5,6 +5,10 @@ class EbayListing::VariationDetail
   embedded_in :ebay_listing
 
   embeds_many :variations, class_name: EbayListing::Variation.name
+  accepts_nested_attributes_for :variations
+
+  embeds_one :variation_picture, store_as: 'pictures', class_name: EbayListing::VariationPicture.name
+  accepts_nested_attributes_for :variation_picture
 
   embeds_many :variation_specifics_sets,
               as: :name_value_list_containable,

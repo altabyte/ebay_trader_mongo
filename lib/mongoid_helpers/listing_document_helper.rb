@@ -56,6 +56,7 @@ module ListingDocumentHelper
       key = 'variation_detail' if key == 'variations'
       key = 'variations' if key == 'variation'
       key = 'variation_specifics_sets' if key == 'variation_specifics_set'
+      key = 'variation_specific_picture_sets' if key == 'variation_specific_picture_set'
       key
     end
 

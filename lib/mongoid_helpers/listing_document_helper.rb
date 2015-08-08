@@ -47,8 +47,11 @@ module ListingDocumentHelper
 
     item_hash.deep_transform_keys! do |key|
       key = key.to_s
-      key = key.gsub('_status', '_state') if key.match /_status$/i    # 'status' is considered plural by Active Support.
       key = key.gsub('_details', '_detail') if key.match /_details$/i
+      key = key.gsub('_profiles', '_profile') if key.match /_profiles$/i
+      key = key.gsub('_status', '_state') if key.match /_status$/i    # 'status' is considered plural by Active Support.
+
+      key = 'exclude_ship_to_locations' if key == 'exclude_ship_to_location'
       key = 'international_shipping_service_options' if key == 'international_shipping_service_option'
       key = 'name_value_lists' if key == 'name_value_list'
       key = 'quantity_listed' if key == 'quantity'
@@ -79,10 +82,10 @@ module ListingDocumentHelper
       item_hash.delete(:buyer_requirement_detail)
       item_hash.delete(:return_policy)
       item_hash.delete(:seller)
-      item_hash.delete(:seller_profiles)
-      item_hash.delete(:shipping_detail)            # Maybe should leave this in?
+      #item_hash.delete(:seller_profiles)
+      #item_hash.delete(:shipping_detail)            # Maybe should leave this in?
       item_hash.delete(:shipping_package_detail)
-      item_hash.delete(:ship_to_locations)
+      #item_hash.delete(:ship_to_locations)
     end
     item_hash
   end

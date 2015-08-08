@@ -33,6 +33,9 @@ class EbayListing
   embeds_one :revise_state, class_name: EbayListing::ReviseState.name
   accepts_nested_attributes_for :revise_state
 
+  embeds_one :shipping_detail, class_name: EbayListing::ShippingDetail.name
+  accepts_nested_attributes_for :shipping_detail
+
   embeds_one :storefront, class_name: EbayListing::Storefront.name
   accepts_nested_attributes_for :storefront
 

@@ -1,10 +1,12 @@
 require 'rails_helper'
 
 require 'ebay_trading_pack/get_item'
+require 'mongoid_helpers/ebay_userable'
 require 'mongoid_helpers/listing_document_helper'
 
 RSpec.describe ListingDocumentHelper do
   include FileToString # Module located at end of spec_helper.rb
+  include EbayUserable
 
   subject(:klass) { Class.new { extend ListingDocumentHelper } }
 
@@ -31,12 +33,29 @@ RSpec.describe ListingDocumentHelper do
       after do
         cleanup = EbayListing.where(item_id: ebay_item_id)
         cleanup.destroy unless cleanup.nil?
+
+        cleanup = EbayUser.all
+        cleanup.destroy unless cleanup.nil?
       end
 
       it 'Creates a new ebay_listing' do
         expect{ EbayListing.find_by(item_id: ebay_item_id) }.to raise_error Mongoid::Errors::DocumentNotFound
-        klass.save(get_item_request, EbayTradingPack::GetItem::CALL_NAME, get_item_request.timestamp)
+
+        seller_hash = get_item_request.item_hash[:seller]
+        seller = find_or_create_ebay_user(seller_hash, get_item_request.timestamp)
+
+        expect(seller.ebay_listings).to be_empty
+
+        klass.save(get_item_request, seller, EbayTradingPack::GetItem::CALL_NAME, get_item_request.timestamp)
         expect{ EbayListing.find_by(item_id: ebay_item_id) }.not_to raise_error
+        listing = EbayListing.find_by(item_id: ebay_item_id)
+
+        expect(listing).not_to be_nil
+        expect(listing.seller).not_to be_nil
+        expect(listing.seller.id).to eq(seller.id)
+
+        expect(seller.ebay_listings.count).to eq(1)
+
         puts "\n\n#{EbayListing.find_by(item_id: ebay_item_id).summary}\n\n"
       end
 

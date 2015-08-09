@@ -10,6 +10,8 @@ class EbayListing
   # The value assigned to {#listing_duration} for GTC listings.
   GTC ||= 365
 
+  belongs_to :seller, class_name: EbayUser.name
+
   embeds_one :best_offer_detail, class_name: EbayListing::BestOfferDetail.name
   accepts_nested_attributes_for :best_offer_detail
 

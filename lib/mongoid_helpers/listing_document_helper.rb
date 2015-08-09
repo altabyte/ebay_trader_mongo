@@ -17,11 +17,12 @@ module ListingDocumentHelper
     my_sellers_ids.include?(ebay_username.downcase)
   end
 
-  def save(item_details, call_name, timestamp)
+  def save(item_details, seller, call_name, timestamp)
     raise 'ItemDetails not valid' unless item_details && item_details.is_a?(EbayTradingPack::ItemDetails)
     item_id = item_details.item_id
 
     item_hash = restructure_item_hash(item_details.item_hash.deep_dup)
+    item_hash[:seller] = seller
     puts item_hash.to_yaml
 
     puts "Call name:  #{call_name}"
@@ -29,7 +30,6 @@ module ListingDocumentHelper
 
     begin
       listing = EbayListing.find_by(item_id: item_id)
-      item_hash[:title] = 'Upgraded Awesome Item'
       listing.update_attributes(item_hash)
     rescue Mongoid::Errors::DocumentNotFound
       listing = EbayListing.create!(item_hash)

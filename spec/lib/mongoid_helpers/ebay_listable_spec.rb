@@ -2,13 +2,13 @@ require 'rails_helper'
 
 require 'ebay_trading_pack/get_item'
 require 'mongoid_helpers/ebay_userable'
-require 'mongoid_helpers/listing_document_helper'
+require 'mongoid_helpers/ebay_listable'
 
-RSpec.describe ListingDocumentHelper do
+RSpec.describe EbayListable do
   include FileToString # Module located at end of spec_helper.rb
   include EbayUserable
 
-  subject(:klass) { Class.new { extend ListingDocumentHelper } }
+  subject(:klass) { Class.new { extend EbayListable } }
 
   it { is_expected.not_to be_nil }
   it { is_expected.to respond_to :save }

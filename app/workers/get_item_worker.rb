@@ -1,7 +1,7 @@
 require 'ebay_trading_pack'
 require 'ebay_trading_pack/get_item'
 require 'mongoid_helpers/ebay_userable'
-require 'mongoid_helpers/listing_document_helper'
+require 'mongoid_helpers/ebay_listable'
 
 include EbayTradingPack
 
@@ -10,7 +10,7 @@ class GetItemWorker
   sidekiq_options retry: false
 
   include EbayUserable
-  include ListingDocumentHelper
+  include EbayListable
 
   def perform(auth_token, ebay_item_id)
     puts "\nRequesting details for eBay item: #{ebay_item_id}"

@@ -3,7 +3,7 @@ require 'active_support/core_ext/object/deep_dup'
 require 'ebay_trading_pack'
 require 'ebay_trading_pack/helpers/item_details'
 
-module ListingDocumentHelper
+module EbayListable
 
   # Determine if +ebay_username+ is one of my selling accounts.
   # @param [String] ebay_username the eBay username to be verified.

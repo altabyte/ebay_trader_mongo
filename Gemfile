@@ -4,7 +4,7 @@ gem 'ebay-trading', git: 'git://github.com/altabyte/ebay_trading.git'
 gem 'ebay-trading-pack', git: 'git://github.com/altabyte/ebay_trading_pack'
 
 gem 'rails',        '4.2.3'
-gem 'mongoid',      '~> 4.0.0'
+gem 'mongoid',      '~> 5.0.0.beta'
 gem 'money',        '~> 6.6'
 gem 'sidekiq',      '~> 3.4'
 gem 'sinatra', require: false
@@ -47,7 +47,7 @@ group :development, :test do
   gem 'spring'
 
   gem 'rspec-rails'
-  gem 'mongoid-rspec', '~> 2.1.0'
+  gem 'mongoid-rspec', '2.3.0.beta'
 end
 
 group :test do

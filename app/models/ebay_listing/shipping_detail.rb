@@ -41,7 +41,7 @@ class EbayListing::ShippingDetail
   # This flag returns true if the Exclude Ship-To List is enabled by the seller for the
   # associated item. If false, the seller's Exclude Ship-To List is either not set up,
   # or it has been overridden by the seller when they listed the item with
-  # {#exclude_ship_to_locations} fields.
+  # +exclude_ship_to_locations+ fields.
   # @return [Boolean] +true+ if using seller account level exclude list.
   field :seller_exclude_ship_to_locations_preference, type: Boolean, default: false
 

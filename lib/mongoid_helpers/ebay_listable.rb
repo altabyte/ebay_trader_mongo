@@ -5,16 +5,22 @@ require 'ebay_trading_pack/helpers/item_details'
 
 module EbayListable
 
-  # Determine if +ebay_username+ is one of my selling accounts.
+  # Determine if +ebay_username+ is one of *my* selling accounts.
+  #
+  # The eBay user IDs for my selling accounts are stored in environmental variables
+  # with keys beginning with +'EBAY_API_USERNAME_'+.
+  #
+  # @todo Find my seller accounts from {EbayUser} models rather than environmental variables.
+  #
   # @param [String] ebay_username the eBay username to be verified.
-  # @return [Boolean] +true+ if +ebay_username+ belongs to me.
+  # @return [Boolean] +true+ if +ebay_username+ is one of my seller accounts.
   #
   def my_seller_account_username?(ebay_username)
-    my_sellers_ids = []
-    my_sellers_ids << ENV['EBAY_API_USERNAME_AR']
-    my_sellers_ids << ENV['EBAY_API_USERNAME_TT']
-    my_sellers_ids << 'seller_1'                    # Used in my RSpec tests
-    my_sellers_ids.include?(ebay_username.downcase)
+    my_seller_ids = []
+    env_user_keys = ENV.keys.find_all { |key| key =~ /^EBAY_API_USERNAME_/ }
+    env_user_keys.each { |key| my_seller_ids << ENV[key] }
+    my_seller_ids << 'TESTUSER_seller_1' # Used in my RSpec tests
+    my_seller_ids.include?(ebay_username.downcase)
   end
 
   def save(item_details, seller, call_name, timestamp)

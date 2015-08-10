@@ -46,7 +46,7 @@ class EbayUser
   # Restructure the given hash of user details so that it is more compatible with
   # MongoDB.
   #
-  # @param [Hash] user_hash the Hash of user data created by {EbayTradingPack::GetUser}
+  # @param [Hash] user_hash the Hash of user data created by EbayTradingPack::GetUser
   #
   # @return the same hash with some fields modified for this application.
   #

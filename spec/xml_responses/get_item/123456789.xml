@@ -64,7 +64,7 @@
       <RegistrationDate>2005-03-24T11:59:47.000Z</RegistrationDate>
       <Site>UK</Site>
       <Status>Confirmed</Status>
-      <UserID>seller_1</UserID>
+      <UserID>TESTUSER_seller_1</UserID>
       <UserIDChanged>false</UserIDChanged>
       <UserIDLastChanged>2006-07-06T21:36:47.000Z</UserIDLastChanged>
       <VATStatus>VATExempt</VATStatus>

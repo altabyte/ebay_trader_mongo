@@ -14,7 +14,7 @@ RSpec.describe EbayListing, type: :model do
     let(:title) { 'eBay item title' }
     let(:hash) {
       {
-          seller_username:        'seller_1',
+          seller_username:        'TESTUSER_seller_1',
           site:                   'UK',
           listing_type:           'FixedPriceItem',
           sku:                    sku,

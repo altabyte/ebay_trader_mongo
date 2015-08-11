@@ -2,6 +2,7 @@ module EbayUserable
 
   def find_or_create_ebay_user(user_hash, timestamp)
     raise 'Cannot find or create user from invalid hash' unless user_hash.is_a?(Hash) && user_hash.key?(:user_id)
+    user_hash = EbayUser.restructure_hash(user_hash)
     user_id = user_hash[:user_id]
 
     user_hash[:timestamp] = timestamp

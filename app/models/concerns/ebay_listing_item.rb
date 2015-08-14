@@ -22,9 +22,12 @@ module EbayListingItem
 
     # The start price of this ebay_listing, which is actually its current price.
     # If the item is currently on sale then +sale_price+ will show the discounted price.
+    #
+    # GetMyeBaySelling does not return Item.StartPrice for fixed price items--it returns
+    # +Item.SellingStatus.CurrentPrice+.
+    #
     # @return [Money] the start price.
     field :start_price, type: Money
-    validates :start_price, presence: true
 
   end
 end

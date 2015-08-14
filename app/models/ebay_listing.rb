@@ -71,8 +71,13 @@ class EbayListing
   field :listing_duration, type: Fixnum
   validates :listing_duration, numericality: { only_integer: true, greater_than: 0 }
 
+  # The type of listing, which can be 'Chinese' or 'FixedPrice'.
+  #
+  # This field is NOT returned be GetSellerList calls!
+  #
+  # @return [String] The type of listing, 'Chinese' or 'FixedPrice'
   field :listing_type, type: String
-  validates :listing_type, presence: true
+  #validates :listing_type, presence: true
 
   # @return [Fixnum] the primary category ID.
   field :primary_category_id, type: Fixnum
@@ -95,9 +100,9 @@ class EbayListing
   field :secondary_category_id, type: Fixnum
 
   # @return [String] the eBay username of the seller.
-  field :seller_username, type: String
-  attr_readonly :seller_username
-  validates :seller_username, presence: true
+  #field :seller_username, type: String
+  #attr_readonly :seller_username
+  #validates :seller_username, presence: true
 
   # @return [String] The name of the site on which the item is listed.
   # @see http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/GetItem.html#Response.Item.Site

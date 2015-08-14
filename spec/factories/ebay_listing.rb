@@ -1,6 +1,5 @@
 FactoryGirl.define do
   factory :ebay_listing do
-    seller_username       'TESTUSER_seller_1'
     site                  'UK'
     listing_type          'FixedPriceItem'
     title                 'eBay item title'

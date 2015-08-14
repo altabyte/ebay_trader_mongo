@@ -3,6 +3,29 @@ require "#{Rails.root}/app/workers/get_user_worker"
 
 namespace :request do
 
+  # $ ./bin/rake request:get_user[ebay-username]
+  desc 'Request the details for an eBay user'
+  task :get_user, [:ebay_username] do |t, args|
+    begin
+      user_id = args[:ebay_username]
+      puts "Requesting eBay user details for '#{user_id}'"
+      auth_token = EbayTrading.configuration.auth_token_for(user_id)
+      if auth_token.nil?
+        # If auth_token is nil it means the user whose details are requested
+        # is not one of my accounts. In this case just use any one of my
+        # production auth_tokens.
+        my_user_id = ENV['EBAY_API_USERNAME_TT']
+        auth_token = EbayTrading.configuration.auth_token_for(my_user_id)
+        puts "  using auth token from #{my_user_id}"
+      end
+
+      GetUserWorker.perform_async(auth_token, user_id)
+    rescue Exception => e
+      puts e.message
+    end
+  end
+
+
   # $ ./bin/rake request:get_item[ebay-username,123456789] RAILS_ENV=production
   desc 'Request the details for a single eBay item ebay_listing'
   task :get_item, [:ebay_username, :item_id] do |t, args|
@@ -22,13 +45,13 @@ namespace :request do
   end
 
 
-  # $ ./bin/rake request:get_user[ebay-username]
-  desc 'Request the details for an eBay user'
-  task :get_user, [:ebay_username] do |t, args|
+  # $ ./bin/rake request:get_seller_list[ebay-username] RAILS_ENV=production
+  desc 'Request an eBay sellers complete list of items'
+  task :get_seller_list, [:ebay_username] do |t, args|
     begin
-      user_id = args[:ebay_username]
-      puts "Requesting eBay user details for '#{user_id}'"
-      auth_token = EbayTrading.configuration.auth_token_for(user_id)
+      seller_id = args[:ebay_username]
+      puts "Requesting seller list for eBay user '#{seller_id}'"
+      auth_token = EbayTrading.configuration.auth_token_for(seller_id)
       if auth_token.nil?
         # If auth_token is nil it means the user whose details are requested
         # is not one of my accounts. In this case just use any one of my
@@ -38,7 +61,7 @@ namespace :request do
         puts "  using auth token from #{my_user_id}"
       end
 
-      GetUserWorker.perform_async(auth_token, user_id)
+      GetSellerListWorker.perform_async(auth_token, seller_id)
     rescue Exception => e
       puts e.message
     end

@@ -16,6 +16,7 @@ module EbayListable
   # @return [Boolean] +true+ if +ebay_username+ is one of my seller accounts.
   #
   def my_seller_account_username?(ebay_username)
+    return false if ebay_username.blank?
     my_seller_ids = []
     env_user_keys = ENV.keys.find_all { |key| key =~ /^EBAY_API_USERNAME_/ }
     env_user_keys.each { |key| my_seller_ids << ENV[key] }
@@ -27,8 +28,8 @@ module EbayListable
     raise 'ItemDetails not valid' unless item_details && item_details.is_a?(EbayTradingPack::ItemDetails)
     item_id = item_details.item_id
 
-    item_hash = restructure_item_hash(item_details.item_hash.deep_dup)
-    item_hash[:seller] = seller
+    item_hash = restructure_item_hash(item_details.item_hash.deep_dup.merge({ seller: seller }))
+    #item_hash[:seller] = seller
     puts item_hash.to_yaml
 
     puts "Call name:  #{call_name}"
@@ -48,8 +49,16 @@ module EbayListable
   #               from API calls such as GetItem, GetSellerList etc.
   # @return [Hash] +item_hash+ restructured.
   def restructure_item_hash(item_hash)
-    seller_username = item_hash[:seller][:user_id]
-    item_hash[:seller_username] = seller_username
+    seller = item_hash[:seller]
+    seller_username = case
+                        when seller.is_a?(Hash) then item_hash[:seller][:user_id]
+                        when seller.is_a?(HashWithIndifferentAccess) then item_hash[:seller][:user_id]
+                        when seller.is_a?(EbayUser) then seller.user_id
+                        else
+                          nil
+                      end
+    #seller_username = item_hash[:seller][:user_id]
+    #item_hash[:seller_username] = seller_username
 
     item_hash.deep_transform_keys! do |key|
       key = key.to_s
@@ -87,11 +96,9 @@ module EbayListable
       item_hash.delete(:buyer_guarantee_price)      # For the Australia site only
       item_hash.delete(:buyer_requirement_detail)
       item_hash.delete(:return_policy)
-      item_hash.delete(:seller)
       #item_hash.delete(:seller_profiles)
       #item_hash.delete(:shipping_detail)            # Maybe should leave this in?
       item_hash.delete(:shipping_package_detail)
-      #item_hash.delete(:ship_to_locations)
     end
     item_hash
   end

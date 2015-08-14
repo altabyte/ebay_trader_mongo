@@ -51,41 +51,4 @@ class GetSellerListWorker
       save(item, seller, GetSellerList::CALL_NAME, get_seller_list.timestamp)
     end
   end
-
-
-=begin
-  def perform_1(auth_token, seller_username, page_number = 1, per_page = 200, pipeline = true)
-
-    begin
-      seller = EbayUser.find_by(user_id: seller_username)
-    rescue Mongoid::Errors::DocumentNotFound
-      GetUserWorker.perform_async(auth_token, seller_username)
-      raise "Seller details for '#{seller_username}' not available!"
-    end
-
-
-    page_number = 0
-    number_of_pages = nil
-
-    begin # Loop
-      page_number += 1
-
-      message = "# Getting page number #{page_number}"
-      message << " of #{number_of_pages}" if number_of_pages
-      puts message, "\r"
-
-      get_seller_list = GetSellerList.new(auth_token, page_number, per_page: PER_PAGE, http_timeout: HTTP_TIMEOUT)
-      raise get_seller_list.errors.first[:short_message] if get_seller_list.has_errors?
-      number_of_pages = get_seller_list.total_number_of_pages
-
-      puts "Found #{get_seller_list.count} items."
-
-      get_seller_list.each do |item|
-        puts "\n\n#{item.summary(true)}\n\n"
-        save(item, seller, GetSellerList::CALL_NAME, get_seller_list.timestamp)
-      end
-
-    end #while seller_list.has_more_items?
-  end
-=end
 end

@@ -1,9 +1,10 @@
+require 'redis'
 require 'ebay_trading'
 
 EbayTrading.configure do |config|
 
   # http://developer.ebay.com/DevZone/XML/docs/ReleaseNotes.html
-  config.ebay_api_version = 931
+  config.ebay_api_version = 933
 
   config.environment = :production
 
@@ -17,4 +18,14 @@ EbayTrading.configure do |config|
 
   config.store_auth_token(ENV['EBAY_API_USERNAME_AR'], ENV['EBAY_API_AUTH_TOKEN_AR'])
   config.store_auth_token(ENV['EBAY_API_USERNAME_TT'], ENV['EBAY_API_AUTH_TOKEN_TT'])
+
+  config.counter = lambda {
+    begin
+      redis = Redis.new(host: 'localhost')
+      key = "ebay_trading:production:call_count:#{Time.now.utc.strftime('%Y-%m-%d')}"
+      redis.incr(key)
+    rescue SocketError
+      logger.error 'Failed to increment Redis call counter!'
+    end
+  }
 end

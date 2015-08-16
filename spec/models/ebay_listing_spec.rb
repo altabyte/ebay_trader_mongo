@@ -12,6 +12,7 @@ RSpec.describe EbayListing, type: :model do
   context 'When creating a new ebay_listing from a Raw Hash' do
     let(:sku)   { 'SKU1' }
     let(:title) { 'eBay item title' }
+    let(:timestamp) { Time.now.utc }
     let(:hash) {
       {
           seller_username:        'TESTUSER_seller_1',
@@ -39,7 +40,12 @@ RSpec.describe EbayListing, type: :model do
       }
     }
 
-    subject(:listing) { EbayListing.create(hash) }
+    subject(:listing) do
+      listing = EbayListing.new(hash)
+      listing.add_timestamp 'GetItem', timestamp
+      listing.save
+      listing
+    end
 
     it { is_expected.not_to be_nil }
     it { is_expected.to be_valid }
@@ -150,7 +156,10 @@ RSpec.describe EbayListing, type: :model do
           list_detail = hash[:listing_detail]
           list_detail[:best_offer_auto_accept_price] = Money.new(9_99)
           list_detail[:minimum_best_offer_price]     = Money.new(7_99)
-          EbayListing.create(best_offer_hash).reload
+          listing = EbayListing.new(best_offer_hash)
+          listing.add_timestamp 'GetItem', timestamp
+          listing.save
+          listing.reload
         }
 
         it { expect(listing).to embed_one :best_offer_detail }
@@ -197,7 +206,12 @@ RSpec.describe EbayListing, type: :model do
           ]
         end
         let(:hash_with_item_specifics) { hash_with_item_specifics = hash.merge(item_specifics: item_specifics_hash) }
-        subject(:listing) { EbayListing.create(hash_with_item_specifics).reload }
+        subject(:listing) do
+          listing = EbayListing.new(hash_with_item_specifics)
+          listing.add_timestamp 'GetItem', timestamp
+          listing.save
+          listing
+        end
 
         it { puts hash_with_item_specifics.to_yaml }
         it { expect(listing.item_specifics.count).to eq(1) }
@@ -228,32 +242,82 @@ RSpec.describe EbayListing, type: :model do
     end
   end
 
+
+
   context 'FactoryGirl ebay_listing' do
     let(:sku) { 'ABC123' }
-    subject (:ebay_listing) { FactoryGirl.create(:ebay_listing, item_id: ebay_item_id, sku: sku) }
+    let(:timestamp) { Time.now.utc }
+    subject (:ebay_listing) do
+      listing = FactoryGirl.build(:ebay_listing, item_id: ebay_item_id, sku: sku)
+      listing.add_timestamp 'GetItem', timestamp
+      listing.save
+      listing
+    end
 
     it { is_expected.not_to be_nil }
+    it { is_expected.to be_valid }
     it { ebay_listing; expect(EbayListing.count).to eq(1) }
-
     it { expect(ebay_listing.sku).to eq(sku) }
     it { is_expected.to have_index_for(item_id: 1).with_options(unique: true) }
     it { is_expected.to validate_presence_of(:sku) }
     it { is_expected.to validate_presence_of(:title) }
 
-    it 'should have a Money start price' do
-      ebay_listing.reload
-      expect(ebay_listing.start_price).not_to be_nil
-      expect(ebay_listing.start_price).to be_a(Money)
-      expect(ebay_listing.start_price.currency).to eq('GBP')
-      puts "Start Price: #{ebay_listing.start_price.symbol}#{ebay_listing.start_price}"
-      usd = ebay_listing.start_price.exchange_to('USD')
-      puts "             #{usd.symbol}#{usd}"
-      eur = ebay_listing.start_price.exchange_to('EUR')
-      puts "             #{eur.symbol}#{eur}"
 
-      expect(ebay_listing[:start_price]).to be_a(Hash)
-      expect(ebay_listing[:start_price]).to have_key('cents')
-      expect(ebay_listing[:start_price]).to have_key('currency')
+    describe 'Timestamps' do
+      it { expect(ebay_listing).to embed_many :timestamps }
+      it { expect(ebay_listing.timestamps).not_to be_empty }
+      it { expect(ebay_listing.last_updated).not_to be_nil }
+
+      it 'adds a timestamp' do
+        timestamp_count = ebay_listing.timestamps.count
+        expect(ebay_listing.add_timestamp('GetSellerList', Time.now)).to be true
+        expect(ebay_listing.timestamps.size).to eq(timestamp_count + 1)
+        expect(ebay_listing.timestamps.last).to be_valid
+      end
+
+      it 'fails to add a timestamp with an invalid call name' do
+        timestamp_count = ebay_listing.timestamps.count
+        expect(ebay_listing.add_timestamp('INVALID_NAME', Time.now)).to be false
+        expect(ebay_listing.timestamps.count).to eq(timestamp_count)
+      end
+
+      it 'sorts timestamps' do
+        times = [Time.now.utc, Time.now.utc + 1.days, Time.now.utc - 1.days, Time.now.utc - 2.hours]
+        times.each { |time| ebay_listing.add_timestamp 'GetSellerList', time }
+
+        # Need to save then reload for ordering
+        expect(ebay_listing.save).to be true
+        ebay_listing.reload
+
+        expect(ebay_listing.timestamps.count).to eq(times.count + 1)
+        expect(ebay_listing.timestamps.last.time.to_i).to eq(times[1].to_i)
+
+        # Check times are in ascending order
+        (1...ebay_listing.timestamps.count).each do |i|
+          expect(ebay_listing.timestamps[i-1].time).to be < ebay_listing.timestamps[i].time
+        end
+
+        expect(ebay_listing.last_updated.to_i).to eq(times[1].to_i)
+      end
+    end
+
+
+    describe 'start_price' do
+      it 'should have a Money start price' do
+        ebay_listing.reload
+        expect(ebay_listing.start_price).not_to be_nil
+        expect(ebay_listing.start_price).to be_a(Money)
+        expect(ebay_listing.start_price.currency).to eq('GBP')
+        puts "Start Price: #{ebay_listing.start_price.symbol}#{ebay_listing.start_price}"
+        usd = ebay_listing.start_price.exchange_to('USD')
+        puts "             #{usd.symbol}#{usd}"
+        eur = ebay_listing.start_price.exchange_to('EUR')
+        puts "             #{eur.symbol}#{eur}"
+
+        expect(ebay_listing[:start_price]).to be_a(Hash)
+        expect(ebay_listing[:start_price]).to have_key('cents')
+        expect(ebay_listing[:start_price]).to have_key('currency')
+      end
     end
 
 

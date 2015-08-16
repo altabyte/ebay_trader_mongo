@@ -1,7 +1,6 @@
 class EbayListing
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
-  include Mongoid::Timestamps # Define created_at and updated_at fields
 
   include EbayListingItem # For functionality shared with Variation
 
@@ -40,6 +39,10 @@ class EbayListing
 
   embeds_one :storefront, class_name: EbayListing::Storefront.name
   accepts_nested_attributes_for :storefront
+
+  # @note Use {#add_timestamp} method to create new timestamps!
+  embeds_many :timestamps, class_name: EbayListing::Timestamp.name, order: :time.asc
+  validates :timestamps, presence: true # Ensure array is not empty
 
   embeds_one :variation_detail, class_name: EbayListing::VariationDetail.name
   accepts_nested_attributes_for :variation_detail
@@ -131,6 +134,27 @@ class EbayListing
   # The number of people watching this ebay_listing.
   field :watch_count, type: Fixnum, default: 0
 
+  # Add an API call name {EbayListing::Timestamp} to this listing.
+  # @param [String] call_name the name of the API call, such as +GetSellerList+.
+  # @param [Time] time the response time returned by the API request.
+  # @return [Boolean] +true+ if new timestamp successfully added.
+  def add_timestamp(call_name, time)
+    timestamps.each { |ts| return false if ts.time == time && ts.call_name == call_name }
+    timestamp = EbayListing::Timestamp.new(time: time, call_name: call_name)
+    return false unless timestamp.valid?
+    timestamps << timestamp
+    true
+  end
+
+  # Get the +Time+ when this document was last updated via any API call.
+  # @param [String] call_name optionally provide the name of the API call.
+  # @return [Time] last updated time.
+  def last_updated(call_name = nil)
+    return nil if timestamps.empty?
+    return timestamps.last.time if call_name.blank?
+    timestamps.each { |ts| return ts.time if ts.call_name == call_name }
+    nil
+  end
 
   # Set the ebay_listing duration as a number of days.
   # This can be an integer number of days, or a string such as

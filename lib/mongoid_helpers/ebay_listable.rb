@@ -29,18 +29,22 @@ module EbayListable
     item_id = item_details.item_id
 
     item_hash = restructure_item_hash(item_details.item_hash.deep_dup.merge({ seller: seller }))
-    #item_hash[:seller] = seller
-    puts item_hash.to_yaml
+    #puts item_hash.to_yaml
 
-    puts "Call name:  #{call_name}"
-    puts "Timestamp:  #{timestamp}"
+    listing = EbayListing.where(item_id: item_id).exists? ? EbayListing.find_by(item_id: item_id) : EbayListing.new(item_hash)
+    listing.add_timestamp call_name, timestamp
+    listing.update_attributes(item_hash) if timestamp > listing.last_updated
+    listing.save!
 
-    begin
-      listing = EbayListing.find_by(item_id: item_id)
-      listing.update_attributes(item_hash)
-    rescue Mongoid::Errors::DocumentNotFound
-      listing = EbayListing.create!(item_hash)
-    end
+    #begin
+    #  listing = EbayListing.find_by(item_id: item_id)
+    #  listing.update_attributes(item_hash) if timestamp > listing.last_updated
+    #rescue Mongoid::Errors::DocumentNotFound
+    #  listing = EbayListing.create(item_hash)
+    #ensure
+    #  listing.timestamps << EbayListing::Timestamp.new(call_name: call_name, time: timestamp)
+    #  listing.save!
+    #end
   end
 
   # Restructure the +item_hash+ so that it is compatible with MongoDB
@@ -57,8 +61,6 @@ module EbayListable
                         else
                           nil
                       end
-    #seller_username = item_hash[:seller][:user_id]
-    #item_hash[:seller_username] = seller_username
 
     item_hash.deep_transform_keys! do |key|
       key = key.to_s

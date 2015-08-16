@@ -8,7 +8,7 @@ RSpec.describe GetSellerListWorker do
     # This can later be changed to Sandbox environment once AddItem API calls are implemented.
     configure_api_production
 
-    @seller_user_id  = ENV['EBAY_API_USERNAME_TT']
+    @seller_user_id = ENV['EBAY_API_USERNAME_TT']
     @auth_token = ENV['EBAY_API_AUTH_TOKEN_TT']
 
     @seller = FactoryGirl.create :ebay_user, user_id: @seller_user_id
@@ -44,9 +44,25 @@ RSpec.describe GetSellerListWorker do
       GetSellerListWorker.new.perform(@auth_token, @seller_user_id, page_number, per_page, pipeline)
     end
 
-    it '' do
-      puts 'counting'
-      expect(seller.ebay_listings.count).to be > 0
+    let(:listings) { seller.ebay_listings }
+
+    it {
+      expect(listings.count).to be > 0
+      puts "Downloaded #{listings.count} eBay listings."
+    }
+
+    describe 'timestamps' do
+      let(:listing) { listings.first }
+
+      it { expect(listing.last_updated).not_to be_nil }
+      it { expect(listing.last_updated).to be_a Time }
+      it { puts "eBay item #{listing.item_id} last updated #{listing.last_updated}" }
+
+      context 'when specifying call name for #last_updated' do
+        it { expect(listing.last_updated('ABC')).to be_nil }
+        it { expect(listing.last_updated('GetSellerList')).not_to be_nil }
+        it { expect(listing.last_updated).to eq(listing.last_updated('GetSellerList')) }
+      end
     end
   end
 end

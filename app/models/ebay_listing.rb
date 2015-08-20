@@ -6,6 +6,8 @@ class EbayListing
 
   store_in collection: 'ebay_listings'
 
+  before_save :update_hit_count_history
+
   # The value assigned to {#listing_duration} for GTC listings.
   GTC ||= 365
 
@@ -14,9 +16,7 @@ class EbayListing
   embeds_one :best_offer_detail, class_name: EbayListing::BestOfferDetail.name
   accepts_nested_attributes_for :best_offer_detail
 
-  embeds_one :listing_detail, class_name: EbayListing::ListingDetail.name
-  accepts_nested_attributes_for :listing_detail
-  validates :listing_detail, presence: true
+  has_many :hits, class_name: EbayListing::Hit.name, order: :count.asc, autosave: true
 
   # An array of {EbayListing::NameValueListContainer}s describing the listing's
   # items specifics.
@@ -27,6 +27,10 @@ class EbayListing
               as: :name_value_list_containable,
               class_name: EbayListing::NameValueListContainer.name
   accepts_nested_attributes_for :item_specifics
+
+  embeds_one :listing_detail, class_name: EbayListing::ListingDetail.name
+  accepts_nested_attributes_for :listing_detail
+  validates :listing_detail, presence: true
 
   embeds_one :picture_detail, class_name: EbayListing::PictureDetail.name
   accepts_nested_attributes_for :picture_detail
@@ -235,5 +239,18 @@ class EbayListing
     end
 
     s
+  end
+
+  #---------------------------------------------------------------------------
+  private
+
+  # Add a new {EbayListing::Hit} to {hits} if the value of hit_count
+  # has changed since last saved.
+  def update_hit_count_history
+    last = hits.empty? ? 0 : hits.last.count
+    if hit_count > last
+      hits << EbayListing::Hit.new(time: last_updated,
+                                   count: hit_count)
+    end
   end
 end

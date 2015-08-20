@@ -9,7 +9,7 @@ FactoryGirl.define do
     start_price           Money.new(10_00)
     listing_duration      EbayListing::GTC
     primary_category_id   164332
-
+    hit_count             56
 
     listing_detail        { FactoryGirl.build(:listing_detail) }
     selling_state         { FactoryGirl.build(:selling_state) }

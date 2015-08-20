@@ -246,9 +246,13 @@ RSpec.describe EbayListing, type: :model do
 
   context 'FactoryGirl ebay_listing' do
     let(:sku) { 'ABC123' }
+    let(:hit_count) { 321 }
     let(:timestamp) { Time.now.utc }
     subject (:ebay_listing) do
-      listing = FactoryGirl.build(:ebay_listing, item_id: ebay_item_id, sku: sku)
+      listing = FactoryGirl.build(:ebay_listing,
+                                  item_id: ebay_item_id,
+                                  sku: sku,
+                                  hit_count: hit_count)
       listing.add_timestamp 'GetItem', timestamp
       listing.save
       listing
@@ -298,6 +302,42 @@ RSpec.describe EbayListing, type: :model do
         end
 
         expect(ebay_listing.last_updated.to_i).to eq(times[1].to_i)
+      end
+    end
+
+
+    describe 'Hits' do
+      it { expect(ebay_listing.hit_count).to eq(hit_count) }
+
+      it { expect(ebay_listing).to have_many :hits }
+      it { expect(ebay_listing.hits).not_to be_empty }
+      it { expect(ebay_listing.hits.size).to eq(1) }
+      it { expect(ebay_listing.hits.last.count).to eq(ebay_listing.hit_count) }
+
+      it { expect(ebay_listing.hits.last.sku).to eq(sku) }
+      it { expect(ebay_listing.hits.last.item_id).to eq(ebay_listing.item_id) }
+      it { expect(ebay_listing.hits.last.on_sale).to eq(ebay_listing.on_sale_now?) }
+
+      describe 'updating hit_count' do
+        let(:new_hit_count) { ebay_listing.hit_count + 5 }
+
+        it 'adds a new Hit' do
+          ebay_listing.hit_count = new_hit_count
+          expect(ebay_listing.save).to be true
+          ebay_listing.reload
+          expect(ebay_listing.hit_count).to eq(new_hit_count)
+
+          expect(ebay_listing.hits.size).to eq(2)
+          expect(ebay_listing.hits.last.count).to eq(new_hit_count)
+        end
+
+        it 'does not add a new Hit if hit_count is unchanged' do
+          ebay_listing.hit_count = hit_count
+          expect(ebay_listing.save).to be true
+          ebay_listing.reload
+          expect(ebay_listing.hits.size).to eq(1)
+          expect(ebay_listing.hits.last.count).to eq(hit_count)
+        end
       end
     end
 

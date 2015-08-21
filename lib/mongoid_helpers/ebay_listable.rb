@@ -1,4 +1,5 @@
 require 'active_support/core_ext/object/deep_dup'
+require 'active_support/time'
 
 require 'ebay_trading_pack'
 require 'ebay_trading_pack/helpers/item_details'
@@ -32,19 +33,12 @@ module EbayListable
     #puts item_hash.to_yaml
 
     listing = EbayListing.where(item_id: item_id).exists? ? EbayListing.find_by(item_id: item_id) : EbayListing.new(item_hash)
-    listing.add_timestamp call_name, timestamp
-    listing.update_attributes(item_hash) if timestamp > listing.last_updated
+    last_updated = listing.last_updated || Time.parse('1995-09-03T00:00:00 UTC') # eBay's Birthday
+    if timestamp > last_updated
+      listing.add_timestamp call_name, timestamp
+      listing.update_attributes(item_hash) unless listing.new_record?
+    end
     listing.save!
-
-    #begin
-    #  listing = EbayListing.find_by(item_id: item_id)
-    #  listing.update_attributes(item_hash) if timestamp > listing.last_updated
-    #rescue Mongoid::Errors::DocumentNotFound
-    #  listing = EbayListing.create(item_hash)
-    #ensure
-    #  listing.timestamps << EbayListing::Timestamp.new(call_name: call_name, time: timestamp)
-    #  listing.save!
-    #end
   end
 
   # Restructure the +item_hash+ so that it is compatible with MongoDB

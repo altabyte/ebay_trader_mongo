@@ -22,6 +22,6 @@ class GetItemWorker
     seller = find_or_create_ebay_user(seller_hash, get_item_request.timestamp)
 
     save(get_item_request, seller, GetItem::CALL_NAME, get_item_request.timestamp)
-    puts get_item_request.to_s 2
+    # puts get_item_request.to_s 2
   end
 end

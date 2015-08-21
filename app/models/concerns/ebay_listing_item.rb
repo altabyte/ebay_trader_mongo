@@ -3,6 +3,8 @@ module EbayListingItem
 
   included do
 
+    before_validation :set_quantity_available
+
     embeds_one :selling_state, class_name: EbayListing::SellingState.name #, store_as: :selling_status
     accepts_nested_attributes_for :selling_state
     validates :selling_state, presence: true
@@ -28,6 +30,13 @@ module EbayListingItem
     #
     # @return [Money] the start price.
     field :start_price, type: Money
+
+    #---------------------------------------------------------------------------
+    private
+
+    def set_quantity_available
+      self.quantity_available = self.quantity_listed - selling_state.quantity_sold
+    end
 
   end
 end

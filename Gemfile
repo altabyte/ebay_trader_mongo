@@ -3,11 +3,13 @@ source 'https://rubygems.org'
 gem 'ebay-trading', git: 'git://github.com/altabyte/ebay_trading.git'
 gem 'ebay-trading-pack', git: 'git://github.com/altabyte/ebay_trading_pack'
 
+gem 'passenger',    '~> 5.0'
+
 gem 'rails',        '4.2.3'
 gem 'mongoid',      '~> 5.0.0.beta'
 gem 'money',        '~> 6.6'
 gem 'sidekiq',      '~> 3.4'
-gem 'sinatra', require: false
+gem 'sinatra', require: false   # Required for Sikekiq Dashboard.
 gem 'slim'
 gem 'sass-rails',   '~> 5.0'
 
@@ -29,9 +31,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
-
-# Use Unicorn as the app server
-# gem 'unicorn'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development

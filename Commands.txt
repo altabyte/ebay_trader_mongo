@@ -13,3 +13,7 @@ rails new ebay_trading_ark -O -T
 ./bin/rails g controller home index
 
 ./bin/rails g task request
+
+# User authentication
+./bin/rails generate devise:install
+./bin/rails generate devise User

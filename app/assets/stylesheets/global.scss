@@ -1,0 +1,99 @@
+@import url(http://fonts.googleapis.com/css?family=Lato);
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #FFFFFF;
+}
+
+body, p, ol, ul, td, input, textarea, button, label {
+  font-family: 'Lato', Helvetica, Arial, sans-serif;
+  font-size: 11pt;
+}
+
+body, p, ol, ul, td, label {
+  color: $text-color;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Tahoma', 'OpenSans', 'Helvetica', 'Arial', 'sans-serif';
+  color: $h-color;
+  margin: 12px 0 3px 0;
+}
+
+a {
+  text-decoration: none;
+  color: #2E8B57;
+
+  &:hover {
+    color: #8B4513;
+    transition-duration: 0.45s;
+  }
+}
+
+input[type=text], [type=email], input[type=password], textarea {
+  color: #333;
+  font-size: 16px;
+  padding: 3px 0 3px 7px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+input[type=submit] {
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+#flash {
+  text-align: center;
+
+  .alert {
+    color: $h-color;
+  }
+
+  .notice {
+    color: #003399;
+  }
+}
+
+#header {
+  position: relative;
+}
+
+#access-links {
+  position: absolute;
+  top: 6px;
+  right: 12px;
+}
+
+.field_with_errors {
+  padding: 2px;
+  background-color: red;
+  display: inline-block;
+}
+
+#error_explanation {
+  max-width: 450px;
+  border: 2px solid red;
+  padding: 7px;
+  padding-bottom: 0;
+  margin-bottom: 20px;
+  background-color: #f0f0f0;
+  h2 {
+    text-align: left;
+    font-weight: bold;
+    padding: 5px 5px 5px 15px;
+    font-size: 12px;
+    margin: -7px;
+    margin-bottom: 0px;
+    background-color: #c00;
+    color: #fff;
+  }
+  ul li {
+    font-size: 12px;
+    list-style: square;
+  }
+}

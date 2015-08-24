@@ -10,10 +10,10 @@ gem 'mongoid',      '~> 5.0.0.beta'
 gem 'money',        '~> 6.6'
 gem 'sidekiq',      '~> 3.4'
 gem 'sinatra', require: false   # Required for Sikekiq Dashboard.
-gem 'slim'
 gem 'sass-rails',   '~> 5.0'
 
 gem 'devise'
+gem 'slim'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'

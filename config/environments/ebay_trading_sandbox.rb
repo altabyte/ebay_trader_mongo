@@ -15,6 +15,8 @@ EbayTrading.configure do |config|
 
   config.price_type = :money
 
+  config.ssl_verify = false
+
   config.store_auth_token(ENV['EBAY_API_USERNAME_T1'], ENV['EBAY_API_AUTH_TOKEN_T1'])
 
   config.counter = lambda {

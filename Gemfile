@@ -5,15 +5,15 @@ gem 'ebay-trading-pack', git: 'git://github.com/altabyte/ebay_trading_pack'
 
 gem 'passenger',    '~> 5.0'
 
-gem 'rails',        '4.2.3'
+gem 'rails',        '4.2.4'
 gem 'mongoid',      '~> 5.0.0.beta'
-gem 'money',        '~> 6.6'
-gem 'sidekiq',      '~> 3.4'
-gem 'sinatra', require: false   # Required for Sikekiq Dashboard.
-gem 'sass-rails',   '~> 5.0'
 
-gem 'devise'
-gem 'slim'
+gem 'devise',       '~> 3.5'
+gem 'money',        '~> 6.6'
+gem 'sass-rails',   '~> 5.0'
+gem 'sidekiq',      '~> 3.4'
+gem 'sinatra',      require: false   # Used by Sikekiq Dashboard.
+gem 'slim',         '~> 3.0'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'

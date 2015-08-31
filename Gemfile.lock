@@ -1,53 +1,53 @@
 GIT
   remote: git://github.com/altabyte/ebay_trading.git
-  revision: 21b945f51239b1dca6d60e661b65a5c363f36d11
+  revision: 6e945ba5da1e8874029b1560a97c69596638bed0
   specs:
-    ebay-trading (0.8.8)
+    ebay-trading (0.9.1)
       activesupport (~> 4.0)
       ox (~> 2.2)
 
 GIT
   remote: git://github.com/altabyte/ebay_trading_pack
-  revision: fb3acc8af90f2be791180f9c9e7ceff8601f4135
+  revision: e7458ac00c65bed165ba8acf56cdd1ca414e6619
   specs:
     ebay-trading-pack (1.7.2)
       activesupport (~> 4.0)
-      ebay-trading (~> 0.8)
+      ebay-trading (~> 0.9)
       money (~> 6.6)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    actionmailer (4.2.3)
-      actionpack (= 4.2.3)
-      actionview (= 4.2.3)
-      activejob (= 4.2.3)
+    actionmailer (4.2.4)
+      actionpack (= 4.2.4)
+      actionview (= 4.2.4)
+      activejob (= 4.2.4)
       mail (~> 2.5, >= 2.5.4)
       rails-dom-testing (~> 1.0, >= 1.0.5)
-    actionpack (4.2.3)
-      actionview (= 4.2.3)
-      activesupport (= 4.2.3)
+    actionpack (4.2.4)
+      actionview (= 4.2.4)
+      activesupport (= 4.2.4)
       rack (~> 1.6)
       rack-test (~> 0.6.2)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    actionview (4.2.3)
-      activesupport (= 4.2.3)
+    actionview (4.2.4)
+      activesupport (= 4.2.4)
       builder (~> 3.1)
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    activejob (4.2.3)
-      activesupport (= 4.2.3)
+    activejob (4.2.4)
+      activesupport (= 4.2.4)
       globalid (>= 0.3.0)
-    activemodel (4.2.3)
-      activesupport (= 4.2.3)
+    activemodel (4.2.4)
+      activesupport (= 4.2.4)
       builder (~> 3.1)
-    activerecord (4.2.3)
-      activemodel (= 4.2.3)
-      activesupport (= 4.2.3)
+    activerecord (4.2.4)
+      activemodel (= 4.2.4)
+      activesupport (= 4.2.4)
       arel (~> 6.0)
-    activesupport (4.2.3)
+    activesupport (4.2.4)
       i18n (~> 0.7)
       json (~> 1.7, >= 1.7.7)
       minitest (~> 5.1)
@@ -134,16 +134,16 @@ GEM
       rack
     rack-test (0.6.3)
       rack (>= 1.0)
-    rails (4.2.3)
-      actionmailer (= 4.2.3)
-      actionpack (= 4.2.3)
-      actionview (= 4.2.3)
-      activejob (= 4.2.3)
-      activemodel (= 4.2.3)
-      activerecord (= 4.2.3)
-      activesupport (= 4.2.3)
+    rails (4.2.4)
+      actionmailer (= 4.2.4)
+      actionpack (= 4.2.4)
+      actionview (= 4.2.4)
+      activejob (= 4.2.4)
+      activemodel (= 4.2.4)
+      activerecord (= 4.2.4)
+      activesupport (= 4.2.4)
       bundler (>= 1.3.0, < 2.0)
-      railties (= 4.2.3)
+      railties (= 4.2.4)
       sprockets-rails
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
@@ -153,9 +153,9 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.2)
       loofah (~> 2.0)
-    railties (4.2.3)
-      actionpack (= 4.2.3)
-      activesupport (= 4.2.3)
+    railties (4.2.4)
+      actionpack (= 4.2.4)
+      activesupport (= 4.2.4)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
@@ -186,7 +186,7 @@ GEM
       rspec-mocks (~> 3.3.0)
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
-    sass (3.4.17)
+    sass (3.4.18)
     sass-rails (5.0.3)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.1)
@@ -226,7 +226,7 @@ GEM
       coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    uglifier (2.7.1)
+    uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     warden (1.2.3)
@@ -243,7 +243,7 @@ PLATFORMS
 DEPENDENCIES
   coffee-rails (~> 4.1.0)
   database_cleaner
-  devise
+  devise (~> 3.5)
   ebay-trading!
   ebay-trading-pack!
   factory_girl_rails
@@ -254,13 +254,13 @@ DEPENDENCIES
   mongoid (~> 5.0.0.beta)
   mongoid-rspec (= 2.3.0.beta)
   passenger (~> 5.0)
-  rails (= 4.2.3)
+  rails (= 4.2.4)
   rspec-rails
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   sidekiq (~> 3.4)
   sinatra
-  slim
+  slim (~> 3.0)
   spring
   turbolinks
   uglifier (>= 1.3.0)

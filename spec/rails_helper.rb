@@ -6,7 +6,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'spec_helper'
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
-
+require 'support/devise_support'
 
 def configure_api_production
   require_relative '../config/environments/ebay_trading_production'
@@ -33,6 +33,11 @@ end
 # Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
+
+  # Add Devise test helpers.
+  config.include Devise::TestHelpers, type: :controller
+  config.include ValidUserRequestHelper, type: :request
+
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
   # `post` in specs under `spec/controllers`.

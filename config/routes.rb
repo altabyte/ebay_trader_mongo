@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   devise_for :users, path_names: { sign_in: 'access', sign_out: 'logout', sign_up: 'sign-me-up' }
 
+  resources :ebay_accounts
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

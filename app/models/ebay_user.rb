@@ -2,7 +2,8 @@ class EbayUser
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
 
-  has_many :ebay_listings
+  belongs_to :ebay_account
+  has_many :ebay_listings, dependent: :nullify
 
   embeds_one :seller_info, class_name: EbayUser::SellerInfo.name
 

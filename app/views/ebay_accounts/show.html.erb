@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Auth token:</strong>
+  <%= @ebay_account.auth_token %>
+</p>
+
+<p>
+  <strong>Auth token expiry time:</strong>
+  <%= @ebay_account.auth_token_expiry_time %>
+</p>
+
+<%= link_to 'Edit', edit_ebay_account_path(@ebay_account) %> |
+<%= link_to 'Back', ebay_accounts_path %>

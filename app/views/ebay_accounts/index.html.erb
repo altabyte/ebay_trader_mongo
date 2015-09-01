@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Ebay Accounts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Auth token</th>
+      <th>Auth token expiry time</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ebay_accounts.each do |ebay_account| %>
+      <tr>
+        <td><%= ebay_account.auth_token %></td>
+        <td><%= ebay_account.auth_token_expiry_time %></td>
+        <td><%= link_to 'Show', ebay_account %></td>
+        <td><%= link_to 'Edit', edit_ebay_account_path(ebay_account) %></td>
+        <td><%= link_to 'Destroy', ebay_account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ebay account', new_ebay_account_path %>

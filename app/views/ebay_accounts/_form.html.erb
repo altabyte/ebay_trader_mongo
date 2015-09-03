@@ -11,6 +11,9 @@
         </div>
     <% end %>
 
+    <div>
+      <strong>Status:</strong><%= @ebay_account.ebay_user_status %>
+    </div>
     <div class="field">
       <%= f.label :auth_token %><br>
       <%= f.text_area :auth_token %>

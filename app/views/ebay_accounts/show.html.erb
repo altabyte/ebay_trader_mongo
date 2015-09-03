@@ -1,14 +1,25 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Auth token:</strong>
-  <%= @ebay_account.auth_token %>
-</p>
+<div>
+  <h2><%= @ebay_username %></h2>
+</div>
 
-<p>
-  <strong>Auth token expiry time:</strong>
-  <%= @ebay_account.auth_token_expiry_time %>
-</p>
+<div id="auth-token-detail">
+  <h3>Auth Token</h3>
+  <p>
+    <strong>Token:</strong>
+    <%= @ebay_account.auth_token[0...20] %>...
+  </p>
+
+  <p>
+    <strong>Expires:</strong>
+    <%= @ebay_account.auth_token_expiry_time %>
+  </p>
+
+  <p>
+    <strong>Status:</strong><%= @ebay_account.ebay_user_status %>
+  </p>
+</div>
 
 <%= link_to 'Edit', edit_ebay_account_path(@ebay_account) %> |
 <%= link_to 'Back', ebay_accounts_path %>

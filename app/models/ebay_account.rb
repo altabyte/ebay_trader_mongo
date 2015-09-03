@@ -2,7 +2,9 @@ class EbayAccount
   include Mongoid::Document
 
   belongs_to :user
-  has_many :ebay_users, dependent: :nullify
+  has_one :ebay_user, dependent: :nullify
+
+  field :ebay_user_status, type: String, default: 'Pending'
 
   field :auth_token, type: String
   field :auth_token_expiry_time, type: Time

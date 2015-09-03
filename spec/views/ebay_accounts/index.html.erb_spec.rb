@@ -14,6 +14,6 @@ RSpec.describe 'ebay_accounts/index', type: :view do
 
   it 'renders a list of ebay_accounts' do
     render
-    assert_select 'tr>td', :text => 'Auth Token'.to_s, :count => 2
+    assert_select 'tr>td', :text => 'Pending'.to_s, :count => 2
   end
 end

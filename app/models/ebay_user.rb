@@ -31,6 +31,9 @@ class EbayUser
   field :unique_neutral_feedback_count,  type: Fixnum, default: 0
   field :unique_positive_feedback_count, type: Fixnum, default: 0
 
+  validates :user_id, uniqueness: true
+  validates :email, uniqueness: true
+
   index({ user_id: 1 }, { unique: true, name: 'user_id_index' })
   index({ email:   1 }, { unique: true, name: 'email_index' })
 

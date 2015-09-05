@@ -17,7 +17,7 @@ class LinkEbayUserAccountWorker
 
   def perform(ebay_account_id, auth_token)
     ebay_account = EbayAccount.find(BSON::ObjectId.from_string(ebay_account_id))
-    get_user = EbayTradingPack::GetUser.new(auth_token)
+    get_user = EbayTradingPack::GetUser.new(auth_token: auth_token)
 
     message = 'Pending'
     if get_user.nil?

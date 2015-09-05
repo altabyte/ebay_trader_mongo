@@ -19,7 +19,7 @@ class GetUserWorker
   def perform(auth_token, ebay_user_id)
     puts "\nRequesting details for eBay user: #{ebay_user_id}"
 
-    get_user = EbayTradingPack::GetUser.new(auth_token, user_id: ebay_user_id)
+    get_user = EbayTradingPack::GetUser.new(user_id: ebay_user_id, auth_token: auth_token)
     raise "Failed to get eBay user details for '#{ebay_user_id}'" if get_user.nil?
     raise get_user.errors.first[:short_message] if get_user.has_errors?
 

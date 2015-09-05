@@ -15,7 +15,7 @@ class GetItemWorker
   def perform(auth_token, ebay_item_id)
     puts "\nRequesting details for eBay item: #{ebay_item_id}"
 
-    get_item_request = EbayTradingPack::GetItem.new(auth_token, ebay_item_id)
+    get_item_request = EbayTradingPack::GetItem.new(ebay_item_id, auth_token: auth_token)
     raise get_item_request.errors.first[:short_message] if get_item_request.has_errors?
 
     seller_hash = get_item_request.item_hash[:seller]

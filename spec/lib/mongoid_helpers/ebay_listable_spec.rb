@@ -20,7 +20,7 @@ RSpec.describe EbayListable do
     self.file_to_string("#{__dir__}/../../xml_responses/get_item/variation_30_percent_sale.xml")
   end
   let(:get_item_request) do
-    EbayTradingPack::GetItem.new(auth_token, ebay_item_id, xml_response: response_xml)
+    EbayTradingPack::GetItem.new(ebay_item_id, xml_response: response_xml, auth_token: auth_token)
   end
 
   it { expect(get_item_request).not_to be_nil }

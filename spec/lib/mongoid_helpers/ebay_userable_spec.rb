@@ -19,7 +19,7 @@ RSpec.describe EbayUserable do
 
     before :all do
       auth_token = ENV['EBAY_API_AUTH_TOKEN_TEST_USER_1']
-      @get_user = EbayTradingPack::GetUser.new(auth_token)
+      @get_user = EbayTradingPack::GetUser.new(auth_token: auth_token)
     end
 
     let(:user) { @get_user }

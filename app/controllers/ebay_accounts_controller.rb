@@ -1,5 +1,5 @@
 require 'ebay_trading_pack/get_user'
-require 'link_ebay_user_account'
+require 'link_ebay_user_account_worker'
 
 class EbayAccountsController < ApplicationController
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-require 'ebay_trading_pack/get_user'
+require 'ebay_trader_support/get_user'
 require 'mongoid_helpers/ebay_userable'
 
 RSpec.describe EbayUserable do
@@ -19,7 +19,7 @@ RSpec.describe EbayUserable do
 
     before :all do
       auth_token = ENV['EBAY_API_AUTH_TOKEN_TEST_USER_1']
-      @get_user = EbayTradingPack::GetUser.new(auth_token: auth_token)
+      @get_user = EbayTraderSupport::GetUser.new(auth_token: auth_token)
     end
 
     let(:user) { @get_user }

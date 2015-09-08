@@ -1,5 +1,5 @@
-require 'ebay_trading_pack'
-require 'ebay_trading_pack/get_user'
+require 'ebay_trader_support'
+require 'ebay_trader_support/get_user'
 require 'mongoid_helpers/ebay_userable'
 
 
@@ -17,7 +17,7 @@ class LinkEbayUserAccountWorker
 
   def perform(ebay_account_id, auth_token)
     ebay_account = EbayAccount.find(BSON::ObjectId.from_string(ebay_account_id))
-    get_user = EbayTradingPack::GetUser.new(auth_token: auth_token)
+    get_user = EbayTraderSupport::GetUser.new(auth_token: auth_token)
 
     message = 'Pending'
     if get_user.nil?

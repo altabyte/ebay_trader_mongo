@@ -9,11 +9,11 @@ require 'rspec/rails'
 require 'support/devise_support'
 
 def configure_api_production
-  require_relative '../config/environments/ebay_trading_production'
+  require_relative '../config/environments/ebay_trader_production'
 end
 
 def configure_api_sandbox
-  require_relative '../config/environments/ebay_trading_sandbox'
+  require_relative '../config/environments/ebay_trader_sandbox'
 end
 
 

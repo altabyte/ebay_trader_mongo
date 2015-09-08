@@ -1,9 +1,9 @@
-require 'ebay_trading'
+require 'ebay_trader'
 
-EbayTrading.configure do |config|
+EbayTrader.configure do |config|
 
   # http://developer.ebay.com/DevZone/XML/docs/ReleaseNotes.html
-  config.ebay_api_version = 933
+  config.ebay_api_version = 935
 
   config.environment = :sandbox
 
@@ -22,7 +22,7 @@ EbayTrading.configure do |config|
   config.counter = lambda {
     begin
       redis = Redis.new(host: 'localhost')
-      key = "ebay_trading:sandbox:call_count:#{Time.now.utc.strftime('%Y-%m-%d')}"
+      key = "ebay_trader:sandbox:call_count:#{Time.now.utc.strftime('%Y-%m-%d')}"
       redis.incr(key)
     rescue SocketError
       logger.error 'Failed to increment Redis call counter!'

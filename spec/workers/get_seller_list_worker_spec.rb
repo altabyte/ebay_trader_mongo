@@ -27,7 +27,7 @@ RSpec.describe GetSellerListWorker do
   end
 
   # Check we are using PRODUCTION environment.
-  it { expect(EbayTrading.configuration).to be_production }
+  it { expect(EbayTrader.configuration).to be_production }
 
   describe 'Seller' do
     it { expect(seller).not_to be_nil }

@@ -1,9 +1,9 @@
-require 'ebay_trading_pack'
-require 'ebay_trading_pack/get_item'
+require 'ebay_trader_support'
+require 'ebay_trader_support/get_item'
 require 'mongoid_helpers/ebay_userable'
 require 'mongoid_helpers/ebay_listable'
 
-include EbayTradingPack
+include EbayTraderSupport
 
 class GetItemWorker
   include Sidekiq::Worker
@@ -15,7 +15,7 @@ class GetItemWorker
   def perform(auth_token, ebay_item_id)
     puts "\nRequesting details for eBay item: #{ebay_item_id}"
 
-    get_item_request = EbayTradingPack::GetItem.new(ebay_item_id, auth_token: auth_token)
+    get_item_request = GetItem.new(ebay_item_id, auth_token: auth_token)
     raise get_item_request.errors.first[:short_message] if get_item_request.has_errors?
 
     seller_hash = get_item_request.item_hash[:seller]

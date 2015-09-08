@@ -1,9 +1,9 @@
-require 'ebay_trading_pack'
-require 'ebay_trading_pack/get_seller_list'
+require 'ebay_trader_support'
+require 'ebay_trader_support/get_seller_list'
 require 'mongoid_helpers/ebay_userable'
 require 'mongoid_helpers/ebay_listable'
 
-include EbayTradingPack
+include EbayTraderSupport
 
 class GetSellerListWorker
   include Sidekiq::Worker

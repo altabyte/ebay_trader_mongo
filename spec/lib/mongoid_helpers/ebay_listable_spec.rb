@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-require 'ebay_trading_pack/get_item'
+require 'ebay_trader_support/get_item'
 require 'mongoid_helpers/ebay_userable'
 require 'mongoid_helpers/ebay_listable'
 
@@ -20,7 +20,7 @@ RSpec.describe EbayListable do
     self.file_to_string("#{__dir__}/../../xml_responses/get_item/variation_30_percent_sale.xml")
   end
   let(:get_item_request) do
-    EbayTradingPack::GetItem.new(ebay_item_id, xml_response: response_xml, auth_token: auth_token)
+    EbayTraderSupport::GetItem.new(ebay_item_id, xml_response: response_xml, auth_token: auth_token)
   end
 
   it { expect(get_item_request).not_to be_nil }
@@ -46,7 +46,7 @@ RSpec.describe EbayListable do
 
         expect(seller.ebay_listings).to be_empty
 
-        klass.save(get_item_request, seller, EbayTradingPack::GetItem::CALL_NAME, get_item_request.timestamp)
+        klass.save(get_item_request, seller, EbayTraderSupport::GetItem::CALL_NAME, get_item_request.timestamp)
         expect{ EbayListing.find_by(item_id: ebay_item_id) }.not_to raise_error
         listing = EbayListing.find_by(item_id: ebay_item_id)
 

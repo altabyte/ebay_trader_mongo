@@ -6,7 +6,7 @@ Rails.application.initialize!
 
 # Load the appropriate EbayTrading configuration file for the Rails environment.
 if %w'production development'.include? Rails.env
-  require_relative 'environments/ebay_trading_production'
+  require_relative 'environments/ebay_trader_production'
 else
-  require_relative 'environments/ebay_trading_sandbox'
+  require_relative 'environments/ebay_trader_sandbox'
 end

@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-gem 'ebay-trading', git: 'git://github.com/altabyte/ebay_trading.git'
-gem 'ebay-trading-pack', git: 'git://github.com/altabyte/ebay_trading_pack'
+gem 'ebay-trader'
+gem 'ebay-trader-support', git: 'git://github.com/altabyte/ebay_trader_support'
 
 gem 'passenger',    '~> 5.0'
 

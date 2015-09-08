@@ -1,8 +1,8 @@
 require 'active_support/core_ext/object/deep_dup'
 require 'active_support/time'
 
-require 'ebay_trading_pack'
-require 'ebay_trading_pack/helpers/item_details'
+require 'ebay_trader_support'
+require 'ebay_trader_support/helpers/item_details'
 
 module EbayListable
 
@@ -26,7 +26,7 @@ module EbayListable
   end
 
   def save(item_details, seller, call_name, timestamp)
-    raise 'ItemDetails not valid' unless item_details && item_details.is_a?(EbayTradingPack::ItemDetails)
+    raise 'ItemDetails not valid' unless item_details && item_details.is_a?(EbayTraderSupport::ItemDetails)
     item_id = item_details.item_id
 
     item_hash = restructure_item_hash(item_details.item_hash.deep_dup.merge({ seller: seller }))

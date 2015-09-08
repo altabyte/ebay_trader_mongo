@@ -1,8 +1,8 @@
-require 'ebay_trading_pack'
-require 'ebay_trading_pack/get_user'
+require 'ebay_trader_support'
+require 'ebay_trader_support/get_user'
 require 'mongoid_helpers/ebay_userable'
 
-include EbayTradingPack
+include EbayTraderSupport
 
 class GetUserWorker
   include Sidekiq::Worker
@@ -19,7 +19,7 @@ class GetUserWorker
   def perform(auth_token, ebay_user_id)
     puts "\nRequesting details for eBay user: #{ebay_user_id}"
 
-    get_user = EbayTradingPack::GetUser.new(user_id: ebay_user_id, auth_token: auth_token)
+    get_user = GetUser.new(user_id: ebay_user_id, auth_token: auth_token)
     raise "Failed to get eBay user details for '#{ebay_user_id}'" if get_user.nil?
     raise get_user.errors.first[:short_message] if get_user.has_errors?
 

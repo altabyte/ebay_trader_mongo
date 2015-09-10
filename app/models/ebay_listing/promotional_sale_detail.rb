@@ -5,18 +5,17 @@ class EbayListing::PromotionalSaleDetail
   # @return [EbayListing] the ebay_listing to which these details belong.
   embedded_in :selling_state
 
+  before_validation :capture_sale_price
+
   field :end_time, type: Time
   field :start_time, type: Time
   field :original_price, type: Money
+  field :sale_price, type: Money
 
   validates :end_time, presence: true
   validates :start_time, presence: true
   validates :original_price, presence: true
-
-  # @return [Money] the sale price, which is the same as the ebay_listing's current price.
-  def sale_price
-    selling_state.current_price
-  end
+  validates :sale_price, presence: true
 
   # Calculate the % discount if this ebay_listing is on sale.
   # @return [Fixnum] the percentage discount applied.
@@ -27,5 +26,12 @@ class EbayListing::PromotionalSaleDetail
   # @return [Boolean] +true+ if promotion applies now.
   def on_sale_now?
     Time.now.utc >= start_time && Time.now.utc <= end_time
+  end
+
+  #---------------------------------------------------------------------------
+  private
+
+  def capture_sale_price
+    self.sale_price = selling_state.current_price if sale_price.nil?
   end
 end

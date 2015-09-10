@@ -17,7 +17,7 @@ class EbayListing
 
   embeds_one :best_offer_detail, class_name: EbayListing::BestOfferDetail.name
   accepts_nested_attributes_for :best_offer_detail
-  
+
   # An array of {EbayListing::NameValueListContainer}s describing the listing's
   # items specifics.
   # Generally all the item specifics will be in the *first* element of the array,

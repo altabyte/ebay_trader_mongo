@@ -35,7 +35,7 @@ module EbayListable
     listing = EbayListing.where(item_id: item_id).exists? ? EbayListing.find_by(item_id: item_id) : EbayListing.new(item_hash)
     last_updated = listing.last_updated || Time.parse('1995-09-03T00:00:00 UTC') # eBay's Birthday
     if timestamp > last_updated
-      listing.add_timestamp call_name, timestamp
+      listing.add_timestamp timestamp, call_name
       listing.update_attributes(item_hash) unless listing.new_record?
     end
     listing.save!

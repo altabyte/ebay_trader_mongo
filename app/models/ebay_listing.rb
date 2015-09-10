@@ -13,11 +13,11 @@ class EbayListing
 
   belongs_to :seller, class_name: EbayUser.name
 
-  embeds_one :best_offer_detail, class_name: EbayListing::BestOfferDetail.name
-  accepts_nested_attributes_for :best_offer_detail
-
   has_many :hits, class_name: EbayListing::Hit.name, order: :count.asc, autosave: true
 
+  embeds_one :best_offer_detail, class_name: EbayListing::BestOfferDetail.name
+  accepts_nested_attributes_for :best_offer_detail
+  
   # An array of {EbayListing::NameValueListContainer}s describing the listing's
   # items specifics.
   # Generally all the item specifics will be in the *first* element of the array,
@@ -139,13 +139,15 @@ class EbayListing
   field :watch_count, type: Fixnum, default: 0
 
   # Add an API call name {EbayListing::Timestamp} to this listing.
-  # @param [String] call_name the name of the API call, such as +GetSellerList+.
   # @param [Time] time the response time returned by the API request.
+  # @param [String] call_name the name of the API call, such as +GetSellerList+.
   # @return [Boolean] +true+ if new timestamp successfully added.
-  def add_timestamp(call_name, time)
+  def add_timestamp(time, call_name)
     timestamps.each { |ts| return false if ts.time == time && ts.call_name == call_name }
     timestamp = EbayListing::Timestamp.new(time: time, call_name: call_name)
     return false unless timestamp.valid?
+    # Delete any older timestamps from the same call_name
+    timestamps.delete_if { |ts| ts.call_name == call_name }
     timestamps << timestamp
     true
   end

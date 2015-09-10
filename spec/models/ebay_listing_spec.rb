@@ -42,7 +42,7 @@ RSpec.describe EbayListing, type: :model do
 
     subject(:listing) do
       listing = EbayListing.new(hash)
-      listing.add_timestamp 'GetItem', timestamp
+      listing.add_timestamp timestamp, 'GetItem'
       listing.save
       listing
     end
@@ -157,7 +157,7 @@ RSpec.describe EbayListing, type: :model do
           list_detail[:best_offer_auto_accept_price] = Money.new(9_99)
           list_detail[:minimum_best_offer_price]     = Money.new(7_99)
           listing = EbayListing.new(best_offer_hash)
-          listing.add_timestamp 'GetItem', timestamp
+          listing.add_timestamp timestamp, 'GetItem'
           listing.save
           listing.reload
         }
@@ -208,7 +208,7 @@ RSpec.describe EbayListing, type: :model do
         let(:hash_with_item_specifics) { hash_with_item_specifics = hash.merge(item_specifics: item_specifics_hash) }
         subject(:listing) do
           listing = EbayListing.new(hash_with_item_specifics)
-          listing.add_timestamp 'GetItem', timestamp
+          listing.add_timestamp timestamp, 'GetItem'
           listing.save
           listing
         end
@@ -253,7 +253,7 @@ RSpec.describe EbayListing, type: :model do
                                   item_id: ebay_item_id,
                                   sku: sku,
                                   hit_count: hit_count)
-      listing.add_timestamp 'GetItem', timestamp
+      listing.add_timestamp timestamp, 'GetItem'
       listing.save
       listing
     end
@@ -274,7 +274,7 @@ RSpec.describe EbayListing, type: :model do
 
       it 'adds a timestamp' do
         timestamp_count = ebay_listing.timestamps.count
-        expect(ebay_listing.add_timestamp('GetSellerList', Time.now)).to be true
+        expect(ebay_listing.add_timestamp(Time.now, 'GetSellerList')).to be true
         expect(ebay_listing.timestamps.size).to eq(timestamp_count + 1)
         expect(ebay_listing.timestamps.last).to be_valid
       end
@@ -285,23 +285,43 @@ RSpec.describe EbayListing, type: :model do
         expect(ebay_listing.timestamps.count).to eq(timestamp_count)
       end
 
-      it 'sorts timestamps' do
-        times = [Time.now.utc, Time.now.utc + 1.days, Time.now.utc - 1.days, Time.now.utc - 2.hours]
-        times.each { |time| ebay_listing.add_timestamp 'GetSellerList', time }
+      it 'only records one timestamp for each API call name' do
+        expect(ebay_listing.save).to be true
+        ebay_listing.reload
+        expect(ebay_listing.timestamps.count).to eq(1)
+
+        call_name_1 = 'GetItem'
+        call_name_2 = 'GetSellerList'
+        call_name_3 = 'GetSellerEvent'
+        (0...10).each do
+          ebay_listing.add_timestamp Time.now, call_name_1
+          ebay_listing.add_timestamp Time.now, call_name_2
+          ebay_listing.add_timestamp Time.now, call_name_3
+          ebay_listing.add_timestamp Time.now, call_name_3
+          ebay_listing.add_timestamp Time.now, call_name_2
+          ebay_listing.add_timestamp Time.now, call_name_1
+        end
+        expect(ebay_listing.timestamps.count).to eq(3)
+      end
+
+      it 'sorts timestamps in ASCENDING order' do
+        ebay_listing.add_timestamp Time.now - 2.hours, 'GetSellerList'
+        ebay_listing.add_timestamp Time.now - 3.hours, 'GetSellerEvent'
+        ebay_listing.add_timestamp Time.now - 4.hours, 'GetItem'
+        ebay_listing.add_timestamp Time.now + 2.hours, 'GetItem'
+        ebay_listing.add_timestamp Time.now + 3.hours, 'GetSellerEvent'
+        ebay_listing.add_timestamp Time.now + 4.hours, 'GetSellerList'
 
         # Need to save then reload for ordering
         expect(ebay_listing.save).to be true
         ebay_listing.reload
 
-        expect(ebay_listing.timestamps.count).to eq(times.count + 1)
-        expect(ebay_listing.timestamps.last.time.to_i).to eq(times[1].to_i)
+        expect(ebay_listing.timestamps.count).to eq(3)
 
         # Check times are in ascending order
         (1...ebay_listing.timestamps.count).each do |i|
           expect(ebay_listing.timestamps[i-1].time).to be < ebay_listing.timestamps[i].time
         end
-
-        expect(ebay_listing.last_updated.to_i).to eq(times[1].to_i)
       end
     end
 

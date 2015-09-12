@@ -58,7 +58,6 @@ RSpec.describe EbayListable do
 
         puts "\n\n#{EbayListing.find_by(item_id: ebay_item_id).summary}\n\n"
       end
-
     end
   end
 end

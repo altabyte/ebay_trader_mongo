@@ -257,8 +257,7 @@ class EbayListing
   def update_hit_count_history
     last = hits.empty? ? 0 : hits.last.count
     if hit_count > last
-      hits << EbayListing::Hit.new(time: last_updated,
-                                   count: hit_count)
+      hits << EbayListing::Hit.new(time: last_updated, count: hit_count)
     end
   end
 end

@@ -95,6 +95,13 @@ RSpec.describe EbayListing, type: :model do
       it { expect(state.current_price).to be_a Money }
       it { expect(state.listing_state).not_to be_nil }
 
+      it 'has a single TimePrice' do
+        expect(state).to respond_to :time_prices
+        expect(state.time_prices).to be_a(Array)
+        expect(state.time_prices.count).to eq(1)
+        expect(state.time_prices.last.price).to eq(current_price)
+      end
+
 
       describe 'promotional_sale_detail' do
 
@@ -158,26 +165,50 @@ RSpec.describe EbayListing, type: :model do
             puts "Sale Price:             #{promotion.sale_price.symbol}#{promotion.sale_price}"
             puts "Percentage discount:    #{promotion.percentage_discount}%"
           end
+
+          it 'has 1 TimePrice is history' do
+            expect(state.time_prices.count).to eq(1)
+            expect(state.time_prices.last.price).to eq(sale_price)
+          end
         end
 
 
         describe 'promotional_sales' do
-          let(:original_price) { listing.selling_state.current_price * 1.2 }
+          let(:sale_percentage) { 30 }
+          let(:original_price) { current_price }
+          let(:sale_price) { original_price - (original_price / 100 * sale_percentage) }
 
           before do
+            listing.save!
+
+            # Record promotional sale 1
             sale = { original_price: original_price, start_time: Time.now - 28.days, end_time: Time.now - 24.days }
             listing.selling_state[:promotional_sale_detail] = sale
+            listing.selling_state.current_price = sale_price
             listing.save!
+
+            # Sale finished
+            listing.selling_state.current_price = original_price
+            listing.save!
+
+            # Record promotional sale 2
+            listing.selling_state.current_price = sale_price
             listing.selling_state[:promotional_sale_detail] = { original_price: original_price, start_time: Time.now - 18.days, end_time: Time.now - 14.days }
             listing.save!
+
+            # Sale finished
+            listing.selling_state.current_price = original_price
+            listing.save!
+
+            # Record promotional sale 3
+            listing.selling_state.current_price = sale_price
             listing.selling_state[:promotional_sale_detail] = { original_price: original_price, start_time: Time.now -  8.days, end_time: Time.now -  4.days }
             listing.save!
 
-            # Ensure adding the same sale details does not result in more promotional_sales objects.
-            listing.selling_state[:promotional_sale_detail] = sale
+            # Sale finished
+            listing.selling_state.current_price = original_price
             listing.save!
-            listing.selling_state[:promotional_sale_detail] = sale
-            listing.save!
+
             listing.reload
           end
 
@@ -189,12 +220,12 @@ RSpec.describe EbayListing, type: :model do
           it 'captures the sale price' do
             state.promotional_sales.each do |sale|
               expect(sale).to respond_to(:sale_price)
-              expect(sale.sale_price).to eq(listing.selling_state.current_price)
+              expect(sale.sale_price).to eq(sale_price)
 
               expect(sale).to respond_to(:original_price)
               expect(sale.original_price).to eq(original_price)
 
-              expect(sale.percentage_discount).to be > 10
+              expect(sale.percentage_discount).to eq(sale_percentage)
             end
           end
 
@@ -208,6 +239,11 @@ RSpec.describe EbayListing, type: :model do
             expect(listing).not_to be_on_sale(Time.now - 10.minutes)
             expect(listing).not_to be_on_sale(Time.now - 60.days)
             expect(listing).not_to be_on_sale(Time.now + 60.days)
+          end
+
+          it 'should have changed price 7 times' do
+            expect(state.time_prices.count).to eq(7)
+            state.time_prices.each { |time_price| puts "#{time_price.time}  ->  #{time_price.price.symbol}#{time_price.price}" }
           end
         end
       end

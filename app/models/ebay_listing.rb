@@ -2,7 +2,9 @@ class EbayListing
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
 
-  include EbayListingItem # For functionality shared with Variation
+  # For functionality shared with Variation
+  #  app/models/concerns/ebay_listing_item.rb
+  include EbayListingItem
 
   store_in collection: 'ebay_listings'
 
@@ -48,7 +50,7 @@ class EbayListing
   embeds_many :timestamps, class_name: EbayListing::Timestamp.name, order: :time.asc
   validates :timestamps, presence: true # Ensure array is not empty
 
-  embeds_one :variation_detail, class_name: EbayListing::VariationDetail.name
+  embeds_one :variation_detail, class_name: EbayListing::VariationDetail.name, cascade_callbacks: true
   accepts_nested_attributes_for :variation_detail
 
   # @return [String] 3 character currency ISO code.
@@ -195,7 +197,11 @@ class EbayListing
   end
 
   def on_sale_now?
-    selling_state.has_promotion? && selling_state.promotional_sale_detail.on_sale_now?
+    on_sale?(Time.now.utc)
+  end
+
+  def on_sale?(time)
+    selling_state.on_sale?(time)
   end
 
   def summary

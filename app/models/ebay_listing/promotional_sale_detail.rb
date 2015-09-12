@@ -2,8 +2,7 @@ class EbayListing::PromotionalSaleDetail
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
 
-  # @return [EbayListing] the ebay_listing to which these details belong.
-  embedded_in :selling_state
+  embedded_in :selling_state, class_name: EbayListing::SellingState.name
 
   before_validation :capture_sale_price
 
@@ -25,7 +24,19 @@ class EbayListing::PromotionalSaleDetail
 
   # @return [Boolean] +true+ if promotion applies now.
   def on_sale_now?
-    Time.now.utc >= start_time && Time.now.utc <= end_time
+    on_sale?(Time.now.utc)
+  end
+
+  def on_sale?(time)
+    return false unless time && time.is_a?(Time)
+    time > start_time && time < end_time
+  end
+
+  # Determine if the given PromotionalSaleDetail has the same values as this instance.
+  # @return [Boolean] +true+ if all values match.
+  def == (sale)
+    return false if sale.nil? || !sale.is_a?(self.class)
+    (sale.end_time == self.end_time && sale.start_time == self.start_time && sale.original_price == self.original_price)
   end
 
   #---------------------------------------------------------------------------

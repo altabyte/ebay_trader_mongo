@@ -13,6 +13,7 @@ RSpec.describe EbayListing, type: :model do
     let(:sku)   { 'SKU1' }
     let(:title) { 'eBay item title' }
     let(:timestamp) { Time.now.utc }
+    let(:current_price) { Money.new(12_99) }
     let(:hash) {
       {
           seller_username:        'TESTUSER_seller_1',
@@ -23,7 +24,7 @@ RSpec.describe EbayListing, type: :model do
           item_id:                ebay_item_id,
           title:                  title,
           currency:               'GBP',
-          start_price:            Money.new(12_99),
+          start_price:            current_price,
           listing_duration:       EbayListing::GTC,
           primary_category_id:    164332,
 
@@ -34,7 +35,7 @@ RSpec.describe EbayListing, type: :model do
           },
 
           selling_state: {
-            current_price:        Money.new(12_99),
+            current_price:        current_price,
             listing_state:        'Active'
           }
       }
@@ -56,6 +57,8 @@ RSpec.describe EbayListing, type: :model do
       expect(listing.item_id).to eq(ebay_item_id)
       expect(listing.title).to eq(title)
     end
+    it { expect(listing).not_to be_on_sale_now }
+
 
     # Test Mongoid::Attributes::Dynamic
     context 'When initial hash has fields not defined in the model' do
@@ -91,48 +94,120 @@ RSpec.describe EbayListing, type: :model do
       it { expect(state).to be_valid }
       it { expect(state.current_price).to be_a Money }
       it { expect(state.listing_state).not_to be_nil }
-      it { expect(state).not_to have_promotion }
-      it { expect(state).not_to be_on_sale_now }
-      it { expect(listing).not_to be_on_sale_now }
 
-      context 'When on promotional sale' do
-        let(:sale_percentage) { 30 }
-        let(:original_price) { listing.start_price }
-        let(:sale_price) { original_price - (original_price / 100 * sale_percentage) }
-        let(:promotional_sale_detail) do
-          {
-              start_time:     Time.now - 1.day,
-              end_time:       Time.now + 1.day,
-              original_price: original_price
+
+      describe 'promotional_sale_detail' do
+
+        context 'when has never been on sale' do
+          it { expect(state).not_to respond_to :promotional_sale_detail }
+          it { expect(state).not_to have_promotion }
+          it { expect(state).not_to be_on_sale_now }
+          it { expect(state.promotional_sales).to be_empty }
+        end
+
+        context 'when 30% off' do
+
+          let(:sale_percentage) { 30 }
+          let(:original_price) { current_price }
+          let(:sale_price) { original_price - (original_price / 100 * sale_percentage) }
+
+          let(:promotional_sale_detail) do
+            {
+                start_time:     Time.now - 1.days,  # Sale started yesterday
+                end_time:       Time.now + 1.days,  # Sale finishes tomorrow
+                original_price: original_price
+            }
+          end
+
+          let(:hash_with_promotion) {
+            promo = hash
+            promo[:start_price] = sale_price
+            promo[:selling_state][:current_price] = sale_price
+            promo[:selling_state][:promotional_sale_detail] = promotional_sale_detail
+            promo
           }
-        end
-        let(:promotion) { listing.selling_state.promotional_sale_detail }
 
-        before do
-          listing.start_price = sale_price
-          listing.selling_state.current_price = sale_price
-          listing.selling_state.promotional_sale_detail = promotional_sale_detail
+          let(:listing) do
+            listing = EbayListing.new(hash_with_promotion)
+            listing.add_timestamp timestamp, 'GetItem'
+            listing.save!
+            listing
+          end
+
+          it 'has a nil :promotional_sale_detail field' do
+            expect(state).to respond_to :promotional_sale_detail
+            expect(state.promotional_sale_detail).to be_nil
+          end
+
+          it 'has an array of promotional_sales with one element' do
+            expect(state.promotional_sales).to be_a(Array)
+            expect(state.promotional_sales.count).to eq(1)
+          end
+
+          it 'Has 30% off now' do
+            expect(state).to have_promotion
+            expect(state).to be_on_sale_now
+
+            promotion = state.promotional_sales.last
+
+            expect(promotion.percentage_discount).to eq(30)
+
+            puts "Promotion start time:   #{promotion.start_time}"
+            puts "Promotion end time:     #{promotion.end_time}"
+            puts "Original Price:         #{promotion.original_price.symbol}#{promotion.original_price}"
+            puts "Sale Price:             #{promotion.sale_price.symbol}#{promotion.sale_price}"
+            puts "Percentage discount:    #{promotion.percentage_discount}%"
+          end
         end
 
-        it { expect(state.promotional_sale_detail).to be_valid }
-        it { expect(listing.start_price).to eq(sale_price) }
-        it 'Has 30% off now' do
-          expect(state).to have_promotion
-          expect(state).to be_on_sale_now
-          expect(promotion).to be_on_sale_now
-          expect(promotion.percentage_discount).to eq(30)
-          puts "Promotion start time:   #{promotion.start_time}"
-          puts "Promotion end time:     #{promotion.end_time}"
-          puts "Original Price:         #{promotion.original_price.symbol}#{promotion.original_price}"
-          puts "Sale Price:             #{promotion.sale_price.symbol}#{promotion.sale_price}"
-          puts "Percentage discount:    #{promotion.percentage_discount}%"
-        end
 
-        context 'After a promotion has finished' do
-          it 'Removes the PromotionalSaleDetail' do
-            state.promotional_sale_detail = nil
-            expect(listing.save).to be true
-            expect(state).not_to have_promotion
+        describe 'promotional_sales' do
+          let(:original_price) { listing.selling_state.current_price * 1.2 }
+
+          before do
+            sale = { original_price: original_price, start_time: Time.now - 28.days, end_time: Time.now - 24.days }
+            listing.selling_state[:promotional_sale_detail] = sale
+            listing.save!
+            listing.selling_state[:promotional_sale_detail] = { original_price: original_price, start_time: Time.now - 18.days, end_time: Time.now - 14.days }
+            listing.save!
+            listing.selling_state[:promotional_sale_detail] = { original_price: original_price, start_time: Time.now -  8.days, end_time: Time.now -  4.days }
+            listing.save!
+
+            # Ensure adding the same sale details does not result in more promotional_sales objects.
+            listing.selling_state[:promotional_sale_detail] = sale
+            listing.save!
+            listing.selling_state[:promotional_sale_detail] = sale
+            listing.save!
+            listing.reload
+          end
+
+          it 'should have an array of promotional_sales with 3 elements' do
+            expect(state.promotional_sales).to be_a(Array)
+            expect(state.promotional_sales.count).to eq(3)
+          end
+
+          it 'captures the sale price' do
+            state.promotional_sales.each do |sale|
+              expect(sale).to respond_to(:sale_price)
+              expect(sale.sale_price).to eq(listing.selling_state.current_price)
+
+              expect(sale).to respond_to(:original_price)
+              expect(sale.original_price).to eq(original_price)
+
+              expect(sale.percentage_discount).to be > 10
+            end
+          end
+
+          it 'should have been on sale during the promotion times' do
+            expect(listing).to be_on_sale(Time.now - 15.days)
+            expect(listing).to be_on_sale(Time.now - 25.days)
+          end
+
+          it 'should not have been on sale outside of the promotion times' do
+            expect(listing).not_to be_on_sale_now
+            expect(listing).not_to be_on_sale(Time.now - 10.minutes)
+            expect(listing).not_to be_on_sale(Time.now - 60.days)
+            expect(listing).not_to be_on_sale(Time.now + 60.days)
           end
         end
       end

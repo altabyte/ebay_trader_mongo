@@ -5,7 +5,7 @@ module EbayListingItem
 
     before_validation :set_quantity_available
 
-    embeds_one :selling_state, class_name: EbayListing::SellingState.name #, store_as: :selling_status
+    embeds_one :selling_state, class_name: EbayListing::SellingState.name, cascade_callbacks: true
     accepts_nested_attributes_for :selling_state
     validates :selling_state, presence: true
 

@@ -1,4 +1,5 @@
-$submit-background-color: #55acee;
+$field-border-highlight-color: #5E91AA;
+$field-background-color: #f2f2f2;
 
 .auth-form {
   width: calc(100% - 40px);
@@ -25,8 +26,14 @@ $submit-background-color: #55acee;
     position: relative;
     margin: 8px 0 18px 0;
     padding: 8px;
-    border: 1px solid $text-box-border-color;
-    border-radius: 3px;
+    background-color: $field-background-color;
+    border-top: 1px solid darken($field-background-color, 10);
+    border-left: 1px solid darken($field-background-color, 10);
+    border-right: 1px solid darken($field-background-color, 2);
+    border-bottom: 1px solid darken($field-background-color, 2);
+    border-radius: 6px;
+    box-shadow: 0 0 0 2px white;
+    transition-duration: 0.25s;
 
     label {
       display: none;
@@ -35,7 +42,9 @@ $submit-background-color: #55acee;
     input[type=text], input[type=email], input[type=password] {
       border: none;
       outline: none;
+      background-color: $field-background-color;
       width: calc(100% - 40px);
+      margin-left: 30px;
     }
 
     .svg-icon {
@@ -44,12 +53,27 @@ $submit-background-color: #55acee;
       fill: $text-box-border-color;
       position: absolute;
       top: 10px;
-      right: 12px;
+      left: 8px;
     }
+  }
 
-    &:hover {
-      border: 1px solid darken($text-box-border-color, 15%);
-      transition-duration: 0.25s;
+  .svg-textbox-hover {
+    box-shadow: 0 0 0 2px darken($field-background-color, 10);
+    border: 1px solid $field-background-color;
+    transition-duration: 0.25s;
+
+    .svg-icon {
+      fill: darken($field-background-color, 20);
+    }
+  }
+
+  .svg-textbox-focused {
+    box-shadow: 0 0 0 2px $field-border-highlight-color;
+    border: 1px solid $field-background-color;
+    transition-duration: 0.25s;
+
+    .svg-icon {
+      fill: $field-border-highlight-color;
     }
   }
 
@@ -59,20 +83,26 @@ $submit-background-color: #55acee;
     /*margin-left: 15px;*/
     text-align: center;
     font-size: 16px;
+    font-weight: bold;
     color: #fff;
-    background-color: $submit-background-color;
+    box-shadow: 0 0 0 2px $field-border-highlight-color;
+    background-color: $field-border-highlight-color;
     /*background-image: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.05));
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00000000, endColorstr=#0C000000)";*/
-    border: 1px solid #3b88c3;
+    border: 0 solid $field-border-highlight-color;
+    border-radius: 6px;
     outline: none;
     transition-duration: 0.25s;
 
     &:hover, &:focus {
-      background-color: darken($submit-background-color, 10%);
+      background-color: $field-background-color;
+      background: radial-gradient(white, $field-background-color);
+      color: $field-border-highlight-color;
       transition-duration: 0.25s;
     }
   }
 }
+
 
 .generic-auth-form {
   width: 400px;

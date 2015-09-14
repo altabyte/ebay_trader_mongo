@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/altabyte/ebay_trader_support
-  revision: 7c0466d0d3b9b561eeaa60a2393230d96446a2c0
+  revision: 41d992e3e1370ebe36b36575b8e6bb0ed3b22146
   specs:
-    ebay-trader-support (1.7.5)
+    ebay-trader-support (1.7.6)
       activesupport (~> 4.0)
       ebay-trader (~> 0.9)
       money (~> 6.6)
@@ -111,7 +111,7 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
     dotenv (2.0.2)
-    ebay-trader (0.9.5)
+    ebay-trader (0.9.7)
       activesupport (~> 4.0)
       ox (~> 2.2)
     erubis (2.7.0)
@@ -142,7 +142,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
-    mime-types (2.6.1)
+    mime-types (2.6.2)
     mini_portile (0.6.2)
     minitest (5.8.0)
     money (6.6.1)

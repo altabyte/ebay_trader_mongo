@@ -3,7 +3,7 @@ class EbayUser
   include Mongoid::Attributes::Dynamic
 
   belongs_to :ebay_account
-  has_many :ebay_listings, dependent: :nullify
+  has_many :ebay_listings, dependent: :nullify, autosave: true
 
   embeds_one :seller_info, class_name: EbayUser::SellerInfo.name
 

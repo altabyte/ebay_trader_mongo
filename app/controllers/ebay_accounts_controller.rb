@@ -15,6 +15,7 @@ class EbayAccountsController < ApplicationController
   # GET /ebay_accounts/1
   # GET /ebay_accounts/1.json
   def show
+    @count = @ebay_account.ebay_user.ebay_listings.count || 0
   end
 
   # GET /ebay_accounts/new

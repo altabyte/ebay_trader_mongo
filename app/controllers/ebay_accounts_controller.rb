@@ -34,15 +34,14 @@ class EbayAccountsController < ApplicationController
 
     respond_to do |format|
       if @ebay_account.save
-        format.html { redirect_to @ebay_account, notice: 'Ebay account was successfully created.' }
+        link_to_ebay_user
+        format.html { redirect_to ebay_accounts_path, notice: 'Ebay account was successfully created.' }
         format.json { render :show, status: :created, location: @ebay_account }
       else
         format.html { render :new }
         format.json { render json: @ebay_account.errors, status: :unprocessable_entity }
       end
     end
-
-    link_to_ebay_user
   end
 
   # PATCH/PUT /ebay_accounts/1

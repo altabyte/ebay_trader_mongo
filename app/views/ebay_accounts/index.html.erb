@@ -2,7 +2,16 @@
 
 <h1>Listing Ebay Accounts</h1>
 
-<table>
+<% pencil_svg = "<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='12' height='12' viewBox='0 0 64 64'><path d='M54 0c5.523 0 10 4.477 10 10 0 2.251-0.744 4.329-2 6l-4 4-14-14 4-4c1.671-1.256 3.749-2 6-2zM4 46l-4 18 18-4 37-37-14-14-37 37zM44.724 22.724l-28 28-3.447-3.447 28-28 3.447 3.447z' fill='#000000'></path></svg>" %>
+<% @ebay_accounts.each do |ebay_account| %>
+    <div style="margin-bottom: 24px;">
+      <%= link_to ebay_account.ebay_user.nil? ? 'Pending' : ebay_account.ebay_user.user_id , ebay_account %>
+      &nbsp; &nbsp;
+      <%= link_to pencil_svg.html_safe, edit_ebay_account_path(ebay_account) %>
+    </div>
+<% end %>
+
+<!--table>
   <thead>
     <tr>
       <th>eBay ID</th>
@@ -20,11 +29,11 @@
         <td><%= ebay_account.auth_token_expiry_time %></td>
         <td><%= link_to 'Show', ebay_account %></td>
         <td><%= link_to 'Edit', edit_ebay_account_path(ebay_account) %></td>
-        <td><%= link_to 'Destroy', ebay_account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%#= link_to 'Destroy', ebay_account, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
-</table>
+</table-->
 
 <br>
 

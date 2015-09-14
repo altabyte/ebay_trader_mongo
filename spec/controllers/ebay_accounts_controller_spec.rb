@@ -100,9 +100,10 @@ RSpec.describe EbayAccountsController, type: :controller do
         expect(assigns(:ebay_account)).to be_persisted
       end
 
-      it 'redirects to the created ebay_account' do
+      it 'redirects to index' do
         post :create, { ebay_account: valid_attributes }, valid_session
-        expect(response).to redirect_to(EbayAccount.last)
+        #expect(response).to redirect_to(EbayAccount.last)
+        expect(response).to redirect_to(ebay_accounts_url)
       end
     end
 

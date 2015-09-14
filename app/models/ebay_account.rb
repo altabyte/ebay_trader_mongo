@@ -9,5 +9,5 @@ class EbayAccount
   field :auth_token, type: String
   field :auth_token_expiry_time, type: Time
 
-  validates :auth_token, presence: true
+  validates :auth_token, presence: true, uniqueness: true
 end

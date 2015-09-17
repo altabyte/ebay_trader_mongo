@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :ebay_user do
-    email 'TESTUSER_1@email.com'
-    user_id 'TESTUSER_1'
+    sequence(:email)    { |n| "TESTUSER_#{n}@gmail.com" }
+    sequence(:user_id)  { |n| "TESTUSER_#{n}" }
     feedback_score 1_000
 
     seller_info { FactoryGirl.build(:seller_info) }

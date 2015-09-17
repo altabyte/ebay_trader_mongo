@@ -24,8 +24,9 @@ RSpec.describe EbayAccountsController, type: :controller do
   before { sign_in user }
 
   after do
-    User.all.delete
-    EbayAccount.all.delete
+    EbayUser.delete_all
+    User.delete_all
+    EbayAccount.delete_all
   end
 
   # This should return the minimal set of attributes required to create a valid
@@ -66,6 +67,8 @@ RSpec.describe EbayAccountsController, type: :controller do
   describe 'GET #show' do
     it 'assigns the requested ebay_account as @ebay_account' do
       ebay_account = FactoryGirl.create(:ebay_account, user: user)
+      ebay_account.ebay_user = FactoryGirl.create(:ebay_user)
+      ebay_account.save!
       get :show, { id: ebay_account.to_param }, valid_session
       expect(assigns(:ebay_account)).to eq(ebay_account)
     end

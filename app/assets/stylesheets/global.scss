@@ -47,6 +47,11 @@ input[type=submit] {
   border: 1px solid #ccc;
 }
 
+header {
+  position: relative;
+  height: 30px;
+}
+
 #flash {
   text-align: center;
 
@@ -57,10 +62,6 @@ input[type=submit] {
   .notice {
     color: #003399;
   }
-}
-
-#header {
-  position: relative;
 }
 
 #access-links {

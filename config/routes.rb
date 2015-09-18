@@ -2,6 +2,9 @@ require 'sidekiq/web'
 
 Rails.application.routes.draw do
 
+  get 'ebay_listing/index'
+  match 'item/(:item_id)' => 'ebay_listing#show', via: :get
+
   devise_for :users, path_names: { sign_in: 'access', sign_out: 'logout', sign_up: 'sign-me-up' }
 
   resources :ebay_accounts

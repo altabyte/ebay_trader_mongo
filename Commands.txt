@@ -18,3 +18,5 @@ rails new ebay_trader_mongo -O -T
 ./bin/rails generate devise:install
 ./bin/rails generate devise User
 ./bin/rails generate devise:views
+
+./bin/rails g controller ebay_listing index

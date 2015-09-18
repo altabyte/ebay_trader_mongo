@@ -1,0 +1,126 @@
+// Place all the styles related to the ebay_listing controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#ebay_listing {
+
+  #show {
+    position: relative;
+    max-width: 950px;
+    margin: auto;
+  }
+
+  #photos {
+    display: block;
+    width: 400px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    text-align: center;
+
+    #photo-thumbs {
+
+      .gallery {
+        text-align: center;
+        margin: auto;
+      }
+
+      #photo-thumbs {
+        text-align: center;
+      }
+
+      .photo-thumb {
+        width: 100px;
+        display: inline-block;
+        padding: 12px;
+      }
+    }
+  }
+
+  #details {
+    h1 {
+      font-size: 13pt;
+      margin-bottom: 9px;
+    }
+
+    margin-left: 420px;
+
+    #price {
+
+      .current {
+        font-size: 2em;
+        font-weight: bold;
+        display: inline-block;
+      }
+
+      .original {
+        display: inline-block;
+        font-size: 0.75em;
+        color: grey;
+      }
+
+      .best-offer {
+        display: inline-block;
+        margin-left: 12px;
+        font-size: 0.75em;
+      }
+    }
+
+    #item-numbers {
+      float: right;
+      text-align: right;
+    }
+
+    #status, #watchers, #quantities, #hits {
+      margin: 12px 0;
+    }
+
+    #hits {
+      .history {
+        width: 180px;
+        max-height: 60px;
+        overflow: auto;
+        .hit {
+          margin: 4px 0 0 12px;
+
+          .time {
+            font-size: 0.85em;
+            font-style: italic;
+          }
+        }
+      }
+    }
+
+    #booleans {
+
+      ul li {
+        list-style-type: none;
+      }
+
+      ul li.true {
+        color: seagreen;
+
+        /* http://www.columbia.edu/kermit/utf8-t1.html */
+        &:before {
+          content: "\2713 \0020 \0020";
+        }
+      }
+
+      ul li.false {
+        color: salmon;
+
+        &:before {
+          content: "\2717 \0020 \0020";
+        }
+      }
+    }
+
+    .active {
+      color: green;
+    }
+
+    .ended {
+      color: darkred;
+    }
+  }
+}

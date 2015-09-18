@@ -1,0 +1,93 @@
+<div id="show">
+
+  <div id="photos">
+    <%= image_tag(@photos.first, class: 'gallery') %>
+    <div id="photo-thumbs">
+      <% @photos.each do |photo| -%>
+          <%= image_tag(photo, class: 'photo-thumb') %>
+      <% end -%>
+    </div>
+  </div>
+
+  <div id="details">
+    <h1><%= @listing.title %></h1>
+
+
+    <div id="item-numbers">
+      <div id="ebay-item-id" class="<%= @status == 'Active' ? 'active' : 'ended' %>">
+        <%= link_to @listing.item_id, @listing.listing_detail.view_item_url, target: '_blank' %>
+      </div>
+      <span style="font-size: 0.7em;">SKU:</span> <%= @listing.sku %>
+    </div>
+
+    <div id="price" class="">
+      <div class="current<%= @status == 'Active' ? ' active' : ' ended' %>">
+        <%= @currecy_symbol %><%= @listing.selling_state.current_price %>
+      </div>
+      <% if @listing.on_sale_now? %>
+        <div class="original">
+          was <%= @currecy_symbol %><%= @listing.selling_state.promotional_sales.last.original_price %>
+          &nbsp; &mdash; &nbsp;
+          <%= @listing.selling_state.promotional_sales.last.percentage_discount %>% off!
+        </div>
+      <% end %>
+      <% if @listing.has_best_offer? %>
+          <span class="best-offer">Best Offer:
+            <%= @currecy_symbol %><%= @listing.listing_detail.best_offer_auto_accept_price %>
+            &ndash;
+            <%= @currecy_symbol %><%= @listing.listing_detail.minimum_best_offer_price %>
+          </span>
+      <% end %>
+    </div>
+
+    <div id="status">
+      <b><%= @status %></b>
+      <% if @listing.gtc? %>
+        GTC
+      <% else %>
+        <%= @listing.listing_duration %> day
+      <% end %>
+      <div>
+        Listed <%= @listing.listing_detail.days_active %> days ago.
+      </div>
+    </div>
+
+    <div id="watchers">
+      <%= @listing.watch_count %> people watching this item
+    </div>
+
+    <div id="quantities">
+      <div></div>
+      <%= @listing.quantity_available %> Available
+      <% if @listing.quantity_listed > @listing.quantity_available %>
+        <span style="font-size: 0.7em;"> <%= @listing.selling_state.quantity_sold %> of <%= @listing.quantity_listed %>
+          sold</span>
+      <% end %>
+    </div>
+
+    <div id="hits">
+      Hits: <%= @listing.hit_count %>
+      <div class="history">
+        <% @listing.hits.reverse_each do |hit| %>
+            <div class="hit">
+              <%= hit.count %> &nbsp; &nbsp; &nbsp;
+              <span class="time"><%= hit.time.strftime('%d %b %H:%M') %></span>
+            </div>
+        <% end %>
+      </div>
+    </div>
+
+    <div id="booleans">
+      <% yes = '&#10003; &#10004;'.html_safe %>
+      <% no  = '&times;'.html_safe %>
+      <ul>
+        <li class="<%= @listing.hide_from_search %>">Hide from search</li>
+        <li class="<%= @listing.top_rated_listing %>">Top rated listing</li>
+        <li class="<%= @listing.get_it_fast %>">Get it fast</li>
+        <li class="<%= @listing.ebay_plus %>">eBay Plus</li>
+        <li class="<%= @listing.ebay_plus_eligible %>">eBay Plus Eligible</li>
+      </ul>
+    </div>
+
+  </div>
+</div>

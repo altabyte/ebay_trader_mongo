@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/altabyte/ebay_trader_support
-  revision: 41d992e3e1370ebe36b36575b8e6bb0ed3b22146
+  revision: 6cdd8bab9be0c478ec559b494905df5b3e615bcd
   specs:
-    ebay-trader-support (1.7.6)
+    ebay-trader-support (1.7.8)
       activesupport (~> 4.0)
       ebay-trader (~> 0.9)
       money (~> 6.6)

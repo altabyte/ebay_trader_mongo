@@ -22,3 +22,5 @@
 # Ignore YARD doc files
 /doc
 /.yardoc
+
+/mongo_backups

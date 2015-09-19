@@ -5,7 +5,7 @@ development:
     default:
       # Defines the name of the default database that Mongoid can connect to.
       # (required).
-      database: ebay_trading_ark_dev
+      database: ebay_trader_dev
       # Provides the hosts the default client can connect to. Must be an array
       # of host:port pairs. (required)
       hosts:
@@ -126,7 +126,7 @@ development:
 test:
   clients:
     default:
-      database: ebay_trading_ark_test
+      database: ebay_trader_test
       hosts:
         - localhost:27017
       options:
@@ -140,7 +140,7 @@ production:
     default:
       # Defines the name of the default database that Mongoid can connect to.
       # (required).
-      database: ebay_trading_ark
+      database: ebay_trader
       # Provides the hosts the default client can connect to. Must be an array
       # of host:port pairs. (required)
       hosts:

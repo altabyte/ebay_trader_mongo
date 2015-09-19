@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+#
+# This script creates timestamped mongodump tar-ball backup snapshots of the database.
+#
+# To restore the database:
+#
+#    $ mongorestore --host=127.0.0.1 --db=${DATABASE_NAME} ${DATABASE_NAME}_${TIMESTAMP}
+#
+
+# Name of the database to export
+DATABASE_NAME='ebay_trader_dev'
+
+# DIR contains the directory of this script __FILE__
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+# Where to export the database
+BACKUPS_DIR=${DIR}/../mongo_backups
+
+# Consider manually linking ${TAR_BALLS} to a DropBox or Google Drive DIR?
+TAR_BALLS=${BACKUPS_DIR}/tarballs
+
+TIMESTAMP=`date "+%Y-%m-%d_%H-%M"`
+
+if test ! -d ${TAR_BALLS}
+then
+  mkdir -p ${TAR_BALLS}
+fi
+
+pushd ${BACKUPS_DIR} > /dev/null
+
+if test -d 'dump'
+then
+  rm -rf dump
+fi
+
+mongodump --host=127.0.0.1 --db=${DATABASE_NAME}
+
+if test -d 'dump'
+then
+  pushd 'dump' > /dev/null
+    DATABASE_NAME_TIMESTAMP="${DATABASE_NAME}_${TIMESTAMP}"
+    mv ${DATABASE_NAME} ${DATABASE_NAME_TIMESTAMP}
+    tar cvjf ${TAR_BALLS}/${DATABASE_NAME_TIMESTAMP}.tar.bz2 ${DATABASE_NAME_TIMESTAMP}
+  popd > /dev/null
+  rm -rf dump
+fi
+
+popd > /dev/null

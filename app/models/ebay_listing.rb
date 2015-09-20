@@ -13,6 +13,23 @@ class EbayListing
   # The value assigned to {#listing_duration} for GTC listings.
   GTC ||= 365
 
+  scope :active, -> { where('selling_state.listing_state' => 'Active') } do
+    def on_sale_now
+      #where('selling_state.promotional_sales' => { '$elemMatch' => { end_time: { '$gt' => Time.now.utc} } })
+      where('selling_state.promotional_sales.end_time' => { '$gt' => Time.now.utc})
+    end
+
+    def not_on_sale_now
+      ids = on_sale_now.only(:id).map { |listing| listing.id }
+      not_in(id: ids)
+    end
+  end
+  scope :gtc, -> { where(listing_duration: GTC) }
+  scope :ended, -> { where('selling_state.listing_state' => { '$ne' => 'Active' }) }
+  scope :with_variations, -> { where(variation_detail: { '$ne' => nil }) }
+  scope :without_variations, -> { where(variation_detail: nil) }
+  scope :older_than, -> (days){ gtc.active.where('listing_detail.start_time' => { '$lt' => Time.now.utc - days.days }) }
+
   belongs_to :seller, class_name: EbayUser.name
 
   has_many :hits, class_name: EbayListing::Hit.name, order: :count.asc, autosave: true

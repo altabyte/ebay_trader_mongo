@@ -94,7 +94,7 @@ namespace :request do
         # as these will be absent from GetSellerList calls!
         #
         event_type = 'Ended'
-        time_from = (Time.now.utc - 10.days).to_s
+        time_from = (Time.now.utc - 3.days).to_s
         time_to = nil
 
         GetSellerEventsWorker.perform_async(auth_token, event_type, time_from, time_to)

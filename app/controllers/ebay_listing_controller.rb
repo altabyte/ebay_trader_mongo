@@ -1,5 +1,7 @@
 class EbayListingController < ApplicationController
 
+  before_action :authenticate_user!
+
   def show
     @item_id = params[:item_id]
     redirect_to ebay_accounts_path, alert: 'eBay item ID not valid' unless @item_id

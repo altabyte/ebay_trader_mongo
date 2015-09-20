@@ -4,6 +4,7 @@ gem 'ebay-trader'
 gem 'ebay-trader-support', git: 'git://github.com/altabyte/ebay_trader_support'
 
 gem 'passenger',    '~> 5.0'
+gem 'clockwork'
 
 gem 'rails',        '4.2.4'
 gem 'mongoid',      '~> 5.0.0.beta'

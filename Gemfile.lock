@@ -150,15 +150,15 @@ GEM
     minitest (5.8.0)
     money (6.6.1)
       i18n (>= 0.6.4, <= 0.7.0)
-    mongo (2.1.0.beta)
+    mongo (2.1.0)
       bson (~> 3.0)
-    mongoid (5.0.0.beta)
+    mongoid (5.0.0)
       activemodel (~> 4.0)
-      mongo (= 2.1.0.beta)
+      mongo (~> 2.1)
       origin (~> 2.1)
       tzinfo (>= 0.3.37)
-    mongoid-rspec (2.3.0.beta)
-      mongoid (= 5.0.0.beta)
+    mongoid-rspec (3.0.0)
+      mongoid (~> 5.0)
       rake
       rspec (~> 3.3)
     multi_json (1.11.2)
@@ -296,8 +296,8 @@ DEPENDENCIES
   jquery-rails
   jquery-turbolinks
   money (~> 6.6)
-  mongoid (~> 5.0.0.beta)
-  mongoid-rspec (= 2.3.0.beta)
+  mongoid (~> 5.0.0)
+  mongoid-rspec (= 3.0.0)
   passenger (~> 5.0)
   rails (= 4.2.4)
   rspec-rails

@@ -7,7 +7,7 @@ gem 'passenger',    '~> 5.0'
 gem 'clockwork'
 
 gem 'rails',        '4.2.4'
-gem 'mongoid',      '~> 5.0.0.beta'
+gem 'mongoid',      '~> 5.0.0'
 
 gem 'devise',       '~> 3.5'
 gem 'money',        '~> 6.6'
@@ -52,7 +52,7 @@ group :development, :test do
   gem 'spring'
 
   gem 'rspec-rails'
-  gem 'mongoid-rspec', '2.3.0.beta'
+  gem 'mongoid-rspec', '3.0.0'
 end
 
 group :test do

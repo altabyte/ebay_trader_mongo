@@ -16,6 +16,10 @@ gem 'sidekiq',      '~> 3.4'
 gem 'sinatra',      require: false   # Used by Sikekiq Dashboard.
 gem 'slim',         '~> 3.0'
 
+# Display notification messages in Mac OS X
+# $ brew install terminal-notifier
+gem 'terminal-notifier'
+
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views

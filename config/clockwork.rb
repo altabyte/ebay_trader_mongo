@@ -22,6 +22,12 @@ module Clockwork
   end
 
   every(1.hour, 'synchronize eBay listings', at: '**:00') do
+
+    # Display a desktop notification message on Mac OS X
+    TerminalNotifier.notify("Sync started at #{Time.now.strftime('%H:%M:%S')}",
+                            group: 'EbayTraderMongoClockwork',
+                            title: 'Downloading eBay listings')
+
     execute_rake 'request.rake', 'request:sync_ebay_listings'
   end
 

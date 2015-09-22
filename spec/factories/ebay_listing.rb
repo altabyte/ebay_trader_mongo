@@ -12,7 +12,12 @@ FactoryGirl.define do
     hit_count             56
 
     listing_detail        { FactoryGirl.build(:listing_detail) }
+    picture_detail        { FactoryGirl.build(:picture_detail) }
     selling_state         { FactoryGirl.build(:selling_state) }
+
+    after :build do |obj|
+      obj.add_timestamp Time.now.utc, 'GetItem'
+    end
   end
 
   factory :listing_detail, class: EbayListing::ListingDetail do
@@ -24,5 +29,9 @@ FactoryGirl.define do
   factory :selling_state, class: EbayListing::SellingState do
     current_price         Money.new(10_00)
     listing_state         'Active'
+  end
+
+  factory :picture_detail, class: EbayListing::PictureDetail do
+
   end
 end

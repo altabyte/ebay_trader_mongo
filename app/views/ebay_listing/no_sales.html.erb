@@ -1,0 +1,53 @@
+<style>
+    .listing-row td {
+        min-width: 100px;
+        text-align: center;
+    }
+</style>
+
+<h1><%= @seller_id %></h1>
+<p>
+  <%= @seller_id %> has <%= @items.count %> active <%= @site %> listings more than <%= @days %> days old. &nbsp;
+  Choose older than
+  <% [60, 90, 120].each do |days| %>
+      &nbsp; <%= link_to "#{days} days", "/no-sales/tantric-tokyo?days=#{days}" %>
+  <% end %>
+</p>
+<p>
+  Ordered by '<%= @order_by %>' <%= @order == 'ASC' ? 'ascending' : 'descending' %>.
+</p>
+
+<%
+   up_arrow = raw('&#8673;')
+   down_arrow = raw('&#8675;')
+%>
+<table cellpadding="10" cellspacing="10">
+  <tr>
+    <th></th>
+    <th>eBay ID</th>
+    <th><%= link_to down_arrow, "/no-sales/tantric-tokyo?days=#{@days}&order_by=sku&order=desc" %>
+      SKU <%= link_to up_arrow, "/no-sales/tantric-tokyo?days=#{@days}&order_by=sku&order=asc" %></th>
+    <th><%= link_to down_arrow, "/no-sales/tantric-tokyo?days=#{@days}&order_by=age&order=asc" %>
+      Age <%= link_to up_arrow, "/no-sales/tantric-tokyo?days=#{@days}&order_by=age&order=desc" %></th>
+    <th><%= link_to down_arrow, "/no-sales/tantric-tokyo?days=#{@days}&order_by=price&order=desc" %>
+      Price <%= link_to up_arrow, "/no-sales/tantric-tokyo?days=#{@days}&order_by=price&order=asc" %></th>
+    <th><%= link_to down_arrow, "/no-sales/tantric-tokyo?days=#{@days}&order_by=hits&order=desc" %>
+      Hits <%= link_to up_arrow, "/no-sales/tantric-tokyo?days=#{@days}&order_by=hits&order=asc" %></th>
+    <th><%= link_to down_arrow, "/no-sales/tantric-tokyo?days=#{@days}&order_by=watchers&order=desc" %>
+      Watchers <%= link_to up_arrow, "/no-sales/tantric-tokyo?days=#{@days}&order_by=watchers&order=asc" %></th>
+    <th>Title</th>
+  </tr>
+
+  <% @items.each_with_index do |item, index| %>
+      <tr class="listing-row">
+        <td><%= index %></td>
+        <td><%= link_to item.item_id, "/item/#{item.item_id}", target: '_blank' %></td>
+        <td><%= item.sku %></td>
+        <td><%= item.listing_detail.days_active %></td>
+        <td><%= "#{item.selling_state.current_price.symbol}#{item.selling_state.current_price}" %></td>
+        <td><%= item.hit_count %></td>
+        <td><%= item.watch_count %></td>
+        <td><%= item.title %></td>
+      </tr>
+  <% end %>
+</table>

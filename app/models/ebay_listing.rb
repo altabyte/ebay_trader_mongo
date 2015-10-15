@@ -34,6 +34,8 @@ class EbayListing
 
   has_many :hits, class_name: EbayListing::Hit.name, order: :count.asc, autosave: true
 
+  has_many :ebay_listing_daily_hit_counts, order: :date.asc, autosave: true, dependent: :destroy
+
   embeds_one :best_offer_detail, class_name: EbayListing::BestOfferDetail.name
   accepts_nested_attributes_for :best_offer_detail
 
@@ -273,7 +275,7 @@ class EbayListing
   # has changed since last saved.
   def update_hit_count_history
     last = hits.empty? ? 0 : hits.last.count
-    if hit_count > last
+    if hit_count && hit_count > last
       hits << EbayListing::Hit.new(time: last_updated, count: hit_count)
     end
   end

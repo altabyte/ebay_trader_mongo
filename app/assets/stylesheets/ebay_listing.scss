@@ -75,17 +75,35 @@
       margin: 12px 0;
     }
 
-    #hits {
-      .history {
+    #daily-hits {
+      #table {
         width: 180px;
-        max-height: 60px;
+        max-height: 83px;
         overflow: auto;
-        .hit {
+        margin-bottom: 8px;
+
+        .no-hits {
+          color: silver;
+        }
+
+        .row {
           margin: 4px 0 0 12px;
 
-          .time {
+          .hits {
+            display: inline-block;
+            width: 40px;
+            font-weight: bold;
+          }
+
+          .date {
+            display: inline-block;
+            width: 60px;
             font-size: 0.85em;
             font-style: italic;
+          }
+
+          .on-sale {
+            color: green;
           }
         }
       }

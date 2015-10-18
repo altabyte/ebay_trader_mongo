@@ -2,6 +2,8 @@ class EbayListingController < ApplicationController
 
   before_action :authenticate_user!
 
+
+
   def show
     @item_id = params[:item_id]
     redirect_to(ebay_accounts_path, alert: 'eBay item ID not valid') and return unless @item_id
@@ -20,6 +22,36 @@ class EbayListingController < ApplicationController
         logger.error e.message
       end
 
+      date = Time.now.utc.to_date
+      @number_of_days = 30
+      hits_docs = EbayListingDailyHitCount
+                        .where(item_id: @item_id, :date.lte => date)
+                        .where(:date.gte => (date - @number_of_days.days))
+                        .order_by(date: :asc).all.entries
+
+      balance = 0
+      balance = hits_docs.first.closing_balance unless hits_docs.empty?
+      @daily_hits = []
+      (@number_of_days.downto(0)).each do |i|
+        day = date - i.days
+        struct = Struct.new(:date, :opening_balance, :closing_balance, :total_hits, :on_sale).new(day, balance, balance, 0)
+        @daily_hits << struct
+
+        daily_data = hits_docs.select { |doc| doc.date == day }.first
+        if daily_data
+          struct.opening_balance = daily_data.opening_balance
+          struct.closing_balance = daily_data.closing_balance
+          struct.total_hits      = daily_data.total_hits
+
+          on_sale = false
+          daily_data.hours.each { |h| on_sale = true if h.on_sale }
+          struct.on_sale = on_sale
+
+          balance = daily_data.closing_balance
+        end
+      end
+
+
     else
       redirect_to ebay_accounts_path, alert: "eBay item ID '#{@item_id}' not found"
     end
@@ -31,13 +63,17 @@ class EbayListingController < ApplicationController
     @site = params[:site] || 'UK'
     @quantity_sold = (params[:quantity_sold] || 0).to_i
     @order_by = case params[:order_by]
-                  when /hit/   then 'hit_count'
-                  when /watch/ then 'watch_count'
-                  when /age/   then 'listing_detail.start_time'
-                  when /price/ then 'selling_state.current_price'
-                 else
-                   'sku'
-               end
+                  when /hit/ then
+                    'hit_count'
+                  when /watch/ then
+                    'watch_count'
+                  when /age/ then
+                    'listing_detail.start_time'
+                  when /price/ then
+                    'selling_state.current_price'
+                  else
+                    'sku'
+                end
 
     @order = params.key?(:order) && %w'ASC DESC'.include?(params[:order].upcase) ? params[:order].upcase : 'DESC'
     @items = []

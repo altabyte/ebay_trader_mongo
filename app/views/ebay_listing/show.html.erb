@@ -25,11 +25,11 @@
         <%= @currecy_symbol %><%= @listing.selling_state.current_price %>
       </div>
       <% if @listing.on_sale_now? %>
-        <div class="original">
-          was <%= @currecy_symbol %><%= @listing.selling_state.promotional_sales.last.original_price %>
-          &nbsp; &mdash; &nbsp;
-          <%= @listing.selling_state.promotional_sales.last.percentage_discount %>% off!
-        </div>
+          <div class="original">
+            was <%= @currecy_symbol %><%= @listing.selling_state.promotional_sales.last.original_price %>
+            &nbsp; &mdash; &nbsp;
+            <%= @listing.selling_state.promotional_sales.last.percentage_discount %>% off!
+          </div>
       <% end %>
       <% if @listing.has_best_offer? %>
           <span class="best-offer">Best Offer:
@@ -43,9 +43,9 @@
     <div id="status">
       <b><%= @status %></b>
       <% if @listing.gtc? %>
-        GTC
+          GTC
       <% else %>
-        <%= @listing.listing_duration %> day
+          <%= @listing.listing_duration %> day
       <% end %>
       <div>
         Listed <%= @listing.listing_detail.days_active %> days ago.
@@ -65,13 +65,15 @@
       <% end %>
     </div>
 
-    <div id="hits">
+    <div id="daily-hits">
       Hits: <%= @listing.hit_count %>
-      <div class="history">
-        <% @listing.hits.reverse_each do |hit| %>
-            <div class="hit">
-              <%= hit.count %> &nbsp; &nbsp; &nbsp;
-              <span class="time"><%= hit.time.strftime('%d %b %H:%M') %></span>
+      <div id="table">
+        <% @daily_hits.reverse_each do |daily_hits| %>
+            <div class="row<%= ' no-hits' if daily_hits.total_hits == 0 %>">
+              <span class="hits"><%= daily_hits.closing_balance %></span>
+              <span class="date"><%= daily_hits.date.strftime('%d %b') %></span>
+              <span class="daily-hits"><%= daily_hits.total_hits %></span>
+              <span class="on-sale"><%= daily_hits.on_sale ? 'Sale' : '' %></span>
             </div>
         <% end %>
       </div>
@@ -79,7 +81,7 @@
 
     <div id="booleans">
       <% yes = '&#10003; &#10004;'.html_safe %>
-      <% no  = '&times;'.html_safe %>
+      <% no = '&times;'.html_safe %>
       <ul>
         <li class="<%= @listing.hide_from_search %>">Hide from search</li>
         <li class="<%= @listing.top_rated_listing %>">Top rated listing</li>

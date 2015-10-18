@@ -269,21 +269,34 @@ class EbayListing
     s
   end
 
+  # Migrate all EbayListing::Hit objects into EbayListingDailyHitCount objects.
+  # To perform the migration call the following command from the rails console.
+  #
+  #   $ EbayListing.each { |listing| listing.__migrate_hits_to_daily_hit_counts }
+  #
+  def __migrate_hits_to_daily_hit_counts
+    if hits
+      hits.each do |hit|
+        puts "#{hit.time}  ->  #{hit.count}   #{hit.on_sale}"
+        update_daily_hit_count(hit.time, hit.count)
+      end
+    end
+  end
+
   #---------------------------------------------------------------------------
   private
 
-  def update_daily_hit_count
-    if hit_count
-      daily_hit_count = ebay_listing_daily_hit_counts.where(date: last_updated.to_date)
+  def update_daily_hit_count(time = self.last_updated, new_hit_count = self.hit_count)
+    if new_hit_count
+      daily_hit_count = ebay_listing_daily_hit_counts.where(date: time.to_date)
       if daily_hit_count.exists?
         daily_hit_count = daily_hit_count.first
       else
         previous = ebay_listing_daily_hit_counts.last
-        opening_balance = previous.nil? ? hit_count : previous.closing_balance
-        daily_hit_count = EbayListingDailyHitCount.new(ebay_listing: self, date: last_updated.to_date, opening_balance: opening_balance)
-        #daily_hit_count.ebay_listing = self
+        opening_balance = previous.nil? ? new_hit_count : previous.closing_balance
+        daily_hit_count = EbayListingDailyHitCount.new(ebay_listing: self, date: time.to_date, opening_balance: opening_balance)
       end
-      daily_hit_count.set_time_hit_count(hit_count, last_updated)
+      daily_hit_count.set_time_hit_count(new_hit_count, time)
       daily_hit_count.save!
     end
     true

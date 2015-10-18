@@ -9,6 +9,7 @@ class EbayListing
   store_in collection: 'ebay_listings'
 
   before_save :update_hit_count_history
+  after_save  :update_daily_hit_count
 
   # The value assigned to {#listing_duration} for GTC listings.
   GTC ||= 365
@@ -16,7 +17,7 @@ class EbayListing
   scope :active, -> { where('selling_state.listing_state' => 'Active') } do
     def on_sale_now
       #where('selling_state.promotional_sales' => { '$elemMatch' => { end_time: { '$gt' => Time.now.utc} } })
-      where('selling_state.promotional_sales.end_time' => { '$gt' => Time.now.utc})
+      where('selling_state.promotional_sales.end_time' => {'$gt' => Time.now.utc})
     end
 
     def not_on_sale_now
@@ -25,10 +26,10 @@ class EbayListing
     end
   end
   scope :gtc, -> { where(listing_duration: GTC) }
-  scope :ended, -> { where('selling_state.listing_state' => { '$ne' => 'Active' }) }
-  scope :with_variations, -> { where(variation_detail: { '$ne' => nil }) }
+  scope :ended, -> { where('selling_state.listing_state' => {'$ne' => 'Active'}) }
+  scope :with_variations, -> { where(variation_detail: {'$ne' => nil}) }
   scope :without_variations, -> { where(variation_detail: nil) }
-  scope :older_than, -> (days){ gtc.active.where('listing_detail.start_time' => { '$lt' => Time.now.utc - days.days }) }
+  scope :older_than, -> (days) { gtc.active.where('listing_detail.start_time' => {'$lt' => Time.now.utc - days.days}) }
 
   belongs_to :seller, class_name: EbayUser.name
 
@@ -93,11 +94,11 @@ class EbayListing
   field :item_id, type: Fixnum
   attr_readonly :item_id
   validates :item_id, presence: true, uniqueness: true
-  index({ item_id: 1 }, { unique: true, name: 'item_id_index' })
+  index({item_id: 1}, {unique: true, name: 'item_id_index'})
 
   # @return [Fixnum] the ebay_listing duration in days where a value greater than 30 represents GTC.
   field :listing_duration, type: Fixnum
-  validates :listing_duration, numericality: { only_integer: true, greater_than: 0 }
+  validates :listing_duration, numericality: {only_integer: true, greater_than: 0}
 
   # The type of listing, which can be 'Chinese' or 'FixedPrice'.
   #
@@ -258,7 +259,7 @@ class EbayListing
     s << "    Category: #{primary_category_id}\n"
     s << "  #{listing_detail.start_time.strftime('%l:%H%P %A %-d %b').strip} until #{listing_detail.end_time.strftime('%l:%H%P %A %-d %b %Y').strip}\n"
 
-   # Print item specifics
+    # Print item specifics
     name_length_max = 0
     item_specifics.first.names.each { |name| name_length_max = [name_length_max, name.length].max }
     item_specifics.first.each do |name, value|
@@ -271,6 +272,24 @@ class EbayListing
   #---------------------------------------------------------------------------
   private
 
+  def update_daily_hit_count
+    if hit_count
+      daily_hit_count = ebay_listing_daily_hit_counts.where(date: last_updated.to_date)
+      if daily_hit_count.exists?
+        daily_hit_count = daily_hit_count.first
+      else
+        previous = ebay_listing_daily_hit_counts.last
+        opening_balance = previous.nil? ? hit_count : previous.closing_balance
+        daily_hit_count = EbayListingDailyHitCount.new(ebay_listing: self, date: last_updated.to_date, opening_balance: opening_balance)
+        #daily_hit_count.ebay_listing = self
+      end
+      daily_hit_count.set_time_hit_count(hit_count, last_updated)
+      daily_hit_count.save!
+    end
+    true
+  end
+
+
   # Add a new {EbayListing::Hit} to {hits} if the value of hit_count
   # has changed since last saved.
   def update_hit_count_history
@@ -279,4 +298,5 @@ class EbayListing
       hits << EbayListing::Hit.new(time: last_updated, count: hit_count)
     end
   end
+  true
 end

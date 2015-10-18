@@ -5,7 +5,7 @@ class EbayListingDailyHitCount
 
   embeds_many :hours, class_name: EbayListingDailyHitCount::Hour.name, order: :hour.asc
 
-  before_create     :create_hours
+  after_initialize  :create_hours
   before_validation :capture_ebay_listing_details
 
   field :date,                type: Date
@@ -51,8 +51,10 @@ class EbayListingDailyHitCount
   end
 
   def create_hours
-    (0...24).each do |hour|
-      hours << EbayListingDailyHitCount::Hour.new(hour: hour)
+    if hours.empty?
+      (0...24).each do |hour|
+        hours << EbayListingDailyHitCount::Hour.new(hour: hour)
+      end
     end
   end
 end

@@ -354,6 +354,80 @@ RSpec.describe EbayListing, type: :model do
   end
 
 
+  describe 'EbayListingDailyHitCount' do
+    let(:initial_timestamp) { Time.parse('2015-05-25T12:25+00').utc }
+    let(:initial_hit_count) { 100 }
+    let(:ebay_listing) do
+      listing = FactoryGirl.build(:ebay_listing, hit_count: initial_hit_count)
+      listing.add_timestamp initial_timestamp, 'GetItem'
+      listing
+    end
+
+    it { expect(ebay_listing).to have_many :ebay_listing_daily_hit_counts }
+    it { expect(ebay_listing.hit_count).to eq(initial_hit_count) }
+
+    context 'before save' do
+      it { expect(ebay_listing.ebay_listing_daily_hit_counts).to be_empty }
+    end
+
+    context 'after save' do
+      before { ebay_listing.save! }
+
+      it { expect(ebay_listing.ebay_listing_daily_hit_counts).not_to be_empty }
+      it { expect(ebay_listing.ebay_listing_daily_hit_counts.size).to eq(1) }
+      it { expect(ebay_listing.ebay_listing_daily_hit_counts.last.opening_balance).to eq(initial_hit_count) }
+      it { expect(ebay_listing.ebay_listing_daily_hit_counts.last.closing_balance).to eq(initial_hit_count) }
+      it { expect(ebay_listing.ebay_listing_daily_hit_counts.last.total_hits).to eq(0) }
+      it { expect(ebay_listing.ebay_listing_daily_hit_counts.last.ebay_listing).to eq(ebay_listing) }
+
+      describe 'incrementing ebay_listing hit_count' do
+        let(:day_1_hit_count) { 1 }
+        before do
+          ebay_listing.hit_count = initial_hit_count + day_1_hit_count
+          ebay_listing.add_timestamp (initial_timestamp + 10.minutes), 'GetItem'
+          ebay_listing.save!
+          ebay_listing.reload
+        end
+
+        subject(:day_1) { ebay_listing.ebay_listing_daily_hit_counts.where(date: initial_timestamp.to_date).first }
+
+        it 'should only have 1 daily hit count record' do
+          expect(ebay_listing.ebay_listing_daily_hit_counts.size).to eq(day_1_hit_count)
+        end
+
+        it { expect(day_1).not_to be_nil }
+        it { expect(day_1.total_hits).to eq(day_1_hit_count) }
+        it { expect(day_1.closing_balance).to eq(initial_hit_count + day_1_hit_count) }
+        it { expect(day_1.hour_balance(12)).to eq(initial_hit_count + day_1_hit_count) }
+        it { expect(day_1.hours[12].hits).to eq(1) }
+
+        describe 'adding more hits the following day' do
+          let(:day_2_timestamp) { initial_timestamp + 1.day }
+          let(:second_day_hit_count) { 9 }
+
+          before do
+            ebay_listing.hit_count = initial_hit_count + day_1_hit_count + second_day_hit_count
+            ebay_listing.add_timestamp (day_2_timestamp), 'GetItem'
+            ebay_listing.save!
+            ebay_listing.reload
+          end
+
+          subject(:day_2) { ebay_listing.ebay_listing_daily_hit_counts.where(date: day_2_timestamp.to_date).first }
+
+          it 'should have 2 ebay_listing_daily_hit_counts' do
+            expect(ebay_listing.ebay_listing_daily_hit_counts.size).to eq(2)
+          end
+
+          it 'should have an opening balance matching the previous days closing balance' do
+            expect(day_2.opening_balance).to eq(day_1.closing_balance)
+          end
+
+          it { expect(day_2.total_hits).to eq(second_day_hit_count) }
+        end
+      end
+    end
+  end
+
 
   context 'FactoryGirl ebay_listing' do
     let(:sku) { 'ABC123' }

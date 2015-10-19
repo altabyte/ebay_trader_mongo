@@ -76,9 +76,16 @@
     }
 
     #daily-hits {
+
+      margin-bottom: 24px;
+
+      #hits-chart {
+        height: 150px;
+      }
+
       #table {
-        width: 180px;
-        max-height: 83px;
+
+        max-height: 60px;
         overflow: auto;
         margin-bottom: 8px;
 
@@ -91,15 +98,21 @@
 
           .hits {
             display: inline-block;
-            width: 40px;
+            width: 60px;
             font-weight: bold;
           }
 
           .date {
             display: inline-block;
-            width: 60px;
+            width: 100px;
             font-size: 0.85em;
             font-style: italic;
+          }
+
+          .daily-hits {
+            display: inline-block;
+            width: 40px;
+            text-align: right;
           }
 
           .on-sale {

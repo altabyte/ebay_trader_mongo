@@ -2,8 +2,6 @@ class EbayListingController < ApplicationController
 
   before_action :authenticate_user!
 
-
-
   def show
     @item_id = params[:item_id]
     redirect_to(ebay_accounts_path, alert: 'eBay item ID not valid') and return unless @item_id
@@ -51,7 +49,49 @@ class EbayListingController < ApplicationController
         end
       end
 
+      # Examples:
+      #
+      #   https://github.com/michelson/lazy_high_charts/blob/master/spec/dummy_rails/app/controllers/application_controller.rb
+      #
+      @chart = LazyHighCharts::HighChart.new('graph') do |f|
+        f.title(text: '')
+        f.series(type: 'line', name: 'Hits/day', yAxis: 0, data: @daily_hits.map { |day| [day.date.strftime('%a %-d %b ’%y'), day.total_hits] })
+        f.series(type: 'spline', name: 'Total hits', yAxis: 1, color: '#DEDEDE', data: @daily_hits.map { |day| [day.date.strftime('%a %-d %b ’%y'), day.closing_balance] })
 
+        f.plot_options(spline: {
+                          marker: {
+                              radius: 1
+                          }
+                      },
+                       line: {
+                           marker: {
+                               radius: 1,
+                               lineWidth: 1
+                           }
+                       })
+
+        f.legend(enabled: false)
+
+        f.xAxis(categories: (@number_of_days.downto(0)).map { |i| (date - i.days).strftime('%A')[0] })
+
+        f.yAxis [
+                    {
+                        title: { text: '', margin: 0 },
+                        tickInterval: 2,
+                        gridLineWidth: 0,
+                        min: 0,
+                        max: (@daily_hits.min { |d1, d2| d2.total_hits <=> d1.total_hits }.total_hits)
+                    },
+                    {
+                        title: { text: '' },
+                        opposite: true,
+                        tickInterval: 20,
+                        gridLineWidth: 0,
+                        min: (@daily_hits.first.closing_balance),
+                        max: (@daily_hits.last.closing_balance)
+                    }
+                ]
+      end
     else
       redirect_to ebay_accounts_path, alert: "eBay item ID '#{@item_id}' not found"
     end
@@ -87,6 +127,5 @@ class EbayListingController < ApplicationController
       logger.error e.message
       redirect_to ebay_accounts_path, alert: e.message
     end
-
   end
 end

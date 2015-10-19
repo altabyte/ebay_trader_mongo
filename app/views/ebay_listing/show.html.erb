@@ -66,12 +66,13 @@
     </div>
 
     <div id="daily-hits">
-      Hits: <%= @listing.hit_count %>
+      <p>Total number of hits: <%= @listing.hit_count %></p>
+      <%= high_chart('hits-chart', @chart) %>
       <div id="table">
         <% @daily_hits.reverse_each do |daily_hits| %>
             <div class="row<%= ' no-hits' if daily_hits.total_hits == 0 %>">
               <span class="hits"><%= daily_hits.closing_balance %></span>
-              <span class="date"><%= daily_hits.date.strftime('%d %b') %></span>
+              <span class="date"><%= daily_hits.date.strftime('%a %-d %b %Y') %></span>
               <span class="daily-hits"><%= daily_hits.total_hits %></span>
               <span class="on-sale"><%= daily_hits.on_sale ? 'Sale' : '' %></span>
             </div>

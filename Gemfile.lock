@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/altabyte/ebay_trader_support
-  revision: 6cdd8bab9be0c478ec559b494905df5b3e615bcd
+  revision: 18635a985215b7e0da9649c6e804420b1d3680bb
   specs:
     ebay-trader-support (1.7.8)
       activesupport (~> 4.0)
@@ -49,48 +49,24 @@ GEM
     bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    bson (3.2.4)
+    bson (3.2.6)
     builder (3.2.2)
-    celluloid (0.17.1.2)
-      bundler
+    celluloid (0.17.2)
       celluloid-essentials
       celluloid-extras
       celluloid-fsm
       celluloid-pool
       celluloid-supervision
-      dotenv
-      nenv
-      rspec-logsplit (>= 0.1.2)
       timers (>= 4.1.1)
-    celluloid-essentials (0.20.2.1)
-      bundler
-      dotenv
-      nenv
-      rspec-logsplit (>= 0.1.2)
+    celluloid-essentials (0.20.5)
       timers (>= 4.1.1)
-    celluloid-extras (0.20.1)
-      bundler
-      dotenv
-      nenv
-      rspec-logsplit (>= 0.1.2)
+    celluloid-extras (0.20.5)
       timers (>= 4.1.1)
-    celluloid-fsm (0.20.1)
-      bundler
-      dotenv
-      nenv
-      rspec-logsplit (>= 0.1.2)
+    celluloid-fsm (0.20.5)
       timers (>= 4.1.1)
-    celluloid-pool (0.20.1)
-      bundler
-      dotenv
-      nenv
-      rspec-logsplit (>= 0.1.2)
+    celluloid-pool (0.20.5)
       timers (>= 4.1.1)
-    celluloid-supervision (0.20.1.1)
-      bundler
-      dotenv
-      nenv
-      rspec-logsplit (>= 0.1.2)
+    celluloid-supervision (0.20.5)
       timers (>= 4.1.1)
     clockwork (1.2.0)
       activesupport
@@ -103,7 +79,7 @@ GEM
       execjs
     coffee-script-source (1.9.1.1)
     connection_pool (2.2.0)
-    database_cleaner (1.5.0)
+    database_cleaner (1.5.1)
     debug_inspector (0.0.2)
     devise (3.5.2)
       bcrypt (~> 3.0)
@@ -113,7 +89,6 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
-    dotenv (2.0.2)
     ebay-trader (0.9.7)
       activesupport (~> 4.0)
       ox (~> 2.2)
@@ -128,9 +103,10 @@ GEM
       thor (~> 0.19.1)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    hash-deep-merge (0.1.1)
     hitimes (1.2.3)
     i18n (0.7.0)
-    jbuilder (2.3.1)
+    jbuilder (2.3.2)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
     jquery-rails (4.0.5)
@@ -141,16 +117,19 @@ GEM
       railties (>= 3.1.0)
       turbolinks
     json (1.8.3)
+    lazy_high_charts (1.5.4)
+      bundler (>= 1.0)
+      hash-deep-merge
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.6.2)
     mini_portile (0.6.2)
-    minitest (5.8.0)
+    minitest (5.8.1)
     money (6.6.1)
       i18n (>= 0.6.4, <= 0.7.0)
-    mongo (2.1.0)
+    mongo (2.1.2)
       bson (~> 3.0)
     mongoid (5.0.0)
       activemodel (~> 4.0)
@@ -162,13 +141,12 @@ GEM
       rake
       rspec (~> 3.3)
     multi_json (1.11.2)
-    nenv (0.2.0)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
     origin (2.1.1)
     orm_adapter (0.5.0)
     ox (2.2.1)
-    passenger (5.0.18)
+    passenger (5.0.20)
       rack
       rake (>= 0.8.1)
     rack (1.6.4)
@@ -216,7 +194,6 @@ GEM
     rspec-expectations (3.3.1)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.3.0)
-    rspec-logsplit (0.1.3)
     rspec-mocks (3.3.2)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.3.0)
@@ -229,7 +206,7 @@ GEM
       rspec-mocks (~> 3.3.0)
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
-    sass (3.4.18)
+    sass (3.4.19)
     sass-rails (5.0.4)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.1)
@@ -239,8 +216,8 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    sidekiq (3.5.0)
-      celluloid (~> 0.17.0)
+    sidekiq (3.5.1)
+      celluloid (~> 0.17.2)
       connection_pool (~> 2.2, >= 2.2.0)
       json (~> 1.0)
       redis (~> 3.2, >= 3.2.1)
@@ -253,8 +230,8 @@ GEM
       temple (~> 0.7.3)
       tilt (>= 1.3.3, < 2.1)
     spring (1.4.0)
-    sprockets (3.3.4)
-      rack (~> 1.0)
+    sprockets (3.4.0)
+      rack (> 1, < 3)
     sprockets-rails (2.3.3)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
@@ -296,6 +273,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   jquery-turbolinks
+  lazy_high_charts
   money (~> 6.6)
   mongoid (~> 5.0.0)
   mongoid-rspec (= 3.0.0)

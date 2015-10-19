@@ -10,6 +10,7 @@ gem 'rails',        '4.2.4'
 gem 'mongoid',      '~> 5.0.0'
 
 gem 'devise',       '~> 3.5'
+gem 'lazy_high_charts'
 gem 'money',        '~> 6.6'
 gem 'sass-rails',   '~> 5.0'
 gem 'sidekiq',      '~> 3.4'

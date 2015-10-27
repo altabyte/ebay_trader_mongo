@@ -7,9 +7,11 @@ RSpec.describe EbayListing, type: :model do
   after do
     cleanup = EbayListing.where(item_id: 123456789)
     cleanup.destroy unless cleanup.nil?
+    EbayUser.destroy_all
   end
 
   context 'When creating a new ebay_listing from a Raw Hash' do
+
     let(:sku)   { 'SKU1' }
     let(:title) { 'eBay item title' }
     let(:timestamp) { Time.now.utc }
@@ -41,9 +43,12 @@ RSpec.describe EbayListing, type: :model do
       }
     }
 
+    let(:seller) { FactoryGirl.create(:ebay_user) }
+
     subject(:listing) do
       listing = EbayListing.new(hash)
       listing.add_timestamp timestamp, 'GetItem'
+      listing.seller = seller
       listing.save
       listing
     end
@@ -137,6 +142,7 @@ RSpec.describe EbayListing, type: :model do
           let(:listing) do
             listing = EbayListing.new(hash_with_promotion)
             listing.add_timestamp timestamp, 'GetItem'
+            listing.seller = seller
             listing.save!
             listing
           end
@@ -269,6 +275,7 @@ RSpec.describe EbayListing, type: :model do
           list_detail[:minimum_best_offer_price]     = Money.new(7_99)
           listing = EbayListing.new(best_offer_hash)
           listing.add_timestamp timestamp, 'GetItem'
+          listing.seller = seller
           listing.save
           listing.reload
         }
@@ -320,6 +327,7 @@ RSpec.describe EbayListing, type: :model do
         subject(:listing) do
           listing = EbayListing.new(hash_with_item_specifics)
           listing.add_timestamp timestamp, 'GetItem'
+          listing.seller = seller
           listing.save
           listing
         end

@@ -4,6 +4,7 @@ class EbayUser
 
   belongs_to :ebay_account
   has_many :ebay_listings, dependent: :nullify, autosave: true
+  has_many :ebay_listing_daily_hit_counts, order: :date.asc, dependent: :nullify
 
   embeds_one :seller_info, class_name: EbayUser::SellerInfo.name
 

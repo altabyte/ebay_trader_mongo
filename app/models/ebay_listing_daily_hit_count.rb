@@ -1,12 +1,12 @@
 class EbayListingDailyHitCount
   include Mongoid::Document
 
-  belongs_to :ebay_listing
+  belongs_to :ebay_listing, index: true
+  belongs_to :seller, class_name: EbayUser.name, index: true
 
   embeds_many :hours, class_name: EbayListingDailyHitCount::Hour.name, order: :hour.asc
 
   after_initialize  :create_hours
-  before_validation :capture_ebay_listing_details
 
   field :date,                type: Date
   field :opening_balance,     type: Fixnum, default: 0
@@ -15,6 +15,7 @@ class EbayListingDailyHitCount
   field :item_id,             type: Fixnum
 
   validates :ebay_listing,    presence: true
+  validates :seller,          presence: true
   validates :date,            presence: true
   validates :opening_balance, presence: true
   validates :total_hits,      presence: true
@@ -45,14 +46,9 @@ class EbayListingDailyHitCount
   #---------------------------------------------------------------------------
   private
 
-  def capture_ebay_listing_details
-    self.sku     = ebay_listing.sku     if self.sku.nil?
-    self.item_id = ebay_listing.item_id if self.item_id.nil?
-  end
-
   def create_hours
     if hours.empty?
-      (0...24).each do |hour|
+      (0..23).each do |hour|
         hours << EbayListingDailyHitCount::Hour.new(hour: hour)
       end
     end

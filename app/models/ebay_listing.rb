@@ -35,7 +35,7 @@ class EbayListing
 
   has_many :hits, class_name: EbayListing::Hit.name, order: :count.asc, autosave: true
 
-  has_many :ebay_listing_daily_hit_counts, order: :date.asc, autosave: true, dependent: :destroy
+  has_many :ebay_listing_daily_hit_counts, order: :date.asc, dependent: :nullify#, autosave: true
 
   embeds_one :best_offer_detail, class_name: EbayListing::BestOfferDetail.name
   accepts_nested_attributes_for :best_offer_detail
@@ -94,7 +94,7 @@ class EbayListing
   field :item_id, type: Fixnum
   attr_readonly :item_id
   validates :item_id, presence: true, uniqueness: true
-  index({item_id: 1}, {unique: true, name: 'item_id_index'})
+  index({item_id: 1}, { unique: true, name: 'item_id_index' })
 
   # @return [Fixnum] the ebay_listing duration in days where a value greater than 30 represents GTC.
   field :listing_duration, type: Fixnum
@@ -128,10 +128,9 @@ class EbayListing
   # @return [Fixnum] secondary category ID or nil.
   field :secondary_category_id, type: Fixnum
 
-  # @return [String] the eBay username of the seller.
-  #field :seller_username, type: String
-  #attr_readonly :seller_username
-  #validates :seller_username, presence: true
+  field :sku, type: String
+  validates :sku, presence: true
+  index({sku: 1})
 
   # @return [String] The name of the site on which the item is listed.
   # @see http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/GetItem.html#Response.Item.Site
@@ -272,31 +271,42 @@ class EbayListing
   # Migrate all EbayListing::Hit objects into EbayListingDailyHitCount objects.
   # To perform the migration call the following command from the rails console.
   #
-  #   $ EbayListing.each { |listing| listing.__migrate_hits_to_daily_hit_counts }
+  #   $ EbayListing.__migrate_hits_to_daily_hit_counts__
   #
-  def __migrate_hits_to_daily_hit_counts
-    if hits
-      hits.each do |hit|
+  # @note {#update_daily_hit_count} must NOT be private when running this!
+  #
+  def self.__migrate_hits_to_daily_hit_counts__
+    time = Time.now
+    EbayListing.includes(:hits, :seller).each do |listing|
+      listing.hits.each do |hit|
         puts "#{hit.time}  ->  #{hit.count}   #{hit.on_sale}"
-        update_daily_hit_count(hit.time, hit.count)
+        listing.update_daily_hit_count(hit.time, hit.count)
       end
+      puts; puts
     end
+    puts
+    duration = Time.now - time
+    puts "Migration took #{(duration / 60).to_i} minutes"
   end
 
   #---------------------------------------------------------------------------
-  private
+  #private
 
-  def update_daily_hit_count(time = self.last_updated, new_hit_count = self.hit_count)
-    if new_hit_count
-      daily_hit_count = ebay_listing_daily_hit_counts.where(date: time.to_date)
-      if daily_hit_count.exists?
-        daily_hit_count = daily_hit_count.first
-      else
-        previous = ebay_listing_daily_hit_counts.last
-        opening_balance = previous.nil? ? new_hit_count : previous.closing_balance
-        daily_hit_count = EbayListingDailyHitCount.new(ebay_listing: self, date: time.to_date, opening_balance: opening_balance)
+  def update_daily_hit_count(time = self.last_updated, hit_count_value = self.hit_count)
+    if hit_count_value
+      daily_hit_count = self.ebay_listing_daily_hit_counts.where(date: time.to_date).first
+      if daily_hit_count.nil?
+        previous = self.ebay_listing_daily_hit_counts.last
+        opening_balance = previous.nil? ? hit_count_value : previous.closing_balance
+        daily_hit_count = EbayListingDailyHitCount.new(
+            ebay_listing:     self,
+            date:             time.to_date,
+            opening_balance:  opening_balance,
+            seller:           self.seller,
+            item_id:          self.item_id,
+            sku:              self.sku)
       end
-      daily_hit_count.set_time_hit_count(new_hit_count, time)
+      daily_hit_count.set_time_hit_count(hit_count_value, time)
       daily_hit_count.save!
     end
     true

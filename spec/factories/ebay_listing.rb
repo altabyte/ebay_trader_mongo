@@ -18,6 +18,10 @@ FactoryGirl.define do
     after :build do |obj|
       obj.add_timestamp Time.now.utc, 'GetItem'
     end
+
+    after :build do |obj|
+      obj.seller = FactoryGirl.create(:ebay_user)
+    end
   end
 
   factory :listing_detail, class: EbayListing::ListingDetail do

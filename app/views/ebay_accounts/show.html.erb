@@ -25,5 +25,20 @@
   </p>
 </div>
 
+<div>
+  <%= high_chart('daily-hits-chart', ebay_account_daily_hits_chart(@daily_hits)) %>
+  <table>
+    <tr>
+      <th>Date</th><th>Hits</th>
+    </tr>
+    <% @daily_hits.each do |daily_hits| %>
+        <tr>
+          <td><%= daily_hits.flatten[0].strftime('%B %-d, %A') %></td>
+          <td><%= daily_hits.flatten[1] %></td>
+        </tr>
+    <% end %>
+  </table>
+</div>
+
 <%= link_to 'Edit', edit_ebay_account_path(@ebay_account) %> |
 <%= link_to 'Back', ebay_accounts_path %>

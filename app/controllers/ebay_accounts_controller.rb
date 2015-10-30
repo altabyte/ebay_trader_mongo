@@ -16,6 +16,20 @@ class EbayAccountsController < ApplicationController
   # GET /ebay_accounts/1.json
   def show
     @count = @ebay_account.ebay_user.ebay_listings.count || 0
+
+    @daily_hits_history = (params[:history] || 30).to_i
+
+    # MongoDB console example:
+    #
+    #   db.ebay_listing_daily_hit_counts.aggregate([ { $match: {  date: { $gte : new ISODate("2015-10-01T20:15:31Z") }, seller_id: new ObjectId("55e83c2b304f14b0a9000000")}}, { $group: { _id: "$date", dailyHits: { $sum: "$total_hits" }}}, { $sort: { _id: -1 } } ])
+    #
+    match     = { '$match' => { seller_id: @ebay_account.ebay_user.id, date: { '$gte' => (Time.now - @daily_hits_history.days) }}}
+    group     = { '$group' => { _id: '$date', daily_hits: { '$sum' => '$total_hits' }}}
+    sort      = { '$sort'  => { _id: -1 }}
+    aggregate = EbayListingDailyHitCount.collection.aggregate([match, group, sort])
+
+    @daily_hits = aggregate.map { |h| { h[:_id].to_date => h[:daily_hits] } }
+    #@daily_hits.each { |day| day.each_pair { |date, count| puts "#{date} = #{count}" } }
   end
 
   # GET /ebay_accounts/new

@@ -5,6 +5,7 @@ RSpec.describe 'ebay_accounts/show', type: :view do
     @ebay_account = assign(:ebay_account, EbayAccount.create!(
       :auth_token => 'Auth Token'
     ))
+    @daily_hits = []
   end
 
   it 'renders attributes in <p>' do

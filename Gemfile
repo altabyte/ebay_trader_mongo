@@ -6,14 +6,15 @@ gem 'ebay-trader-support', git: 'git://github.com/altabyte/ebay_trader_support'
 gem 'passenger',    '~> 5.0'
 gem 'clockwork'
 
-gem 'rails',        '4.2.4'
+gem 'rails',        '4.2.5'
 gem 'mongoid',      '~> 5.0.0'
 
 gem 'devise',       '~> 3.5'
 gem 'lazy_high_charts'
 gem 'money',        '~> 6.6'
+gem 'redis-namespace'
 gem 'sass-rails',   '~> 5.0'
-gem 'sidekiq',      '~> 3.4'
+gem 'sidekiq',      '~> 4.0'
 gem 'sinatra',      require: false   # Used by Sikekiq Dashboard.
 gem 'slim',         '~> 3.0'
 

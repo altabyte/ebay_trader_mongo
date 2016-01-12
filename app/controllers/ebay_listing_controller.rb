@@ -21,11 +21,11 @@ class EbayListingController < ApplicationController
       end
 
       date = Time.now.utc.to_date
-      @number_of_days = 30
+      @number_of_days = 130
       hits_docs = EbayListingDailyHitCount
-                        .where(item_id: @item_id, :date.lte => date)
-                        .where(:date.gte => (date - @number_of_days.days))
-                        .order_by(date: :asc).all.entries
+                      .where(item_id: @item_id, :date.lte => date)
+                      .where(:date.gte => (date - @number_of_days.days))
+                      .order_by(date: :asc).all.entries
 
       balance = 0
       balance = hits_docs.first.closing_balance unless hits_docs.empty?
@@ -39,7 +39,7 @@ class EbayListingController < ApplicationController
         if daily_data
           struct.opening_balance = daily_data.opening_balance
           struct.closing_balance = daily_data.closing_balance
-          struct.total_hits      = daily_data.total_hits
+          struct.total_hits = daily_data.total_hits
 
           on_sale = false
           daily_data.hours.each { |h| on_sale = true if h.on_sale }
@@ -49,20 +49,25 @@ class EbayListingController < ApplicationController
         end
       end
 
+      series_1_color = '#008100'
+      series_2_color = '#009AE1'
       # Examples:
       #
       #   https://github.com/michelson/lazy_high_charts/blob/master/spec/dummy_rails/app/controllers/application_controller.rb
       #
+      #   http://api.highcharts.com/highcharts#yAxis
+      #
       @chart = LazyHighCharts::HighChart.new('graph') do |f|
         f.title(text: '')
-        f.series(type: 'line', name: 'Hits/day', yAxis: 0, data: @daily_hits.map { |day| [day.date.strftime('%a %-d %b ’%y'), day.total_hits] })
-        f.series(type: 'spline', name: 'Total hits', yAxis: 1, color: '#DEDEDE', data: @daily_hits.map { |day| [day.date.strftime('%a %-d %b ’%y'), day.closing_balance] })
+        f.chart(zoomType: 'xy', alignTicks: false)
+        f.series(type: 'line', name: 'Hits/day', yAxis: 0, color: series_1_color, data: @daily_hits.map { |day| [day.date.strftime('%a %-d %b ’%y'), day.total_hits] })
+        f.series(type: 'spline', name: 'Total hits', yAxis: 1, color: series_2_color, data: @daily_hits.map { |day| [day.date.strftime('%a %-d %b ’%y'), day.closing_balance] })
 
         f.plot_options(spline: {
-                          marker: {
-                              radius: 1
-                          }
-                      },
+            marker: {
+                radius: 1
+            }
+        },
                        line: {
                            marker: {
                                radius: 1,
@@ -72,23 +77,33 @@ class EbayListingController < ApplicationController
 
         f.legend(enabled: false)
 
-        f.xAxis(categories: (@number_of_days.downto(0)).map { |i| (date - i.days).strftime('%A')[0] })
+        f.xAxis(categories: (@number_of_days.downto(0)).map { |i| (date - i.days).strftime('%A')[0] }, crosshair: true)
 
+        # http://api.highcharts.com/highcharts#yAxis
         f.yAxis [
                     {
-                        title: { text: '', margin: 0 },
-                        tickInterval: 2,
-                        gridLineWidth: 0,
-                        min: 0,
-                        max: (@daily_hits.min { |d1, d2| d2.total_hits <=> d1.total_hits }.total_hits)
+                        #tickAmount: 6,
+                        #min: 0,
+                        #max: (@daily_hits.min { |d1, d2| d2.total_hits <=> d1.total_hits }.total_hits),
+                        crosshair: true,
+                        minPadding: 0.0,
+                        startOnTick: false,
+                        endOnTick: false,
+                        title: { text: '', margin: 0, style: { color: series_1_color }},
+                        labels: { style: { color: series_1_color }}
                     },
                     {
-                        title: { text: '' },
                         opposite: true,
-                        tickInterval: 20,
+                        #tickAmount: 6,
+                        #min: (@daily_hits.first.closing_balance),
+                        #max: (@daily_hits.last.closing_balance),
+                        minPadding: 0.0,
+                        #startOnTick: false,
+                        endOnTick: false,
+                        crosshair: true,
                         gridLineWidth: 0,
-                        min: (@daily_hits.first.closing_balance),
-                        max: (@daily_hits.last.closing_balance)
+                        title: { text: '', margin: 0, style: { color: series_2_color }},
+                        labels: { format: '{value}', style: { color: series_2_color }}
                     }
                 ]
       end

@@ -27,6 +27,9 @@ class EbayListing::Hit
   validates :time,  presence: true
   validates :count, presence: true
 
+  index({item_id: 1})
+  index({time: 1})
+
   #---------------------------------------------------------------------------
   private
 

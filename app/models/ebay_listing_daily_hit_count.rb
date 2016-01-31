@@ -22,6 +22,10 @@ class EbayListingDailyHitCount
   validates :sku,             presence: true
   validates :item_id,         presence: true
 
+  index({date: 1})
+  index({item_id: 1})
+  index({sku: 1})
+
   def set_time_hit_count(count, time)
     count = 0 if count < 0
     return count if count == closing_balance

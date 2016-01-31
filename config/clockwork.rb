@@ -21,7 +21,7 @@ module Clockwork
     end
   end
 
-  every(1.hour, 'synchronize eBay listings', at: '**:00') do
+  every(1.hour, 'synchronize eBay listings', at: '**:50') do
 
     # Display a desktop notification message on Mac OS X
     TerminalNotifier.notify("Sync started at #{Time.now.strftime('%H:%M:%S')}",

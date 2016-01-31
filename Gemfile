@@ -3,20 +3,20 @@ source 'https://rubygems.org'
 gem 'ebay-trader'
 gem 'ebay-trader-support', git: 'git://github.com/altabyte/ebay_trader_support'
 
-gem 'passenger',    '~> 5.0'
+gem 'passenger',            '~> 5.0'
 gem 'clockwork'
 
-gem 'rails',        '4.2.5'
-gem 'mongoid',      '~> 5.0.0'
+gem 'rails',                '4.2.5.1'
+gem 'mongoid',              '~> 5.1.0'
 
-gem 'devise',       '~> 3.5'
+gem 'devise',               '~> 3.5'
 gem 'lazy_high_charts'
-gem 'money',        '~> 6.6'
+gem 'money',                '~> 6.7'
 gem 'redis-namespace'
-gem 'sass-rails',   '~> 5.0'
-gem 'sidekiq',      '~> 4.0'
-gem 'sinatra',      require: false   # Used by Sikekiq Dashboard.
-gem 'slim',         '~> 3.0'
+gem 'sass-rails',           '~> 5.0'
+gem 'sidekiq',              '~> 4.0'
+gem 'sinatra',              require: false   # Used by Sikekiq Dashboard.
+gem 'slim',                 '~> 3.0'
 
 # Display notification messages in Mac OS X
 # $ brew install terminal-notifier
@@ -45,14 +45,16 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  #gem 'byebug'
-
+group :development do
   gem 'foreman'
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
+end
+
+group :development, :test do
+  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  #gem 'byebug'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'

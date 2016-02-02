@@ -275,12 +275,26 @@ class EbayListing
   #
   # @note {#update_daily_hit_count} must NOT be private when running this!
   #
-  def self.__migrate_hits_to_daily_hit_counts__
+  # @deprecated
+  #
+  def self.__migrate_hits_to_daily_hit_counts__(migration_date_time = '2016-02-01')
     time = Time.now
+    puts
+    puts "Deleting #{EbayListingDailyHitCount.count} EbayListingDailyHitCount's"
+    EbayListingDailyHitCount.delete_all
+    puts "EbayListingDailyHitCount.count = #{EbayListingDailyHitCount.count}"
+    puts
+    total_number_of_hits = EbayListing::Hit.count
+    puts "Migrating #{total_number_of_hits} EbayListing::Hit to the new EbayListingDailyHitCount format"
+    puts
+    counter = 0
     EbayListing.includes(:hits, :seller).each do |listing|
       listing.hits.each do |hit|
-        puts "#{hit.time}  ->  #{hit.count}   #{hit.on_sale}"
-        listing.update_daily_hit_count(hit.time, hit.count)
+        if hit.time < Time.parse(migration_date_time)
+          print "  #{counter} of #{total_number_of_hits}  - eBay item:  #{listing.item_id}  #{hit.time}\r"
+          listing.update_daily_hit_count(hit.time, hit.count)
+          counter += 1
+        end
       end
       puts; puts
     end

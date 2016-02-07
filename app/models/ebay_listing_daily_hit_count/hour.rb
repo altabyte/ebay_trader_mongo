@@ -19,6 +19,10 @@ class EbayListingDailyHitCount::Hour
   # @return [Boolean] was the listing on sale at this particular point in time?
   field :on_sale, type: Boolean, default: false
 
+  def hits=(hits)
+    self[:hits] = (hits > 0 ? hits : 0)
+  end
+
   # Get a Time object associated with this hour.
   # @return [Time] the time represented by this hour.
   def time

@@ -28,7 +28,7 @@ class EbayListingDailyHitCount
 
   def set_time_hit_count(count, time)
     count = 0 if count < 0
-    return count if count == closing_balance
+    return count if count <= closing_balance
     raise ArgumentError.new 'Time and date are not on the same day!' unless time.to_date == date
     hour = self.hours.where(hour: time.hour).first
     hour.hits += count - closing_balance

@@ -121,6 +121,11 @@ RSpec.describe EbayListingDailyHitCount, type: :model do
           puts "  #{hour.hour.to_s.rjust(2, '0')}  ->  #{hour.hits.to_s.rjust(4)}  [#{daily_hit_count.hour_balance(hour.hour)}]"
         end
       end
+
+      it 'ignores balances less than opening balance' do
+        daily_hit_count.set_time_hit_count(opening_balance - 50, date.to_time + 1.hour + 10.minutes)
+        expect(daily_hit_count.closing_balance).to eq(opening_balance)
+      end
     end
   end
 

@@ -519,6 +519,33 @@ RSpec.describe EbayListing, type: :model do
     end
 
 
+    describe '#hit_count' do
+
+      it { expect(ebay_listing.hit_count).to eq(hit_count) }
+
+      it 'has a default hit_count of zero if not defined' do
+        expect(FactoryGirl.create(:ebay_listing, hit_count: nil).hit_count).to eq(0)
+      end
+
+      it 'does not allow negative values' do
+        expect(FactoryGirl.create(:ebay_listing, hit_count: -1).hit_count).to eq(0)
+      end
+
+      it 'allows hit count value to increase' do
+        increment = 5
+        ebay_listing.hit_count += increment
+        expect(ebay_listing.save).to be true
+        ebay_listing.reload
+        expect(ebay_listing.hit_count).to eq(hit_count + increment)
+      end
+
+      it 'does not allow value to decrease' do
+        ebay_listing.hit_count = 0
+        expect(ebay_listing.hit_count).to eq(hit_count)
+      end
+    end
+
+
     describe 'Hits' do
       it { expect(ebay_listing.hit_count).to eq(hit_count) }
 

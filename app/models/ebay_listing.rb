@@ -90,6 +90,16 @@ class EbayListing
   # The number of page views.
   field :hit_count, type: Fixnum, default: 0
 
+  # Set the hit_count value.
+  # Prevent hit_count from being reset to 0, which can happen if a listing is cancelled.
+  # @param [Fixnum] hits the number of page views.
+  #
+  def hit_count=(hits)
+    hits = hits.to_i
+    return self[:hit_count] if hits < self[:hit_count]
+    self[:hit_count] = (hits >= 0 ? hits : 0)
+  end
+
   # @return [Fixnum] the eBay item ID.
   field :item_id, type: Fixnum
   attr_readonly :item_id
@@ -309,8 +319,8 @@ class EbayListing
   def update_daily_hit_count(time = self.last_updated, hit_count_value = self.hit_count)
     if hit_count_value
       daily_hit_count = self.ebay_listing_daily_hit_counts.where(date: time.to_date).first
+      previous = self.ebay_listing_daily_hit_counts.last
       if daily_hit_count.nil?
-        previous = self.ebay_listing_daily_hit_counts.last
         opening_balance = previous.nil? ? hit_count_value : previous.closing_balance
         daily_hit_count = EbayListingDailyHitCount.new(
             ebay_listing:     self,
@@ -320,6 +330,7 @@ class EbayListing
             item_id:          self.item_id,
             sku:              self.sku)
       end
+      hit_count_value = previous.closing_balance if previous && previous.closing_balance > hit_count_value
       daily_hit_count.set_time_hit_count(hit_count_value, time)
       daily_hit_count.save!
     end

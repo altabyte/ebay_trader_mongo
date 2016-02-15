@@ -25,27 +25,35 @@ module EbayListable
     my_seller_ids.include?(ebay_username.downcase)
   end
 
+  # Save the {EbayListing} matching the given +item_details+.
+  #
+  # @param [EbayTraderSupport::ItemDetails] item_details item attributes from eBay API
+  #
   def save(item_details, seller, call_name, timestamp)
     raise 'ItemDetails not valid' unless item_details && item_details.is_a?(EbayTraderSupport::ItemDetails)
     item_id = item_details.item_id
 
     item_hash = restructure_item_hash(item_details.item_hash.deep_dup.merge({ seller: seller }))
-    #puts item_hash.to_yaml
 
     listing = EbayListing.where(item_id: item_id).exists? ? EbayListing.find_by(item_id: item_id) : EbayListing.new(item_hash)
     last_updated = listing.last_updated || Time.parse('1995-09-03T00:00:00 UTC') # eBay's Birthday
+
     if timestamp > last_updated
       listing.add_timestamp timestamp, call_name
       listing.update_attributes(item_hash) unless listing.new_record?
     end
-    listing.save!
+
+    listing.save if listing.new_record?
   end
 
   # Restructure the +item_hash+ so that it is compatible with MongoDB
   # and eliminate any redundant information.
+  #
   # @param [Hash] item_hash the Hash of data describing each item
   #               from API calls such as GetItem, GetSellerList etc.
+  #
   # @return [Hash] +item_hash+ restructured.
+  #
   def restructure_item_hash(item_hash)
     seller = item_hash[:seller]
     seller_username = case

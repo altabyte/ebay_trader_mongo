@@ -545,7 +545,7 @@ RSpec.describe EbayListing, type: :model do
       end
     end
 
-
+=begin
     describe 'Hits' do
       it { expect(ebay_listing.hit_count).to eq(hit_count) }
 
@@ -580,7 +580,7 @@ RSpec.describe EbayListing, type: :model do
         end
       end
     end
-
+=end
 
     describe 'start_price' do
       it 'should have a Money start price' do

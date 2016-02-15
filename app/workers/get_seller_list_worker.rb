@@ -31,9 +31,9 @@ class GetSellerListWorker
 
     number_of_pages = nil
 
-    message = "# Getting page number #{page_number}"
+    message = ["# Getting page number #{page_number}"]
     message << " of #{number_of_pages}" if number_of_pages
-    puts message
+    puts message.join
 
     get_seller_list = GetSellerList.new(page_number, auth_token: auth_token, per_page: per_page, http_timeout: HTTP_TIMEOUT, granularity: 'Fine')
     raise get_seller_list.errors.first[:short_message] if get_seller_list.has_errors?

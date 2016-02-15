@@ -8,7 +8,7 @@ class EbayListing
 
   store_in collection: 'ebay_listings'
 
-  before_save :update_hit_count_history
+  #before_save :update_hit_count_history
   after_save  :update_daily_hit_count
 
   # The value assigned to {#listing_duration} for GTC listings.
@@ -340,6 +340,8 @@ class EbayListing
 
   # Add a new {EbayListing::Hit} to {hits} if the value of hit_count
   # has changed since last saved.
+  # @deprecated
+  #
   def update_hit_count_history
     last = hits.empty? ? 0 : hits.last.count
     if hit_count && hit_count > last

@@ -16,8 +16,8 @@ RSpec.describe EbayListable do
   let(:auth_token) { ENV['EBAY_API_AUTH_TOKEN_TEST_USER_1'] }
   let(:ebay_item_id) { 123456789 }
   let(:response_xml) do
-    #self.file_to_string("#{__dir__}/../../xml_responses/get_item/#{ebay_item_id}.xml")
-    self.file_to_string("#{__dir__}/../../xml_responses/get_item/variation_30_percent_sale.xml")
+    self.file_to_string("#{__dir__}/../../xml_responses/get_item/#{ebay_item_id}.xml")
+    #self.file_to_string("#{__dir__}/../../xml_responses/get_item/variation_30_percent_sale.xml")
   end
   let(:get_item_request) do
     EbayTraderSupport::GetItem.new(ebay_item_id, xml_response: response_xml, auth_token: auth_token)

@@ -318,8 +318,8 @@ class EbayListing
 
   def update_daily_hit_count(time = self.last_updated, hit_count_value = self.hit_count)
     if hit_count_value
-      daily_hit_count = self.ebay_listing_daily_hit_counts.where(date: time.to_date).first
-      previous = self.ebay_listing_daily_hit_counts.last
+      daily_hit_count = self.ebay_listing_daily_hit_counts.where(date: time.to_date).order_by(:date.asc).last
+      previous = self.ebay_listing_daily_hit_counts.where(date: {'$lt': time.to_date}).order_by(:date.asc).last
       if daily_hit_count.nil?
         opening_balance = previous.nil? ? hit_count_value : previous.closing_balance
         daily_hit_count = EbayListingDailyHitCount.new(
